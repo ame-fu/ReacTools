@@ -1,0 +1,82 @@
+home:
+  categories:
+    newestTools: Найновіші інструменти
+    favoriteTools: 'Ваші улюблені інструменти'
+    allTools: 'Усі інструменти'
+    favoritesDndToolTip: 'Перетягніть і відпустіть, щоб змінити порядок улюблених'
+  subtitle: 'Зручні інструменти для розробників'
+  toggleMenu: 'Перемикання меню'
+  home: Головна
+  uiLib: 'UI Бібліотека'
+  support: 'Підтримка розробки IT Tools'
+  buyMeACoffee: 'Купи мені каву'
+  follow:
+    title: 'Вам подобаються інструменти IT?'
+    p1: 'Додайте нам зірку на'
+    githubRepository: 'GitHub-репозиторій IT-Tools'
+    p2: 'або слідкуйте за нами на'
+    twitterXAccount: 'X-акаунт IT-Tools'
+    thankYou: 'Дякуємо!'
+  nav:
+    github: 'GitHub-репозиторій'
+    githubRepository: 'GitHub-репозиторій IT-Tools'
+    twitterX: 'X'
+    twitterXAccount: 'X-акаунт IT-Tools'
+    about: 'Про IT-Tools'
+    aboutLabel: 'Про нас'
+    darkMode: 'Темний режим'
+    lightMode: 'Світлий режим'
+    mode: 'Перемикання темного/світлого режиму'
+about:
+  content: >
+    # Про ReacTools ✨
+
+    **ReacTools** — це **React/Next.js-порт** оригінального застосунку
+    [IT-Tools](https://it-tools.ywsj.eu.org/). Ми намагаємось зберегти
+    функціональність та досвід використання як в оригіналі, але на базі
+    сучасного стеку з **TypeScript**, **React 19** та **Ant Design**.
+
+    Інтерфейс був перероблений з акцентом на **адаптивний дизайн**:
+    незалежне прокручування бічного меню та основного контенту, фіксована
+    верхня панель та повноекранне меню на мобільних пристроях.
+
+    ## Технології ⚙️
+
+    - Next.js + React 19
+    - TypeScript
+    - Компоненти Ant Design
+    - i18n на основі YAML-файлів, що генеруються під час збірки
+
+    Логіка інструментів натхненна оригінальною Vue-версією IT-Tools,
+    але перевтілена під екосистему React.
+
+    Оригінальний проєкт: https://it-tools.ywsj.eu.org/
+
+404:
+  notFound: '404 Сторінка не знайдена'
+  sorry: 'Вибачте, ця сторінка, схоже, не існує'
+  maybe: 'Можливо, кеш робить хитрощі, спробуйте примусово оновити сторінку?'
+  backHome: 'Повернутися на головну'
+common:
+  copyToClipboard: Копіювати в буфер обміну
+  copied: Скопійовано!
+favoriteButton:
+  remove: 'Вилучити з обраних'
+  add: 'Додати до обраних'
+toolCard:
+  new: Новий
+search:
+  label: Пошук
+tools:
+  categories:
+    favorite-tools: 'Ваші улюблені інструменти'
+    crypto: Крипта
+    converter: Конвертер
+    web: Веб
+    images and videos: 'Зображення та відео'
+    development: Розробка
+    network: Мережа
+    math: Математика
+    measurement: Вимірювання
+    text: Текст
+    data: Дані

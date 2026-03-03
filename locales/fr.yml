@@ -1,0 +1,95 @@
+home:
+  categories:
+    newestTools: 'Les nouveaux outils'
+    favoriteTools: 'Vos outils favoris'
+    allTools: 'Tous les outils'
+    favoritesDndToolTip: 'Faites glisser et déposez pour réordonner vos favoris'
+  subtitle: 'Outils pour les développeurs'
+  toggleMenu: 'Menu'
+  home: Accueil
+  uiLib: 'UI Lib'
+  buyMeACoffee: 'Soutenez IT-Tools'
+  follow:
+    title: 'Vous aimez it-tools ?'
+    p1: 'Soutenez-nous avec une star sur'
+    githubRepository: "le dépôt GitHub d'IT-Tools"
+    p2: 'ou suivez-nous sur'
+    twitterXAccount: "le compte X d'IT-Tools"
+    thankYou: 'Merci !'
+  nav:
+    github: 'Dépôt GitHub'
+    githubRepository: "Dépôt GitHub d'IT-Tools"
+    twitterX: 'Compte X'
+    twitterXAccount: "Compte X d'IT-Tools"
+    about: "À propos d'IT-Tools"
+    aboutLabel: 'À propos'
+    darkMode: 'Mode sombre'
+    lightMode: 'Mode clair'
+    mode: 'Basculer le mode sombre/clair'
+about:
+  content: >
+    # À propos de ReacTools ✨
+
+    **ReacTools** est un **port React/Next.js** de l’application originale
+    [IT-Tools](https://it-tools.ywsj.eu.org/). L’objectif est de conserver
+    au maximum les fonctionnalités et l’expérience d’origine, tout en
+    modernisant la pile avec **TypeScript**, **React 19** et **Ant Design**.
+
+    L’interface a été repensée avec un accent sur le **responsive design** :
+    défilement indépendant entre le menu latéral et le contenu, barre
+    supérieure fixe, et menu plein écran sur mobile pour une meilleure
+    ergonomie.
+
+    ## Technologies ⚙️
+
+    - Next.js + React 19
+    - TypeScript
+    - Composants Ant Design
+    - i18n basé sur des fichiers YAML, généré au build
+
+    La logique des outils s’inspire de la version Vue originale d’IT-Tools,
+    mais est réimplémentée pour l’écosystème React.
+
+    Projet original : https://it-tools.ywsj.eu.org/
+
+404:
+  notFound: '404 Not Found'
+  sorry: "Désolé, cette page n'existe pas"
+  maybe: 'Peut-être que le cache fait des siennes, essayez de forcer le rafraîchissement ?'
+  backHome: "Retour à l'accueil"
+common:
+  copyToClipboard: Copier dans le presse-papiers
+  copied: Copié !
+toolCard:
+  new: Nouveau
+search:
+  label: Rechercher
+tools:
+  categories:
+    favorite-tools: 'Vos outils favoris'
+    crypto: Cryptographie
+    converter: Convertisseur
+    web: Web
+    images and videos: 'Images & Vidéos'
+    development: Développement
+    network: Réseau
+    math: Math
+    measurement: Mesure
+    text: Texte
+    data: Données
+
+  token-generator:
+    title: Générateur de token
+    description: >-
+      Génère une chaîne aléatoire avec les caractères que vous voulez, lettres
+      majuscules ou minuscules, chiffres et/ou symboles.
+    uppercase: Majuscules (ABC...)
+    lowercase: Minuscules (abc...)
+    numbers: Chiffres (123...)
+    symbols: Symboles (!-;...)
+    button:
+      copy: Copier
+      refresh: Rafraichir
+    copied: Le token a été copié
+    length: Longueur
+    tokenPlaceholder: Le token...

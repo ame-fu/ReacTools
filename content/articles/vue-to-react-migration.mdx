@@ -1,0 +1,366 @@
+---
+title: "Vue 到 React 迁移：从产品到开发的完整逻辑"
+createdAt: "2025-02-26"
+updatedAt: "2025-03-03"
+tags:
+  - react
+  - vue
+  - migration
+  - design
+  - nextjs
+  - it-tools
+pinned: true
+showExcerpt: true
+---
+
+## 一、产品与迁移背景
+
+### 1.1 产品定位
+
+**ReacTools**（曾用名 it-tools-react）是一套面向**开发与 IT 人员**的**在线小工具集合**：时间戳转换、Base64、哈希、JSON/ YAML 格式化、正则测试、JWT 解析等，均在浏览器内完成，无后端依赖。产品形态为「左侧分类 + 工具列表、右侧工具页」的 SPA 式布局，支持多语言、亮/暗主题、收藏与搜索。
+
+### 1.2 来源项目与迁移目标
+
+- **来源**：原 [IT-Tools](https://github.com/CorentinTh/it-tools)（Vue 3 + Vite），工具种类与交互逻辑已较成熟。
+- **目标**：在**保留原有工具能力与信息架构**的前提下，迁移至 **Next.js 16 + React 19 + TypeScript**，形成统一 React 技术栈，并建立可维护的设计与实现规范。
+
+因此，本项目的需求与实现逻辑可以概括为：**从「产品功能与体验」推导「开发需求」，再落地为「配置 + 路由 + 布局 + 组件 + i18n」的实现链路**。
+
+---
+
+## 二、从产品到开发的需求链路
+
+### 2.1 用户故事 → 功能需求
+
+| 用户故事 | 功能需求 | 对应实现 |
+|----------|----------|----------|
+| 按分类浏览/搜索工具 | 侧栏分类菜单、全局搜索、收藏 | `AppLayout` + `toolsByCategory` + 搜索/收藏 Context |
+| 打开某个工具并稳定分享链接 | 每个工具有唯一 URL | Next.js App Router `app/[tool]/page.tsx` |
+| 多语言与主题 | 语言切换、亮/暗主题 | `I18nProvider`、`ThemeProvider`、`locales/*.yml` |
+| 工具页统一体验 | 标题、描述、表单风格、复制按钮 | `ToolLayout` + `Form layout="vertical"` + `InputCopyable` / `TextareaCopyable` |
+| 旧链接不失效 | 部分旧 path 重定向到新 path | `next.config.ts` redirects + `tools.config` 的 `redirectFrom` |
+
+### 2.2 技术需求归纳
+
+- **配置驱动**：工具列表、分类、slug、path、关键词等集中配置，便于扩展与 SEO。
+- **路由与元数据**：动态段 `[tool]` 对应工具 slug；`generateMetadata` 根据配置生成 title/description/keywords。
+- **布局统一**：所有工具页共用 `ToolLayout`（标题、描述、最大宽度约 600px 内容区）。
+- **国际化**：工具名称/描述及工具内文案来自 YAML，构建时生成扁平 key，运行时 `t(key)` 取当前语言。
+- **代码质量**：避免 set-state-in-render、首屏 hydration 不一致；TypeScript 严格类型。
+
+---
+
+## 三、实现逻辑总览
+
+整体数据与渲染流程可以简化为：
+
+```
+locales/*.yml  →  scripts/generate-i18n.cjs  →  lib/i18n/messages.generated.ts
+                                                          ↓
+lib/tools.config.ts (toolsByCategory, allTools, getToolBySlug)
+                                                          ↓
+app/[tool]/page.tsx (params.tool → getToolBySlug → switch(slug) → <ToolLayout><ToolComponent /></ToolLayout>)
+                                                          ↓
+ToolLayout (getToolName / getToolDescription + 标题/描述) + 工具组件 (Form + InputCopyable + t())
+```
+
+- **构建时**：YAML 被拉平为 `messages.generated.ts`；Next 根据 `tools.config` 与动态路由生成工具页。
+- **运行时**：用户访问 `/epoch-converter` → `params.tool = "epoch-converter"` → 查配置 → 渲染对应组件；语言/主题由 Context 提供。
+
+---
+
+## 四、核心流程与代码展示
+
+### 4.1 工具配置（单一数据源）
+
+所有工具的 slug、path、名称、描述、分类、关键词（及可选 `redirectFrom`）集中在 `lib/tools.config.ts`。新增工具时在此增加一项，并在 `app/[tool]/page.tsx` 的 switch 中增加一分支。
+
+```ts
+// lib/tools.config.ts（节选）
+export interface ToolConfig {
+  slug: string;
+  path: string;
+  name: string;
+  description: string;
+  keywords: string[];
+  category: string;
+  redirectFrom?: string[];
+  createdAt?: string;
+}
+
+export const toolsByCategory: { name: string; tools: ToolConfig[] }[] = [
+  {
+    name: "Converter",
+    tools: [
+      {
+        slug: "epoch-converter",
+        path: "/epoch-converter",
+        name: "Epoch converter",
+        description: "Convert Unix timestamp (ms/s) to human-readable date (local & UTC).",
+        keywords: ["epoch", "unix", "timestamp", "date", "utc", "converter"],
+        category: "Converter",
+      },
+      // ...
+    ],
+  },
+  // ...
+];
+
+export const allTools: ToolConfig[] = toolsByCategory.flatMap((c) => c.tools);
+
+export function getToolBySlug(slug: string): ToolConfig | undefined {
+  const path = `/${slug}`;
+  return allTools.find((t) => t.path === path || t.slug === slug);
+}
+```
+
+### 4.2 动态路由与元数据
+
+工具页由 App Router 的动态段 `[tool]` 承载；`generateMetadata` 与默认导出均根据 `getToolBySlug` 得到配置，未找到则 `notFound()`。
+
+```tsx
+// app/[tool]/page.tsx（节选）
+interface PageProps {
+  params: Promise<{ tool: string }>;
+}
+
+export async function generateMetadata(props: PageProps): Promise<Metadata> {
+  const { tool } = await props.params;
+  const config = getToolBySlug(tool);
+  if (!config) return {};
+  return {
+    title: `${config.name} - ReacTools`,
+    description: config.description,
+    keywords: config.keywords,
+  };
+}
+
+export default async function ToolPage(props: PageProps) {
+  const { tool } = await props.params;
+  const config = getToolBySlug(tool);
+  if (!config) notFound();
+
+  let content: React.ReactNode = null;
+  switch (config.slug) {
+    case "epoch-converter":
+      content = <EpochConverter />;
+      break;
+    case "date-converter":
+      content = <DateConverter />;
+      break;
+    // ... 其余工具
+    default:
+      content = null;
+  }
+
+  return (
+    <ToolLayout slug={config.slug} title={config.name} description={config.description}>
+      {content}
+    </ToolLayout>
+  );
+}
+```
+
+### 4.3 工具页布局（ToolLayout）
+
+所有工具页共用 `ToolLayout`：标题与描述来自 i18n（`getToolName` / `getToolDescription`），内容区最大宽度约 600px 居中。
+
+```tsx
+// components/ToolLayout.tsx（节选）
+export function ToolLayout({ slug, title, description, headerExtra, children }: ToolLayoutProps) {
+  const { locale } = useI18n();
+  const displayTitle = getToolName(locale, slug, title);
+  const displayDescription = description
+    ? getToolDescription(locale, slug, description)
+    : undefined;
+
+  return (
+    <div>
+      <div style={{ padding: "40px 0", width: "100%" }}>
+        <Title level={1} style={{ margin: 0, opacity: 0.9, fontWeight: 400, fontSize: 40 }}>
+          {displayTitle}
+        </Title>
+        <Divider style={{ width: 200, margin: "10px 0", opacity: 0.2 }} />
+        {displayDescription && (
+          <Paragraph style={{ margin: 0, opacity: 0.7 }}>{displayDescription}</Paragraph>
+        )}
+      </div>
+      <div style={{ display: "flex", justifyContent: "center", alignItems: "flex-start", flexWrap: "wrap", gap: 16 }}>
+        <div style={{ flex: "0 1 600px" }}>{children}</div>
+      </div>
+    </div>
+  );
+}
+```
+
+### 4.4 国际化：YAML → 生成 TS → 运行时 t()
+
+- **源**：`locales/en.yml`、`locales/zh.yml` 等，按 `home.*`、`tools.<slug>.*`、`common.*` 等组织。
+- **构建**：`npm run generate:i18n` 执行 `scripts/generate-i18n.cjs`，将 YAML 递归拉平为 `lib/i18n/messages.generated.ts`（形如 `{ en: { "tools.epoch-converter.title": "Epoch converter" }, zh: { ... } }`）。
+- **运行时**：`useI18n()` 提供 `locale` 与 `t(key)`；`getToolName` / `getToolDescription` 使用 `tools.<slug>.title` / `tools.<slug>.description`，缺失时回退英文。
+
+```ts
+// lib/i18n/tool-labels.ts
+export function getToolName(locale: Locale, slug: string, fallback: string): string {
+  const key = `tools.${slug}.title`;
+  const dict = messages[locale] as Record<string, string>;
+  const enDict = messages.en as Record<string, string>;
+  return dict[key] ?? enDict[key] ?? fallback;
+}
+```
+
+工具内所有用户可见文案统一用 `t("tools.<slug>.<key>")`，例如：
+
+```tsx
+// components/tools/EpochConverter.tsx（节选）
+export function EpochConverter() {
+  const { t } = useI18n();
+  const [epochInput, setEpochInput] = React.useState("");
+  const [unit, setUnit] = React.useState<Unit>("ms");
+
+  const result = React.useMemo(() => {
+    const ms = parseEpoch(epochInput, unit);
+    if (ms === null) return null;
+    return { ms, ...formatDate(ms) };
+  }, [epochInput, unit]);
+
+  return (
+    <div>
+      <Form layout="vertical">
+        <Form.Item label={t("tools.epoch-converter.timestampLabel")}>
+          <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
+            <InputCopyable
+              value={epochInput}
+              onChange={setEpochInput}
+              placeholder={unit === "ms" ? t("tools.epoch-converter.timestampPlaceholderMs") : t("tools.epoch-converter.timestampPlaceholderSec")}
+              style={{ flex: 1, minWidth: 180, fontFamily: "monospace" }}
+            />
+            <Radio.Group value={unit} onChange={(e) => setUnit(e.target.value)}>
+              <Radio.Button value="ms">{t("tools.epoch-converter.milliseconds")}</Radio.Button>
+              <Radio.Button value="s">{t("tools.epoch-converter.seconds")}</Radio.Button>
+            </Radio.Group>
+            <Button onClick={() => setEpochInput(String(Date.now()))}>{t("tools.epoch-converter.currentTime")}</Button>
+          </div>
+        </Form.Item>
+        {result && (
+          <>
+            <Form.Item label={t("tools.epoch-converter.localLabel")}>
+              <InputCopyable value={result.local} readOnly style={{ fontFamily: "monospace" }} />
+            </Form.Item>
+            <Form.Item label={t("tools.epoch-converter.utcLabel")}>
+              <InputCopyable value={result.utc} readOnly style={{ fontFamily: "monospace" }} />
+            </Form.Item>
+          </>
+        )}
+      </Form>
+    </div>
+  );
+}
+```
+
+### 4.5 根布局与全局 Context
+
+根布局挂载主题、i18n、收藏、精灵等 Provider，并将 `AppLayout`（侧栏 + 顶栏 + 内容区）包裹 `children`，工具页作为 `children` 被渲染在内容区。
+
+```tsx
+// app/layout.tsx（节选）
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="zh" suppressHydrationWarning>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <ThemeScript />
+        <ThemeProvider>
+          <I18nProvider>
+            <FavoritesProvider>
+              <SpriteProvider>
+                <AppLayout>{children}</AppLayout>
+              </SpriteProvider>
+            </FavoritesProvider>
+          </I18nProvider>
+        </ThemeProvider>
+      </body>
+    </html>
+  );
+}
+```
+
+### 4.6 旧路径重定向
+
+为保证旧书签/外链有效，在 `next.config.ts` 中为 `tools.config` 里声明的 `redirectFrom` 配置 301 重定向。
+
+```ts
+// next.config.ts
+const nextConfig = {
+  async redirects() {
+    return [
+      { source: "/file-to-base64", destination: "/base64-string-converter", permanent: true },
+      { source: "/base64-converter", destination: "/base64-string-converter", permanent: true },
+      { source: "/color-picker-converter", destination: "/color-converter", permanent: true },
+      { source: "/text-stats", destination: "/text-statistics", permanent: true },
+    ];
+  },
+};
+```
+
+---
+
+## 五、Vue 与 React 核心差异（迁移时对照）
+
+### 5.1 组件模型
+
+- **Vue**：单文件组件（SFC）、响应式数据（ref/reactive）、模板语法、v-model、插槽。
+- **React**：函数组件 + Hooks、不可变状态（useState/useReducer）、JSX、受控组件、children/render props。
+
+迁移时每个工具从「一个 .vue 文件」对应为「一个 .tsx 组件」，逻辑用 `useState` / `useMemo` / `useEffect` 替代 Vue 的 ref/computed/watch。
+
+### 5.2 路由与页面
+
+- **Vue**：Vue Router，通常一个路由对应一个 SFC。
+- **React**：Next.js App Router，`app/[tool]/page.tsx` 根据动态段渲染对应工具组件；工具列表与 slug 配置集中在 `lib/tools.config.ts`，通过 `getToolBySlug` 与 switch/case 映射到具体组件。
+
+### 5.3 状态与副作用
+
+- **Vue**：computed 自动依赖追踪；watch 监听；生命周期 onMounted 等。
+- **React**：用 `useMemo` 做派生状态，依赖数组显式声明；用 `useEffect` 做副作用与「挂载后」逻辑；避免在 render 中 setState，避免在 useEffect 中无条件 setState 导致循环（必要时用 queueMicrotask 或条件判断延后更新）。
+
+### 5.4 样式与主题
+
+- **Vue**：scoped CSS、CSS 变量、或第三方 UI 库主题。
+- **React**：本项目采用 Ant Design 的 ConfigProvider + theme 算法（亮/暗），全局 CSS 变量与 Ant Design 的 design token 一致；通过 BEM 风格类名（如 `app-sider`）避免冲突。
+
+---
+
+## 六、设计规范（落地约定）
+
+### 6.1 工具页布局与表单
+
+- 所有工具页统一由 `ToolLayout` 包裹：标题（来自 i18n 的 `tools.<slug>.title`）、描述（`tools.<slug>.description`）、内容区最大宽度约 600px 居中。
+- 表单统一使用 **Ant Design Form**：`layout="vertical"`，所有输入/输出均放在 `Form.Item` 内，由 Form 控制间距。
+- 输入/输出控件：
+  - 单行可编辑：`InputCopyable`（支持复制、可选 readOnly）。
+  - 多行可编辑：`InputCopyable` 的 `multiline` + `rows`。
+  - 只读多行展示：`TextareaCopyable`。
+- 工具内部不直接使用 Ant Design 的裸 `Input` 作为最终展示，而是通过封装的 `InputCopyable` / `TextareaCopyable`，以保持复制按钮与 i18n（如 common.copyToClipboard）一致。
+
+### 6.2 国际化（i18n）
+
+- 工具名称、描述：`lib/i18n/tool-labels.ts` 的 `getToolName` / `getToolDescription`，key 为 `tools.<slug>.title` 与 `tools.<slug>.description`，文案来自 `locales/*.yml`，构建时由 `scripts/generate-i18n.cjs` 生成到 `lib/i18n/messages.generated.ts`。
+- 工具内所有用户可见文案（表单项 label、placeholder、按钮文字等）使用 `useI18n()` 的 `t("tools.<slug>.<key>")`，在 `locales/en.yml` 的对应工具块下维护；其他语言缺失时回退到英文。
+- 文章内容不做 i18n，仅工具 UI 与导航等需要多语言。
+
+### 6.3 代码质量
+
+- 避免在 render 中调用 setState（会导致 set-state-in-render 类问题）；派生结果用 `useMemo` 计算，再在事件或 useEffect 中按需 setState。
+- 避免在 useEffect 中无条件 setState 导致首屏闪烁或 hydration 不一致；对「根据环境（如 isMobile）初始化」的场景，采用初始值一致 + useLayoutEffect 内同步一次真实值。
+- 使用 TypeScript 严格类型，避免 any；对第三方库类型不全的，用最小接口或类型断言替代 any。
+
+---
+
+## 七、实现要点小结
+
+1. **配置驱动**：`tools.config.ts` 的 `toolsByCategory` 定义分类与工具 slug/path/name/description/keywords；`app/[tool]/page.tsx` 中根据 slug 做 switch 渲染对应组件。
+2. **Form + Form.Item 统一**：每个工具页一个 `<Form layout="vertical">`，所有控件包在 Form.Item 中，使用 InputCopyable/TextareaCopyable。
+3. **i18n 全覆盖**：新增工具时在 `locales/en.yml` 增加 `tools.<slug>.title/description` 及工具内用到的 label/placeholder 等 key，组件内全部用 `t()` 引用；构建前执行 `npm run generate:i18n`。
+4. **Lint 与构建**：新增或修改工具后跑 `npm run lint` 与 `npm run build`，确保无 set-state-in-render、未使用变量、类型错误等问题。
+
+以上为从产品到开发的完整需求与实现逻辑，以及 Vue 到 React 迁移过程中的理解与落地规范，便于后续扩展新工具或维护现有页面时保持一致。
