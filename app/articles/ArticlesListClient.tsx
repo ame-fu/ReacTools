@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { MailOutlined, GithubOutlined, CustomerServiceOutlined } from "@ant-design/icons";
 import { useI18n } from "@/lib/i18n/context";
+import { withBasePath } from "@/lib/base-path";
 import type { ArticleMeta } from "@/lib/articles";
 
 const { Text } = Typography;
@@ -246,7 +247,7 @@ export function ArticlesListClient({ initialList, initialTag = null }: ArticlesL
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/avatar.jpeg"
+                src={withBasePath("/avatar.jpeg")}
                 alt="AME"
                 style={{
                   width: "100%",

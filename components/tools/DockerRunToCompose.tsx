@@ -4,6 +4,7 @@ import React from "react";
 import { Card, Button, Alert, Form } from "antd";
 import { InputCopyable, TextareaCopyable } from "@/components/ui";
 import { useI18n } from "@/lib/i18n/context";
+import { withBasePath } from "@/lib/base-path";
 
 const MsgType = {
   notImplemented: "notImplemented",
@@ -35,7 +36,7 @@ export function DockerRunToCompose() {
     }
     let cancelled = false;
     setLoading(true);
-    fetch("/api/docker-run-to-compose", {
+    fetch(withBasePath("/api/docker-run-to-compose"), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ command: trimmed }),

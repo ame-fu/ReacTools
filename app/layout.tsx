@@ -9,6 +9,7 @@ import { I18nProvider } from "../lib/i18n/context";
 import { FavoritesProvider } from "../lib/favorites-context";
 import { SpriteProvider } from "../lib/sprite-context";
 import { ToolTabsProvider } from "../lib/tool-tabs-context";
+import { withBasePath } from "../lib/base-path";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,7 +24,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "ReacTools",
   description: "ReacTools - Handy online tools for developers (React/Next.js port)",
-  icons: { icon: "/favicon.ico" },
+  icons: { icon: withBasePath("/favicon.ico") },
 };
 
 export default function RootLayout({

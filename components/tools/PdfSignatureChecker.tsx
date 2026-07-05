@@ -5,6 +5,7 @@ import { Card, Upload, Alert, Descriptions, Collapse } from "antd";
 import type { UploadProps } from "antd";
 import { TextareaCopyable } from "@/components/ui";
 import { useI18n } from "@/lib/i18n/context";
+import { withBasePath } from "@/lib/base-path";
 
 interface SignatureInfo {
   verified: boolean;
@@ -68,7 +69,7 @@ export function PdfSignatureChecker() {
     try {
       const formData = new FormData();
       formData.append("file", uploadedFile);
-      const res = await fetch("/api/verify-pdf", {
+      const res = await fetch(withBasePath("/api/verify-pdf"), {
         method: "POST",
         body: formData,
       });
