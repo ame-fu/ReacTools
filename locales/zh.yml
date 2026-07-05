@@ -82,6 +82,9 @@ common:
   copyToClipboard: '复制到剪贴板'
   copied: '已复制!'
   refresh: '刷新'
+  formatCode: 格式化代码
+  confirmOk: 确定
+  confirmCancel: 取消
 favoriteButton:
   remove: '取消收藏'
   add: '加入收藏'
@@ -91,6 +94,275 @@ search:
   label: '搜索'
   noResults: '未找到相关工具'
 tools:
+  daily-grow:
+    title: 每日成长打卡
+    description: '儿童每日习惯打卡、星星奖励兑换、周月年度成长看板、课程表与多宝贝档案管理。'
+    appTitle: 每日成长
+    headerSubtitle: '高阶美学打卡伙伴 // 02 卷'
+    checkin: 每日打卡
+    honors: 成长荣誉
+    schedule: 作息课表
+    admin: 系统设置
+    mobileSettings: 设置
+    done: 完成
+    todo: 待办
+    optional: 选做
+    restMode: 休息日模式已激活
+    restModeDesc: '今天已被设定为免打卡休息日。所有打卡项目均变为可选，请尽情放松！'
+    challengesTitle: 今日挑战项目
+    progressTitle: 今日打卡进度
+    activeProfile: 当前操作档案
+    swapProfile: 切换宝贝档案
+    availableStars: 当前累计星星
+    availableStarsSub: 打卡赚取星星，满足愿望清单进行星星兑换
+    grantStar: 奖励星星
+    redeemGift: 兑换心愿礼
+    weeklyActivity: 本周打卡足迹
+    weekStats: 实时周历
+    weeklyTip: '💡 提示：点击周历中的具体格子，可临时切换设定该天为「免打卡日」或「正常打卡日」。'
+    monthlyMap: 月度打卡热图
+    annualArchive: 年度打卡墙
+    monthlyTip: '💡 提示：突发感冒或节假日无法打卡？点击任何日历方格，可临时豁免免打卡，保留全勤记录！'
+    chartTodo: 待挑战
+    chartRest: 免打卡日
+    chartPartial: 部分完成
+    chartCompleted: 全满贯完成
+    starsHistory: 星星成长手账
+    txLedger: 账单明细
+    noRecords: 尚无星星成长账单记录。
+    classPlanner: 日常作息表
+    timetableTitle: 宝贝周历课程表
+    timetableSub: '自定义 7 天完整课程与每日时段。宽度较窄时可左右横向扫滑，首列时间标签将自动粘性滞留固定。'
+    periodHeader: 课时
+    batchEditor: 课表批量编辑面板
+    enableBatch: 开启批量多选
+    cancelBatch: 取消批量选择
+    slotsSelected: 个课时格子已选中
+    batchConfigText: '批量分配课程名称及莫兰迪配色：'
+    apply: 批量保存
+    clear: 批量清空
+    batchTip: '想一键批量快速排满课表？开启上方“批量多选”，用手指随意勾选格阵，即可在下方一键上色或清空。'
+    periodTip: '提示：点击左侧首列的课时标题（如“第一课时”），可自由编辑课时名称和上下课钟点区间。'
+    profiles: 宝贝档案管理
+    kidsCount: 个档案
+    noActiveProfile: 未添加任何宝贝。
+    addNewProfile: 添加新宝贝
+    enterName: 输入宝贝姓名...
+    add: 添加
+    habitSettings: 习惯任务挂载配置
+    kidLabel: 宝贝
+    noHabits: 暂未添加习惯任务。
+    noHabitsHint: 暂无打卡习惯，请前往系统设置中添加。
+    createHabit: 添加新习惯
+    enterHabitTitle: 输入习惯名称...
+    edit: 编辑
+    delete: 删除
+    securityLock: 家长安全锁
+    securitySub: 请解答算术题以验证家长身份，防止宝贝误触：
+    cancel: 取消
+    confirm: 确认
+    ok: 确定
+    dataBackup: 数据导入与导出
+    dataBackupSubShort: 本地备份与恢复
+    exportBtn: 备份导出
+    importBtn: 一键恢复
+    importSuccess: 数据已成功导入恢复！
+    importError: 导入失败，请检查备份文件是否为标准的 JSON 格式。
+    editProfileTitle: 修改宝贝姓名/代号
+    editProfileSub: 重新对宝贝的展示名称进行调整：
+    editHabitTitle: 编辑打卡习惯
+    editHabitSub: 修改打卡习惯的名目和配色：
+    editPeriodTitle: 修改时段时间
+    editPeriodSub: 调整课时的标签名称与上下课时间 #
+    editClassTitle: 排课/修改课程
+    editClassSub: 调整星期与课时详细课程：
+    subjectPlaceholder: 输入课程名称（置空则清除该节排课）
+    grantStarTitle: 发放成长星星
+    grantStarSub: 填写奖励星星的缘由：
+    grantStarTitlePlaceholder: 标题（如：完美一周）
+    grantStarRemarkPlaceholder: 备注（如：完成第 25 周全部习惯）
+    redeemStarTitle: 兑换星星心愿
+    redeemStarSub: 填写兑换的礼品或心愿：
+    redeemRemarkPlaceholder: 备注（如：兑换乐高、电影票）
+    milestones: 成长足迹年度墙
+    annualProgressTitle: 年度打卡成长墙
+    closePanel: 关闭面板
+    syncToHabitLabel: 同步为每日打卡任务？
+    syncNo: 否（仅保留在课程表）
+    syncYes: 是（一键同步创建打卡）
+    themeColorPreset: 课程配色彩系
+    periodWord: 课时
+    periodLabelPlaceholder: 课时标签
+    periodRangePlaceholder: 时间区间
+    codePlaceholder: 代号
+    batchSubjectPlaceholder: '输入课程名称 (例如: 英语, 趣味数学)'
+    confirmDeleteProfile: '确定删除宝贝档案「{name}」？此操作不可撤销。'
+    confirmDeleteHabit: '确定删除习惯「{title}」？此操作不可撤销。'
+    statusRest: 休息
+    statusDone: 满贯
+    weekMon: 周一
+    weekTue: 周二
+    weekWed: 周三
+    weekThu: 周四
+    weekFri: 周五
+    weekSat: 周六
+    weekSun: 周日
+    dayMonday: 星期一
+    dayTuesday: 星期二
+    dayWednesday: 星期三
+    dayThursday: 星期四
+    dayFriday: 星期五
+    daySaturday: 星期六
+    daySunday: 星期日
+    monthJan: 一月
+    monthFeb: 二月
+    monthMar: 三月
+    monthApr: 四月
+    monthMay: 五月
+    monthJun: 六月
+    monthJul: 七月
+    monthAug: 八月
+    monthSep: 九月
+    monthOct: 十月
+    monthNov: 十一月
+    monthDec: 十二月
+    presetTerracotta: 绯红
+    presetSteelBlue: 湛蓝
+    presetOchre: 藤黄
+    presetCharcoal: 矿灰
+    presetSage: 艾绿
+    presetOatmeal: 燕麦
+    themeRed: 红
+    themeBlue: 蓝
+    themeYellow: 黄
+    themeBlack: 黑
+    themeGrey: 灰
+    themeOffWhite: 米白
+    toastSetWorkDay: '已动态变更为工作打卡日：{date}'
+    toastSetRestDay: '已动态设置为豁免休息日：{date}'
+    toastSecurityFailed: 安全验证失败。
+    toastSwitchedProfile: '已切换当前操作宝贝：{name}'
+    toastGrantStarSuccess: 成功奖励星星 1 枚！
+    toastInsufficientBalance: 星星余额不足哦，再接再厉！
+    toastRedeemRemarkRequired: 兑换名目必填
+    toastRedeemSuccess: 兑换成功！星星扣减 1 枚
+    toastBatchModeOn: 批量编辑多选已启动
+    toastBatchModeOff: 已退出批量多选
+    toastSubjectRequired: 课程名称不能为空
+    toastSelectSlots: 请至少选择一个课时格子
+    toastBatchApplied: 已成功批量安排所选课程！
+    toastBatchCleared: 已批量清除所选排课格子。
+    toastPeriodUpdated: 课时时段更新成功！
+    toastInputsRequired: 输入不能为空
+    toastClassAssigned: '排课成功：{subject}'
+    toastHabitSynced: 并已同步至每日打卡任务！
+    toastHabitExists: （该打卡任务已存在，无需重复同步）
+    toastClassCleared: 该时段课程已清除
+    toastProfileUpdated: 宝贝档案已更新
+    toastHabitUpdated: 习惯已更新
+    toastHabitTitleRequired: 习惯名称不能为空
+    toastProfileCreated: 成功创建新宝贝档案
+    toastMinOneProfile: 系统至少需要保留一个宝贝档案
+    toastProfileRemoved: 档案已成功移除
+    toastHabitAdded: 习惯已成功添加
+    toastHabitRemoved: 习惯已成功移除
+    toastFieldsRequired: 输入字段不能为空
+    toastExportSuccess: 备份文件导出成功！
+    toastExportFailed: '导出失败：{error}'
+  schedule-workbench:
+    title: 日程工作台
+    description: '多日程表工作台：新建/导入多个日程表，按名称搜索，每个日程表可展开收起、下载图片、导出、打印。'
+    appTitle: 日程工作台
+    searchPlaceholder: 搜索日程表名称...
+    importButton: 导入
+    newSchedule: 新建日程
+    expandSchedule: 展开日程表
+    collapseSchedule: 收起日程表
+    containsTasks: 包含 {count} 个任务
+    downloadAsImage: 下载为图片
+    exportSchedule: 导出当前日程数据
+    advancedPrintPreview: 高级打印预览
+    confirmDeleteSchedule: 确定要删除【{name}】吗？此操作不可恢复。
+    deleteSchedule: 删除整个日程表
+    themeAndSettings: 主题与设置
+    addMember: 加成员
+    newTask: 新任务
+    toggleVisibility: 点击切换显示状态
+    editMember: 编辑成员
+    deleteMember: 删除成员
+    empty:
+      noResults: 没有找到相关的日程表
+      addMemberHint: 快来添加小伙伴吧 👉
+    days:
+      mon: 周一
+      tue: 周二
+      wed: 周三
+      thu: 周四
+      fri: 周五
+      sat: 周六
+      sun: 周日
+    common:
+      close: 关闭
+      cancel: 取消
+    downloadImage:
+      failed: 生成图片失败，请重试！
+    import:
+      parseFailed: ⚠️ 解析文件失败，请确认是不是正确的 JSON 文件。
+      invalidData: ⚠️ 数据格式不正确，导入失败。
+      successSingle: 🎉 日程表导入成功！
+      successMultiple: 🎉 成功导入多个日程表！
+    print:
+      title: 高级打印沙盒
+      hintDragZoom: '提示：在网格区域按住鼠标任意拖拽，或滚动滚轮缩放画布'
+      viewScale: 视图缩放
+      paperOrientation: 纸张方向
+      orientation:
+        landscape: 横向排版 (Landscape)
+        portrait: 纵向排版 (Portrait)
+      contentMode: 内容显示方式
+      mode:
+        adaptive: 智能自适应铺满 (推荐)
+        original: 保留网格原始尺寸
+      contentScale: 内容排版缩放 (%)
+      rotateCorrection: 页面旋转校正 (度)
+      fillBackground: 背景铺满整页纸
+      fillBackgroundHint: 将当前主题底色延伸至边缘
+      confirm: 确认打印
+    settings:
+      title: 日程表设置
+      themeStyle: 主题风格 🎨
+      scheduleName: 日程表大名 ✏️
+      timeFormat: 时间显示魔法 ⏰
+      startTime: 开始时间
+      endTime: 结束时间
+      save: 保存魔法 ✨
+    task:
+      daysAtLeastOne: 请至少勾选一个星期！
+      modalTitleAdd: 📝 新建好玩的任务
+      modalTitleEdit: ✏️ 修改任务
+      labelTitle: 要做什么事情呢？
+      placeholderTitle: 比如：去公园玩滑梯...
+      labelOwner: 这是谁的任务？ 👦👧
+      noUsersOption: 请先添加成员
+      labelDays: 星期几？ 📅 (可多选以合并卡片)
+      labelStart: 开始时间
+      labelEnd: 结束时间
+      delete: 删除任务
+      save: 保存记录 🚀
+    member:
+      placeholderName: 比如：爷爷、奶奶、小花...
+      modalTitleAdd: 🐣 迎接新伙伴
+      modalTitleEdit: 🎨 给伙伴换装
+      labelName: 小伙伴的名字 🏷️
+      labelColor: 挑选一个幸运色 🌈
+      confirmAdd: 欢迎加入 🎉
+      confirmEdit: 保存修改 🎊
+      deleteConfirm:
+        title: 😲 哎呀！确定要删除吗？
+        line1: 真的要让这个小伙伴离开吗？
+        line2: TA 的所有日程都会消失不见，而且不能反悔哦！
+        cancel: 我点错了
+        confirm: 忍痛删除 💔
   categories:
     favorite-tools: '我的收藏'
     crypto: '加密'
@@ -104,6 +376,8 @@ tools:
     measurement: '测量'
     text: '文本'
     data: '数据'
+    lifestyle: '生活'
+    design: 设计
 
   password-strength-analyser:
     title: 密码强度分析仪
@@ -119,6 +393,10 @@ tools:
   chronometer:
     title: 计时器
     description: 监控事物的持续时间。基本上是一种具有简单计时器功能的计时器。
+    labelTime: 时间
+    buttonStart: 开始
+    buttonStop: 停止
+    buttonReset: 重置
   token-generator:
     title: Token 生成器
     description: 使用您想要的字符、大写或小写字母、数字和/或符号生成随机字符串。
@@ -136,18 +414,60 @@ tools:
   percentage-calculator:
     title: 百分比计算器
     description: 轻松计算从一个值到另一个值的百分比，或从百分比到值的百分比。
+    whatIs: "X 的"
+    percentOf: "% 是"
+    xIsWhatPercentOfY: "X 是 Y 的百分之几"
+    isWhatPercentOf: "是 … 的百分之几"
+    increaseDecrease: "从 … 到 … 的增/减百分比"
+    from: 从
+    to: 到
+    labelResult: 结果
+    buttonCopy: 复制
 
   svg-placeholder-generator:
     title: SVG 占位符生成器
     description: 生成 svg 图像以用作应用程序中的占位符。
+    labelWidth: 宽度 (px)
+    labelHeight: 高度 (px)
+    labelBackground: 背景色
+    labelTextColor: 文字颜色
+    labelFontSize: 字号
+    labelCustomText: 自定义文字
+    placeholderCustomText: "默认显示 {size}"
+    labelUseExactSize: 使用精确尺寸
+    labelSvgHtml: SVG HTML 元素
+    labelSvgBase64: SVG Base64
+    buttonDownload: 下载 SVG
 
   json-to-csv:
     title: JSON 转 CSV
     description: 使用自动标头检测将JSON转换为CSV。
+    labelRaw: 原始 JSON
+    placeholderRaw: 在此粘贴原始 JSON（对象数组）...
+    labelCsv: 转换后的 CSV
 
   camera-recorder:
     title: 摄像机记录器
     description: 从网络摄像头或照相机拍摄照片或录制视频。
+    labelVideo: 视频
+    labelAudio: 音频
+    placeholderSelectCamera: 选择摄像头
+    placeholderSelectMicrophone: 选择麦克风
+    buttonStartWebcam: 开启摄像头
+    buttonTakeScreenshot: 截图
+    buttonStartRecording: 开始录制
+    buttonPause: 暂停
+    buttonResume: 继续
+    buttonStop: 停止
+    buttonDownload: 下载
+    buttonDelete: 删除
+    recordingNotSupported: 当前浏览器不支持视频录制
+    labelScreenshot: 截图
+    labelVideoItem: 视频
+    browserNotSupport: 当前浏览器不支持摄像头录制
+    grantPermissionMessage: 需要授权使用摄像头和麦克风
+    grantPermissionBlocked: 浏览器已阻止权限请求或不支持。请在浏览器设置中手动授权（通常是地址栏的锁图标）。
+    buttonGrantPermission: 授权
 
   keycode-info:
     title: Keycode 信息
@@ -162,6 +482,12 @@ tools:
   emoji-picker:
     title: Emoji 选择器
     description: 轻松复制和粘贴Emoji表情符号，并获得每个表情符号的unicode和code points值.
+    searchPlaceholder: 搜索 emoji（如「笑脸」）...
+    searchLabel: 搜索
+    noResults: 无结果
+    searchResult: 搜索结果
+    copiedToClipboard: 已复制到剪贴板
+    copyFailed: 复制失败
 
   color-converter:
     title: 颜色选择器
@@ -201,6 +527,15 @@ tools:
   crontab-generator:
     title: Crontab 表达式生成
     description: 验证并生成crontab，并获取cron调度的可读描述。
+    placeholderCron: "* * * * *"
+    invalidCron: "该 cron 表达式无效"
+    verbose: "详细描述"
+    use24Hour: "使用 24 小时制"
+    dayStartZero: "星期从 0 开始"
+    thSymbol: "符号"
+    thMeaning: "含义"
+    thExample: "示例"
+    thEquivalent: "等价于"
 
   http-status-codes:
     title: HTTP 状态码
@@ -211,10 +546,34 @@ tools:
   sql-prettify:
     title: SQL 美化和格式化
     description: 在线格式化和美化您的 SQL 查询（它支持各种 SQL 方言）。
+    labelQuery: 您的 SQL 查询
+    placeholderQuery: 在此输入 SQL 查询...
+    labelPrettified: 格式化后的查询
+    labelDialect: "方言"
+    labelKeywordCase: "关键字大小写"
+    labelIndentStyle: "缩进风格"
 
   benchmark-builder:
     title: 基准生成器
     description: 简单的在线基准构建器可以轻松比较任务的执行时间。
+    suiteName: 套件名称
+    placeholderSuiteName: 套件名称...
+    suiteValues: 测量值
+    placeholderValues: 输入测量值...
+    delete: 删除
+    addMeasure: 添加测量
+    deleteSuite: 删除套件
+    addSuite: 添加套件
+    unit: 单位
+    unitPlaceholder: "单位（如 ms）"
+    buttonReset: 重置套件
+    buttonCopyMd: 复制为 Markdown 表格
+    buttonCopyList: 复制为列表
+    thPosition: 名次
+    thSuite: 套件
+    thSamples: 样本数
+    thMean: 均值
+    thVariance: 方差
 
   git-memo:
     title: Git 备忘录
@@ -246,15 +605,33 @@ tools:
 
   random-port-generator:
     title: 随机端口生成
+    buttonRefresh: 刷新
     description: 生成“已知”端口范围（0-1023）之外的随机端口号。
 
   yaml-prettify:
     title: YAML美化和格式化
     description: 将YAML字符串修饰为友好的可读格式。
+    labelRaw: 原始 YAML
+    placeholderRaw: 在此粘贴原始 YAML...
+    labelPrettified: 格式化后的 YAML
+    sortKeys: "排序键"
+    indentSize: "缩进宽度"
+    errorInvalid: "提供的 YAML 无效。"
 
   eta-calculator:
     title: ETA 计算器
     description: ETA（估计到达时间）计算器，用于知道任务的近似结束时间，例如下载的结束时刻。
+    labelAmount: 待消耗数量
+    labelStartedAt: 开始消耗时间
+    labelConsumed: 单位时间内已消耗量
+    in: 每
+    labelTotalDuration: 总耗时
+    labelWillEnd: 预计结束时间
+    unitMs: 毫秒
+    unitSeconds: 秒
+    unitMinutes: 分钟
+    unitHours: 小时
+    unitDays: 天
 
   roman-numeral-converter:
     title: 罗马数字转换器
@@ -331,6 +708,129 @@ tools:
   base64-string-converter:
     title: Base64 字符串编码/解码
     description: 将字符串编码和解码为其 Base64 格式表示形式即可。
+    stringToBase64: "字符串转 Base64"
+    base64ToString: "Base64 转字符串"
+    encodeUrlSafe: "编码为 URL 安全"
+    decodeUrlSafe: "按 URL 安全解码"
+    inputPlaceholder: "在此输入要编码的字符串..."
+    outputPlaceholder: "Base64 编码结果将显示在此"
+    base64InputPlaceholder: "在此粘贴 Base64 字符串..."
+    decodedPlaceholder: "解码后的字符串将显示在此"
+    invalidBase64: "无效的 Base64 字符串"
+
+  hex-preview:
+    title: HEX预览
+    description: '以偏移量 + 十六进制 + ASCII 预览的方式查看 16 进制数据。'
+    inputPlaceholder: "粘贴 16 进制字符串（如 0a1b2c3d 或 0A 1B 2C）..."
+
+  string-pipeline:
+    title: 字符串转换流程器
+    description: 自定义流程进行字符串的转换。
+    add: 新增
+    import: 导入
+    export: 导出
+    cancel: 取消
+    save: 保存
+    delete: 删除
+    deleteConfirm: 确定要删除该流程吗？此操作不可恢复。
+    convert: 转换
+    input: 输入
+    output: 输出
+    edit: 编辑
+    untitled: 未命名
+    nameLabel: 流程名称
+    dragHandle: 拖拽以排序
+    importError: 导入失败，请检查文件格式
+    importSuccess: 已追加导入的流程
+    noHexHint: "未识别到十六进制字符，仅使用 0-9 与 A-F。"
+    invalidHexHint: "非法字符，仅允许 0-9、A-F 与空格。"
+
+  css-style-gallery:
+    title: CSS 样式库
+    description: '一个可复用的 CSS/HTML 小样式库，内置部分 loading、按钮、单选、多选等示例，支持实时编辑预览。'
+    categoryFilter: 样式分类
+    category:
+      all: 全部
+      loading: 加载 loading
+      button: 按钮 button
+      radio: 单选 radio
+      checkbox: 复选 checkbox
+      badge: 徽标 badge
+      other: 其他 other
+    totalCount: '共 {count} 条样式'
+    actions:
+      new: 新建样式
+      import: 导入
+      export: 导出
+      save: 保存修改
+      cancel: 取消
+      reset: 重置
+      multiSelect: 多选
+      return: 返回
+      batchExport: 批量导出
+      batchDelete: 批量删除
+      delete: 删除
+      exportOne: 导出
+      edit: 编辑
+    gallery:
+      title: 样式列表
+      empty: 当前分类下还没有样式。
+    editor:
+      title: 编辑面板
+      empty: 请选择左侧样式，或新建一个样式开始编辑。
+    fields:
+      name: 名称
+      category: 分类
+      description: 描述
+      htmlLabel: HTML 片段（仅 body 内）
+      htmlHint: 只需编写 body 内部内容，无需再写 html/head/body/meta 等标签。
+      htmlPlaceholder: '请输入 HTML 片段（例如一个按钮、一段 loading 等）…'
+      cssLabel: CSS 样式
+      cssHint: 直接输入 CSS 规则，无需写 style 标签。
+      cssPlaceholder: '请输入与上方 HTML 对应的 CSS 规则…'
+    preview:
+      title: 实时预览
+      tabHtml: HTML
+      tabCss: CSS
+      tabAll: 全部
+    noDescription: 暂无描述
+    defaultNewName: 新样式
+    deleteConfirm: '确定要删除样式「{name}」吗？此操作不可恢复。'
+    deleteConfirmMultiple: '确定要删除选中的 {count} 个样式吗？此操作不可恢复。'
+    import:
+      success: 已成功导入样式列表。
+      invalid: JSON 格式不正确，无法导入样式列表。
+    pagination:
+      prev: 上一页
+      next: 下一页
+
+  base64-hex-message-decoder:
+    title: 报文解码与时间戳注入工具
+    description: Base64 ↔ Hex 双向转换，自动计算 CRC、注入时间戳及语法高亮。
+    decodeTitle: "1. 原始 Base64 字符串"
+    base64Placeholder: 在此粘贴 Base64 字符串（可多行）...
+    decode: 解析为 16 进制 (Hex)
+    hexTitle: "2. 16进制数据"
+    multiLineHint: "（支持多行批量处理）"
+    autoCrc: 自动重算 CRC
+    injectTime: "即将注入"
+    legend: "颜色区分："
+    legendCrc: "MSB/LSB (CRC)"
+    legendTs: "时间戳 (4位)"
+    legendLast4: "最后4位"
+    legendOther: "其他 (黑色)"
+    cursorAt: "当前光标停留在：第 {n} 字节"
+    clickToTrack: "点击上方报文任意位置即可追踪"
+    encodeHint: "点击按钮后将：1) 对前（长度−10）字节计算 CRC-CCITT(0x1D0F) 并写入绿色；2) 将时间戳写入橙色；3) 重新 Base64 编码。目标时间"
+    injectAndEncode: "注入最新 CRC 及时间戳，并 Base64 编码"
+    encodedTitle: "3. 最新 Base64 编码结果"
+    copyResult: 复制结果
+    waitingEncode: 等待编码...
+    invalidBase64: Base64 解码失败，请确保输入合法。
+    needHexData: 没有可编码的十六进制数据。
+    evenLength: "第 {line} 行数据长度必须是偶数。"
+    min10Bytes: "第 {line} 行数据总长度不足 10 个字节。"
+    encodeFailed: 编码失败。
 
   toml-to-yaml:
     title: TOML 到 YAML
@@ -343,6 +843,10 @@ tools:
   math-evaluator:
     title: 数学计算器
     description: 计算数学表达式的计算器。您可以使用sqrt、cos、sin、abs等函数。
+    labelExpression: 数学表达式
+    placeholderExpression: "输入表达式（如 2*sqrt(6)）..."
+    labelResult: 结果
+    buttonCopy: 复制
 
   xml-to-json:
     title: XML 转 JSON
@@ -454,14 +958,31 @@ tools:
   json-prettify:
     title: JSON美化和格式化
     description: 将JSON字符串修饰为友好的可读格式。
+    labelRaw: 原始 JSON
+    placeholderRaw: 在此粘贴原始 JSON...
+    labelPrettified: 格式化后的 JSON
+    sortKeys: "排序键"
+    indentSize: "缩进宽度"
+    errorInvalid: "提供的 JSON 无效。"
 
   docker-run-to-docker-compose-converter:
     title: Docker Run 到 docker-compose 转换器
     description: 将 docker run 命令行转换为 docker-compose 文件!
+    labelCommand: docker run 命令
+    placeholderCommand: 要转换的 docker run 命令...
+    labelCompose: Docker Compose YAML
+    placeholderConverting: 转换中…
+    buttonDownload: 下载 docker-compose.yml
 
   mac-address-lookup:
     title: MAC地址查找
     description: 通过设备的MAC地址查找设备的供应商和制造商。
+    labelMac: MAC 地址
+    placeholderMac: 输入 MAC 地址
+    labelVendor: 厂商信息
+    unknownVendor: 未找到该地址的厂商信息
+    buttonCopy: 复制厂商信息
+    copied: 已复制
 
   mime-types:
     title: mime类型
@@ -500,22 +1021,68 @@ tools:
   qrcode-generator:
     title: 二维码生成器
     description: 生成并下载url或文本的QR代码，并自定义背景和前景颜色。
+    labelText: 文本
+    placeholderText: 链接或文本...
+    labelForegroundColor: 前景色
+    labelBackgroundColor: 背景色
+    labelErrorResistance: 容错等级
+    labelPreview: 预览
+    levelLow: 低
+    levelMedium: 中
+    levelQuartile: 四分
+    levelHigh: 高
+    noQrCode: 无二维码
+    buttonDownload: 下载二维码
 
   wifi-qrcode-generator:
     title: WiFi 二维码生成器
     description: 生成和下载QR码以快速连接到WiFi网络。
+    labelEncryption: 加密方式
+    labelSsid: 网络名称 (SSID)
+    placeholderSsid: WiFi 网络名称...
+    hiddenSsid: 隐藏网络
+    labelPassword: 密码
+    placeholderPassword: WiFi 密码...
+    labelEapMethod: EAP 方式
+    labelIdentity: 身份
+    placeholderIdentity: EAP 身份...
+    anonymous: 匿名？
+    labelEapPhase2: EAP Phase 2 方式
+    labelForegroundColor: 前景色
+    labelBackgroundColor: 背景色
+    labelPreview: 预览
+    buttonDownload: 下载二维码
+    encryptionNoPass: 无密码
+    encryptionWpaWpa2: "WPA/WPA2"
 
   xml-formatter:
     title: XML 格式化
     description: 将XML字符串修饰为友好的可读格式。
+    labelXml: 您的 XML
+    placeholderXml: 在此粘贴 XML...
+    labelFormatted: 格式化后的 XML
 
   temperature-converter:
     title: 温度转换器
     description: 开尔文、摄氏度、华氏度、兰金、德莱尔、牛顿、雷奥穆尔和罗默温度度数转换。
+    kelvin: 开尔文
+    celsius: 摄氏度
+    fahrenheit: 华氏度
+    rankine: 兰金
+    delisle: 德莱尔
+    newton: 牛顿
+    reaumur: 雷奥穆尔
+    romer: 罗默
 
   chmod-calculator:
     title: Chmod 计算器
     description: 使用此在线的chmod计算器计算chmod权限和命令。
+    read: "读 (4)"
+    write: "写 (2)"
+    execute: "执行 (1)"
+    owner: "所有者 (u)"
+    group: "组 (g)"
+    public: "其他 (o)"
 
   map-coordinate-converter:
     title: 地图坐标系转换
@@ -561,6 +1128,17 @@ tools:
   mac-address-generator:
     title: MAC 地址生成器
     description: 输入数量和前缀。MAC地址将以您选择的大小写（大写或小写）生成
+    quantity: 数量
+    labelPrefix: MAC 地址前缀
+    placeholderPrefix: 输入前缀，如 64:16:7F
+    case: 大小写
+    uppercase: 大写
+    lowercase: 小写
+    separator: 分隔符
+    separatorNone: 无
+    labelGenerated: 生成的 MAC 地址
+    buttonRefresh: 刷新
+    buttonCopy: 复制
 
   json-diff:
     title: JSON 差异比较
@@ -585,6 +1163,7 @@ tools:
   date-converter:
     title: 日期时间转换器
     description: 将日期和时间转换为各种不同的格式
+    inputLabel: "日期字符串"
     placeholder: "在此输入日期字符串..."
     invalidPlaceholder: "无效日期..."
     invalidDateMessage: "该日期对此格式无效"
@@ -614,6 +1193,27 @@ tools:
   ipv4-subnet-calculator:
     title: IPv4子网计算器
     description: 解析IPv4 CIDR块，并获取有关子网络的所有所需信息。
+    labelAddress: IPv4 地址（可含掩码）
+    placeholderAddress: 输入 IPv4 地址...
+    buttonPrev: 上一块
+    buttonNext: 下一块
+    errorParse: 无法解析该地址，请检查格式
+    tableField: 字段
+    tableValue: 值
+    unknown: 未知
+    netmask: 网络掩码
+    networkAddress: 网络地址
+    networkMask: 子网掩码
+    networkMaskBinary: 子网掩码（二进制）
+    cidr: CIDR 表示
+    wildcard: 通配符掩码
+    size: 网络大小
+    first: 首地址
+    last: 末地址
+    broadcast: 广播地址
+    broadcastFallback: 该掩码无广播地址
+    class: IP 类型
+    classFallback: 未知类型
 
   og-meta-generator:
     title: 开放式图形元生成器
@@ -648,6 +1248,13 @@ tools:
   ipv6-ula-generator:
     title: IPv6 ULA生成器
     description: 根据RFC4193在网络上生成您自己的本地不可路由IP地址。
+    labelMac: MAC 地址
+    placeholderMac: 输入 MAC 地址
+    infoMessage: 说明
+    infoDescription: 本工具按 IETF 建议，使用当前时间戳与 MAC 地址经 SHA1 哈希后取低 40 位生成随机 ULA。
+    labelUla: IPv6 ULA
+    labelFirstBlock: 首个可路由块
+    labelLastBlock: 末个可路由块
 
   hash-text:
     title: Hash 文本
@@ -708,6 +1315,9 @@ tools:
   json-minify:
     title: JSON 压缩
     description: 通过删除不必要的空白来缩小和压缩JSON。
+    labelRaw: 原始 JSON
+    placeholderRaw: 在此粘贴原始 JSON...
+    labelMinified: 压缩后的 JSON
 
   ulid-generator:
     title: ULID 生成器
@@ -769,6 +1379,14 @@ tools:
   ipv4-address-converter:
     title: Ipv4地址转换器
     description: 在ipv6中，将ip地址转换为十进制、二进制、十六进制或事件
+    labelAddress: IPv4 地址
+    placeholderAddress: 输入 IPv4 地址...
+    setCorrect: 请填写正确的 IPv4 地址
+    decimal: 十进制
+    hexadecimal: 十六进制
+    binary: 二进制
+    ipv6: IPv6
+    ipv6Short: IPv6（简写）
 
   text-statistics:
     title: 文本统计
@@ -805,6 +1423,19 @@ tools:
   ipv4-range-expander:
     title: IPv4范围扩展器
     description: 给定起始和结束IPv4地址，此工具使用其CIDR表示法计算有效的IPv4网络。
+    labelStart: 起始地址
+    placeholderStart: 起始 IPv4 地址...
+    labelEnd: 结束地址
+    placeholderEnd: 结束 IPv4 地址...
+    tableOldValue: 原值
+    tableNewValue: 新值
+    rowStart: 起始地址
+    rowEnd: 结束地址
+    rowSize: 范围内地址数
+    rowCidr: CIDR
+    errorInvalid: 起始与结束 IPv4 地址组合无效
+    errorDesc: 结束地址小于起始地址，无法计算。请交换起始与结束地址后重试。
+    buttonSwitch: 交换起始与结束地址
 
   text-diff:
     title: 文本比较
@@ -818,16 +1449,37 @@ tools:
   regex-tester:
     title: 正则测试
     description: 实时测试和调试正则表达式，查看匹配与捕获组。
+    labelRegex: 待测试正则
+    placeholderRegex: 输入要测试的正则
+    labelText: 待匹配文本
+    placeholderText: 输入要匹配的文本
+
   regex-memo:
     title: 正则备忘
     description: 正则表达式速查与参考。
   email-normalizer:
     title: 邮箱规范化
     description: 规范化邮箱地址（小写、去空格、支持加号寻址）。
+    labelRaw: 待规范化邮箱
+    placeholderRaw: 在此输入邮箱（每行一个）...
+    labelNormalized: 规范化结果
+    placeholderNormalized: 规范化后的邮箱将显示在此...
+    buttonClear: 清空
+    buttonCopy: 复制规范化结果
+    errorParse: "无法解析邮箱：{email}"
 
   epoch-converter:
-    title: Unix 时间戳转换
+    title: 时间戳转换
     description: 将 Unix 时间戳（毫秒/秒）转换为可读日期（本地与 UTC）。
+    timestampLabel: "时间戳"
+    timestampPlaceholderMs: "例如 1700000000000"
+    timestampPlaceholderSec: "例如 1700000000"
+    milliseconds: "毫秒"
+    seconds: "秒"
+    currentTime: "当前时间"
+    localLabel: "本地 (ISO 8601)"
+    utcLabel: "UTC"
+    otherUnitLabel: "另一单位时间戳"
   query-string-builder:
     title: 查询字符串构建
     description: 从键值对构建或解析 URL 查询字符串。
@@ -909,3 +1561,12 @@ tools:
     binaryOutputPlaceholder: "文本的二进制表示将显示在此"
     textOutputPlaceholder: "二进制的文本表示将显示在此"
     binaryError: "二进制应为有效的 ASCII 二进制字符串，且为 8 位的倍数"
+
+  schedule:
+    day0: 周一
+    day1: 周二
+    day2: 周三
+    day3: 周四
+    day4: 周五
+    day5: 周六
+    day6: 周日

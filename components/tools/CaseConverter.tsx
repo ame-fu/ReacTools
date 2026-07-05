@@ -53,17 +53,12 @@ export function CaseConverter() {
   return (
     <Card>
       <Form layout="vertical">
-        <Form.Item style={{ marginBottom: 12 }}>
-          <div style={{ display: "flex", alignItems: "flex-start", gap: 8 }}>
-            <div style={{ width: 120, textAlign: "right", opacity: 0.85 }}>
-              {t("tools.case-converter.inputLabel")}
-            </div>
-            <Input
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder={t("tools.case-converter.inputPlaceholder")}
-            />
-          </div>
+        <Form.Item label={t("tools.case-converter.inputLabel")} style={{ marginBottom: 12 }}>
+          <Input
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder={t("tools.case-converter.inputPlaceholder")}
+          />
         </Form.Item>
 
         <Form.Item style={{ marginBottom: 8 }}>
@@ -71,15 +66,8 @@ export function CaseConverter() {
         </Form.Item>
 
         {formats.map((f) => (
-          <Form.Item key={f.id} style={{ marginBottom: 8 }}>
-            <div style={{ display: "flex", alignItems: "flex-start", gap: 8 }}>
-              <div style={{ width: 120, textAlign: "right", opacity: 0.85 }}>
-                {t(`tools.case-converter.formats.${f.id}`)}
-              </div>
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <InputCopyable value={f.value} readOnly />
-              </div>
-            </div>
+          <Form.Item key={f.id} label={t(`tools.case-converter.formats.${f.id}`)} style={{ marginBottom: 8 }}>
+            <InputCopyable value={f.value} readOnly />
           </Form.Item>
         ))}
       </Form>

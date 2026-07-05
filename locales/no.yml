@@ -73,6 +73,7 @@ tools:
     measurement: Måling
     text: Tekst
     data: Data
+    design: Design
 
   password-strength-analyser:
     title: Analyseverktøy for passordstyrke
@@ -191,6 +192,22 @@ tools:
   base64-string-converter:
     title: Base64 string kode/dekoder
     description: Enkelt kode eller dekode en tekststreng til base64 representasjonen av strengen.
+    stringToBase64: "Streng til base64"
+    base64ToString: "Base64 til streng"
+    encodeUrlSafe: "Koder URL-sikker"
+    decodeUrlSafe: "Dekoder URL-sikker"
+    inputPlaceholder: "Lim inn strengen din her..."
+    outputPlaceholder: "Base64-kodingen vises her"
+    base64InputPlaceholder: "Din base64-streng..."
+    decodedPlaceholder: "Den dekodede strengen vises her"
+    invalidBase64: "Ugyldig base64-streng"
+
+  hex-preview:
+    title: HEX-forhåndsvisning
+    description: ""
+    inputPlaceholder: "Lim inn hex-streng (f.eks. 0a1b2c3d)..."
+    noHexHint: "Ingen hex-siffer funnet; kun 0-9 og A-F brukes."
+    invalidHexHint: "Ugyldige tegn; kun 0-9, A-F og mellomrom tillatt."
 
   toml-to-yaml:
     title: TOML til YAML

@@ -74,41 +74,29 @@ export function BaseConverter() {
   return (
     <Card>
       <Form layout="vertical">
-        <Form.Item style={{ marginBottom: 12 }}>
-          <div style={{ display: "flex", alignItems: "flex-start", gap: 8 }}>
-            <div style={{ width: 110, textAlign: "right", opacity: 0.85 }}>
-              {t("tools.base-converter.inputLabel")}
-            </div>
-            <div style={{ flex: 1, minWidth: 0 }}>
-              <InputCopyable
-                value={input}
-                onChange={(v) => setInput(v)}
-                placeholder={t("tools.base-converter.inputPlaceholder")}
-                style={{ fontFamily: "monospace" }}
-              />
-            </div>
-          </div>
+        <Form.Item label={t("tools.base-converter.inputLabel")} style={{ marginBottom: 12 }}>
+          <InputCopyable
+            value={input}
+            onChange={(v) => setInput(v)}
+            placeholder={t("tools.base-converter.inputPlaceholder")}
+            style={{ fontFamily: "monospace" }}
+          />
         </Form.Item>
 
-        <Form.Item style={{ marginBottom: 12 }}>
-          <div style={{ display: "flex", alignItems: "flex-start", gap: 8 }}>
-            <div style={{ width: 110, textAlign: "right", opacity: 0.85 }}>
-              {t("tools.base-converter.inputBaseLabel")}
-            </div>
-            <InputNumber
-              value={inputBase}
-              onChange={(v) => setInputBase(v ?? 10)}
-              min={2}
-              max={64}
-              placeholder={t("tools.base-converter.inputBasePlaceholder")}
-              style={{ flex: 1, maxWidth: 200 }}
-            />
-          </div>
+        <Form.Item label={t("tools.base-converter.inputBaseLabel")} style={{ marginBottom: 12 }}>
+          <InputNumber
+            value={inputBase}
+            onChange={(v) => setInputBase(v ?? 10)}
+            min={2}
+            max={64}
+            placeholder={t("tools.base-converter.inputBasePlaceholder")}
+            style={{ width: "100%", maxWidth: 200 }}
+          />
         </Form.Item>
 
         {error && (
           <Form.Item style={{ marginBottom: 12 }}>
-            <Alert type="error" message={error} showIcon />
+            <Alert type="error" title={error} showIcon />
           </Form.Item>
         )}
 
@@ -117,28 +105,18 @@ export function BaseConverter() {
         </Form.Item>
 
         {OUTPUTS.map(({ id, toBase }) => (
-          <Form.Item key={id} style={{ marginBottom: 8 }}>
-            <div style={{ display: "flex", alignItems: "flex-start", gap: 8 }}>
-              <div style={{ width: 170, textAlign: "right", opacity: 0.85 }}>
-                {t(`tools.base-converter.formats.${id}`)}
-              </div>
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <InputCopyable
-                  value={tryConvert(input, inputBase, toBase)}
-                  readOnly
-                  placeholder={t(`tools.base-converter.placeholders.${id}`)}
-                  style={{ fontFamily: "monospace" }}
-                />
-              </div>
-            </div>
+          <Form.Item key={id} label={t(`tools.base-converter.formats.${id}`)} style={{ marginBottom: 8 }}>
+            <InputCopyable
+              value={tryConvert(input, inputBase, toBase)}
+              readOnly
+              placeholder={t(`tools.base-converter.placeholders.${id}`)}
+              style={{ fontFamily: "monospace" }}
+            />
           </Form.Item>
         ))}
 
-        <Form.Item style={{ marginBottom: 0 }}>
-          <div style={{ display: "flex", alignItems: "flex-start", gap: 8 }}>
-            <div style={{ width: 170, textAlign: "right", opacity: 0.85 }}>
-              {t("tools.base-converter.customBaseLabel")}
-            </div>
+        <Form.Item label={t("tools.base-converter.customBaseLabel")} style={{ marginBottom: 0 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
             <InputNumber
               value={outputBase}
               onChange={(v) => setOutputBase(v ?? 2)}
@@ -146,7 +124,7 @@ export function BaseConverter() {
               max={64}
               style={{ width: 160 }}
             />
-            <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ flex: 1, minWidth: 200 }}>
               <InputCopyable
                 value={tryConvert(input, inputBase, outputBase)}
                 readOnly

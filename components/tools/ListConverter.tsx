@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Card, Switch, Select, Input, Form } from "antd";
+import { Card, Switch, Select, Input, Form, Space } from "antd";
 import { FormatTransformer } from "@/components/FormatTransformer";
 import { useI18n } from "@/lib/i18n/context";
 
@@ -173,7 +173,7 @@ export function ListConverter() {
               </Form.Item>
 
               <Form.Item label={t("tools.list-converter.wrapItem")}>
-                <Input.Group compact>
+                <Space.Compact style={{ width: "100%" }}>
                   <Input
                     style={{ width: "50%" }}
                     value={config.itemPrefix}
@@ -190,11 +190,11 @@ export function ListConverter() {
                     }
                     placeholder={t("tools.list-converter.itemSuffix")}
                   />
-                </Input.Group>
+                </Space.Compact>
               </Form.Item>
 
               <Form.Item label={t("tools.list-converter.wrapList")}>
-                <Input.Group compact>
+                <Space.Compact style={{ width: "100%" }}>
                   <Input
                     style={{ width: "50%" }}
                     value={config.listPrefix}
@@ -211,7 +211,7 @@ export function ListConverter() {
                     }
                     placeholder={t("tools.list-converter.listSuffix")}
                   />
-                </Input.Group>
+                </Space.Compact>
               </Form.Item>
             </Form>
           </div>

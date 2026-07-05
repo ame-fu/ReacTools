@@ -2,8 +2,10 @@
 
 import React from "react";
 import { Button, Card, Col, Form, Input, InputNumber, Row } from "antd";
+import { useI18n } from "@/lib/i18n/context";
 
 export function PercentageCalculator() {
+  const { t } = useI18n();
   const [percentageX, setPercentageX] = React.useState<number | null>(null);
   const [percentageY, setPercentageY] = React.useState<number | null>(null);
   const [numberX, setNumberX] = React.useState<number | null>(null);
@@ -40,7 +42,7 @@ export function PercentageCalculator() {
   return (
     <div style={{ maxWidth: 600, margin: "0 auto" }}>
       <Form layout="vertical">
-        <Form.Item label="What is">
+        <Form.Item label={t("tools.percentage-calculator.whatIs")}>
           <Card>
             <Row gutter={8} align="middle">
               <Col>
@@ -50,7 +52,7 @@ export function PercentageCalculator() {
                   onChange={(v) => setPercentageX(v)}
                 />
               </Col>
-              <Col>% of</Col>
+              <Col>{t("tools.percentage-calculator.percentOf")}</Col>
               <Col>
                 <InputNumber
                   placeholder="Y"
@@ -62,26 +64,26 @@ export function PercentageCalculator() {
                 <Input
                   readOnly
                   value={percentageResult}
-                  placeholder="Result"
+                  placeholder={t("tools.percentage-calculator.labelResult")}
                   style={{ maxWidth: 150 }}
                 />
               </Col>
               <Col>
                 <Button size="small" onClick={() => copy(percentageResult)} disabled={!percentageResult}>
-                  Copy
+                  {t("tools.percentage-calculator.buttonCopy")}
                 </Button>
               </Col>
             </Row>
           </Card>
         </Form.Item>
 
-        <Form.Item label="X is what percent of Y">
+        <Form.Item label={t("tools.percentage-calculator.xIsWhatPercentOfY")}>
           <Card>
             <Row gutter={8} align="middle">
               <Col>
                 <InputNumber placeholder="X" value={numberX} onChange={(v) => setNumberX(v)} />
               </Col>
-              <Col>is what percent of</Col>
+              <Col>{t("tools.percentage-calculator.isWhatPercentOf")}</Col>
               <Col>
                 <InputNumber placeholder="Y" value={numberY} onChange={(v) => setNumberY(v)} />
               </Col>
@@ -89,37 +91,37 @@ export function PercentageCalculator() {
                 <Input
                   readOnly
                   value={numberResult}
-                  placeholder="Result"
+                  placeholder={t("tools.percentage-calculator.labelResult")}
                   style={{ maxWidth: 150 }}
                 />
               </Col>
               <Col>
                 <Button size="small" onClick={() => copy(numberResult)} disabled={!numberResult}>
-                  Copy
+                  {t("tools.percentage-calculator.buttonCopy")}
                 </Button>
               </Col>
             </Row>
           </Card>
         </Form.Item>
 
-        <Form.Item label="What is the percentage increase/decrease">
+        <Form.Item label={t("tools.percentage-calculator.increaseDecrease")}>
           <Card>
             <Row gutter={8} align="middle">
               <Col>
                 <InputNumber
-                  placeholder="From"
+                  placeholder={t("tools.percentage-calculator.from")}
                   value={numberFrom}
                   onChange={(v) => setNumberFrom(v)}
                 />
               </Col>
               <Col>
-                <InputNumber placeholder="To" value={numberTo} onChange={(v) => setNumberTo(v)} />
+                <InputNumber placeholder={t("tools.percentage-calculator.to")} value={numberTo} onChange={(v) => setNumberTo(v)} />
               </Col>
               <Col>
                 <Input
                   readOnly
                   value={percentageIncreaseDecrease}
-                  placeholder="Result"
+                  placeholder={t("tools.percentage-calculator.labelResult")}
                   style={{ maxWidth: 150 }}
                 />
               </Col>
@@ -129,7 +131,7 @@ export function PercentageCalculator() {
                   onClick={() => copy(percentageIncreaseDecrease)}
                   disabled={!percentageIncreaseDecrease}
                 >
-                  Copy
+                  {t("tools.percentage-calculator.buttonCopy")}
                 </Button>
               </Col>
             </Row>

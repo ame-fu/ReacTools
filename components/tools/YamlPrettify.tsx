@@ -4,12 +4,14 @@ import React from "react";
 import { Card, Switch, InputNumber, Form } from "antd";
 import YAML from "yaml";
 import { InputCopyable, TextareaCopyable } from "@/components/ui";
+import { useI18n } from "@/lib/i18n/context";
 
 const STORAGE_RAW = "yaml-prettify:raw-yaml";
 const STORAGE_INDENT = "yaml-prettify:indent-size";
 const STORAGE_SORT = "yaml-prettify:sort-keys";
 
 export function YamlPrettify() {
+  const { t } = useI18n();
   const [rawYaml, setRawYaml] = React.useState(() => {
     if (typeof localStorage === "undefined") return "";
     return localStorage.getItem(STORAGE_RAW) ?? "";
@@ -45,19 +47,19 @@ export function YamlPrettify() {
         error: null,
       };
     } catch {
-      return { output: "", error: "Provided YAML is not valid." };
+      return { output: "", error: t("tools.yaml-prettify.errorInvalid") };
     }
-  }, [rawYaml, sortKeys, indentSize]);
+  }, [rawYaml, sortKeys, indentSize, t]);
 
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap justify-center gap-4 max-w-[600px] mx-auto">
         <label className="flex items-center gap-2">
-          <span className="w-24">Sort keys</span>
+          <span className="w-24">{t("tools.yaml-prettify.sortKeys")}</span>
           <Switch checked={sortKeys} onChange={setSortKeys} />
         </label>
         <label className="flex items-center gap-2">
-          <span className="w-24">Indent size</span>
+          <span className="w-24">{t("tools.yaml-prettify.indentSize")}</span>
           <InputNumber min={1} max={10} value={indentSize} onChange={(v) => setIndentSize(v ?? 2)} className="w-24" />
         </label>
       </div>
@@ -67,8 +69,8 @@ export function YamlPrettify() {
             <InputCopyable
               value={rawYaml}
               onChange={setRawYaml}
-              label="Your raw YAML"
-              placeholder="Paste your raw YAML here..."
+              label={t("tools.yaml-prettify.labelRaw")}
+              placeholder={t("tools.yaml-prettify.placeholderRaw")}
               multiline
               rows={20}
               className="font-mono"
@@ -80,7 +82,7 @@ export function YamlPrettify() {
       <Card>
         <Form layout="vertical">
           <Form.Item>
-            <TextareaCopyable value={cleanYaml} rows={20} style={{ fontFamily: "monospace" }} label="Prettified version of your YAML" />
+            <TextareaCopyable value={cleanYaml} rows={20} style={{ fontFamily: "monospace" }} label={t("tools.yaml-prettify.labelPrettified")} />
           </Form.Item>
         </Form>
       </Card>

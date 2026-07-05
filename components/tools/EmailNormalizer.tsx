@@ -4,8 +4,10 @@ import React from "react";
 import { Button, Form } from "antd";
 import { normalizeEmail } from "email-normalizer";
 import { InputCopyable, TextareaCopyable } from "@/components/ui";
+import { useI18n } from "@/lib/i18n/context";
 
 export function EmailNormalizer() {
+  const { t } = useI18n();
   const [emails, setEmails] = React.useState("");
 
   const normalizedEmails = React.useMemo(() => {
@@ -16,11 +18,11 @@ export function EmailNormalizer() {
         try {
           return normalizeEmail({ email });
         } catch {
-          return `Unable to parse email: ${email}`;
+          return t("tools.email-normalizer.errorParse").replace("{email}", email);
         }
       })
       .join("\n");
-  }, [emails]);
+  }, [emails, t]);
 
   const handleCopy = async () => {
     if (!normalizedEmails) return;
@@ -34,22 +36,22 @@ export function EmailNormalizer() {
   return (
     <div>
       <Form layout="vertical">
-        <Form.Item label="Raw emails to normalize">
+        <Form.Item label={t("tools.email-normalizer.labelRaw")}>
           <InputCopyable
             value={emails}
             onChange={setEmails}
-            placeholder="Put your emails here (one per line)..."
+            placeholder={t("tools.email-normalizer.placeholderRaw")}
             multiline
             rows={3}
             style={{ fontFamily: "monospace" }}
           />
         </Form.Item>
 
-        <Form.Item label="Normalized emails">
+        <Form.Item label={t("tools.email-normalizer.labelNormalized")}>
           <TextareaCopyable
             value={normalizedEmails}
             rows={3}
-            placeholder="Normalized emails will appear here..."
+            placeholder={t("tools.email-normalizer.placeholderNormalized")}
             style={{ fontFamily: "monospace" }}
           />
         </Form.Item>
@@ -62,9 +64,9 @@ export function EmailNormalizer() {
               gap: 8,
             }}
           >
-            <Button onClick={() => setEmails("")}>Clear emails</Button>
+            <Button onClick={() => setEmails("")}>{t("tools.email-normalizer.buttonClear")}</Button>
             <Button onClick={handleCopy} disabled={!normalizedEmails}>
-              Copy normalized emails
+              {t("tools.email-normalizer.buttonCopy")}
             </Button>
           </div>
         </Form.Item>

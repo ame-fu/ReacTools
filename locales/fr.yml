@@ -77,6 +77,7 @@ tools:
     measurement: Mesure
     text: Texte
     data: Données
+    design: Design
 
   token-generator:
     title: Générateur de token
@@ -93,3 +94,23 @@ tools:
     copied: Le token a été copié
     length: Longueur
     tokenPlaceholder: Le token...
+
+  base64-string-converter:
+    title: Encodeur/décodeur de chaîne Base64
+    description: Encodez et décodez simplement des chaînes en Base64.
+    stringToBase64: "Chaîne vers Base64"
+    base64ToString: "Base64 vers chaîne"
+    encodeUrlSafe: "Encoder en URL safe"
+    decodeUrlSafe: "Décoder en URL safe"
+    inputPlaceholder: "Collez votre chaîne ici..."
+    outputPlaceholder: "L'encodage Base64 apparaîtra ici"
+    base64InputPlaceholder: "Votre chaîne Base64..."
+    decodedPlaceholder: "La chaîne décodée apparaîtra ici"
+    invalidBase64: "Chaîne Base64 invalide"
+
+  hex-preview:
+    title: Aperçu HEX
+    description: ""
+    inputPlaceholder: "Collez une chaîne hex (ex. 0a1b2c3d)..."
+    noHexHint: "Aucun caractère hex trouvé; seuls 0-9 et A-F sont utilisés."
+    invalidHexHint: "Caractères invalides; seuls 0-9, A-F et espaces autorisés."

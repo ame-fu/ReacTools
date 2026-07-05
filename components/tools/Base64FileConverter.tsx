@@ -182,7 +182,7 @@ export function Base64FileConverter() {
           <Alert
             style={{ marginTop: 8 }}
             type="error"
-            message={b64Error}
+            title={b64Error}
             showIcon
           />
         )}

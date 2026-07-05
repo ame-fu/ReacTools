@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useI18n } from "@/lib/i18n/context";
+import { sanitizeHtml } from "@/lib/sanitize";
 
 export default function AboutContent() {
   const { t } = useI18n();
@@ -20,7 +21,7 @@ export default function AboutContent() {
         });
         return `<p style="margin-bottom: 0.75rem;">${parts.join(" ")}</p>`;
       });
-      setHtml(html);
+      setHtml(sanitizeHtml(html));
     });
   }, [content]);
 

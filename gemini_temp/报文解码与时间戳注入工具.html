@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>报文解码与时间戳注入工具</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* 隐藏滚动条但保留功能 */
+        textarea::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        textarea::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        textarea::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 20px;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-slate-50 p-4 md:p-8 font-sans text-slate-800" onload="updateHighlights()">
+    <div class="max-w-3xl mx-auto space-y-6">
+        
+        <!-- 头部 -->
+        <div class="flex items-center gap-3 pb-4 border-b border-slate-200">
+            <svg class="w-8 h-8 text-indigo-600" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+            <div>
+                <h1 class="text-2xl font-bold text-slate-900">报文解码与时间戳注入工具</h1>
+                <p class="text-sm text-slate-500 mt-1">Base64 ↔ Hex 双向转换，自动计算 CRC、注入时间戳及语法高亮</p>
+            </div>
+        </div>
+
+        <!-- 错误提示容器 -->
+        <div id="errorContainer" class="hidden items-center gap-2 p-4 text-red-700 bg-red-50 rounded-lg border border-red-200 transition-all">
+            <svg class="w-5 h-5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+            <p id="errorText" class="text-sm"></p>
+        </div>
+
+        <!-- 第一步：Base64 输入 -->
+        <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-4">
+            <label class="block text-sm font-semibold text-slate-700">1. 原始 Base64 字符串</label>
+            <textarea
+                id="base64Input"
+                class="w-full p-3 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all font-mono text-sm resize-none"
+                rows="3"
+                placeholder="在此粘贴 Base64 字符串..."
+            >DQeE8AIBmnFpUQs+MTc0MQ==</textarea>
+            <button
+                onclick="handleDecode()"
+                class="flex items-center justify-center gap-2 w-full md:w-auto px-6 py-2.5 bg-indigo-50 text-indigo-700 font-medium rounded-lg hover:bg-indigo-100 transition-colors"
+            >
+                <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
+                解析为 16 进制 (Hex)
+            </button>
+        </div>
+
+        <!-- 第二步：Hex 修改 -->
+        <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-4">
+            <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-2">
+                <label class="block text-sm font-semibold text-slate-700">
+                    2. 16进制数据 <span class="text-slate-400 font-normal">(支持多行批量处理)</span>
+                </label>
+                <div class="flex flex-wrap items-center gap-2 text-xs">
+                    <div class="flex items-center gap-1.5 text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-full border border-emerald-200">
+                        <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="M9 12l2 2 4-4"></path></svg>
+                        自动重算 CRC
+                    </div>
+                    <div class="flex items-center gap-1.5 text-amber-700 bg-amber-50 px-3 py-1.5 rounded-full border border-amber-200">
+                        <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                        即将注入: <span id="targetHexDisplay">计算中...</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 图例 (Legend) -->
+            <div class="flex flex-wrap items-center gap-3 text-xs mb-1">
+                <span class="text-slate-500">颜色区分：</span>
+                <div class="flex items-center gap-1.5"><span class="w-3 h-3 bg-emerald-100 border border-emerald-300 rounded-sm"></span><span class="text-emerald-700">MSB/LSB (CRC)</span></div>
+                <div class="flex items-center gap-1.5"><span class="w-3 h-3 bg-amber-100 border border-amber-300 rounded-sm"></span><span class="text-amber-700">时间戳 (4位)</span></div>
+                <div class="flex items-center gap-1.5"><span class="w-3 h-3 bg-violet-100 border border-violet-300 rounded-sm"></span><span class="text-violet-700">最后4位</span></div>
+                <div class="flex items-center gap-1.5"><span class="w-3 h-3 bg-slate-100 border border-slate-300 rounded-sm"></span><span class="text-slate-700">其他 (黑色)</span></div>
+            </div>
+
+            <!-- 报文标尺和带高亮的输入框 -->
+            <div class="border border-slate-300 rounded-lg overflow-hidden bg-white focus-within:ring-2 focus-within:ring-indigo-500 focus-within:border-indigo-500 transition-all shadow-inner relative flex flex-col">
+                <!-- 标尺 (对齐16进制显示) -->
+                <div id="hexRuler" class="w-full px-3 py-2 bg-slate-100/80 font-mono text-base text-slate-400 whitespace-nowrap overflow-hidden select-none border-b border-slate-200">
+                    01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16
+                </div>
+
+                <!-- 包含着色层和文本区域的相对容器 -->
+                <div class="relative w-full h-32 bg-slate-50">
+                    <!-- 着色层 (Backdrop) -->
+                    <div id="highlight-backdrop" 
+                         class="absolute inset-0 px-3 py-2 font-mono text-base whitespace-pre overflow-hidden pointer-events-none z-0"
+                         aria-hidden="true">
+                    </div>
+                    <!-- 真实输入框 (透明文本，真实光标) -->
+                    <textarea
+                        id="hexInput"
+                        wrap="off"
+                        onblur="formatHexInput()"
+                        oninput="syncScroll(); updateRuler(); updateCursorPos(); updateHighlights();"
+                        onscroll="syncScroll()"
+                        onclick="updateCursorPos()"
+                        onkeyup="updateCursorPos()"
+                        class="absolute inset-0 w-full h-full px-3 py-2 bg-transparent outline-none font-mono text-base resize-none whitespace-pre z-10"
+                        style="color: transparent; caret-color: #0f172a;"
+                        placeholder="0d 07 84 f0 02 01 9a 71 69 51 0b 3e 31 37 34 31..."
+                    ></textarea>
+                </div>
+            </div>
+
+            <!-- 光标位置提示 -->
+            <div class="flex justify-between items-center text-sm">
+                <div class="flex items-center gap-1.5 text-indigo-600 font-medium bg-indigo-50 px-3 py-1 rounded-full border border-indigo-100">
+                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h4l3-9 5 18 3-9h5"/></svg>
+                    <span id="cursorPosDisplay">当前光标停留在：第 1 字节</span>
+                </div>
+                <span class="text-xs text-slate-400">（点击上方报文任意位置即可追踪）</span>
+            </div>
+            
+            <p class="text-xs text-slate-500 leading-relaxed">
+                * 提示：点击下方按钮后，程序会自动进行以下操作：<br />
+                1. 计算前置数据（黑色部分）的 <b>CRC-CCITT(0x1D0F)</b>，并覆盖 <b>绿色部分 (MSB/LSB)</b>。<br />
+                2. 抓取下方的时间戳，将其覆盖到 <b>橙色部分</b> 中。<br />
+                3. 将修改后的完整数据重新进行 Base64 编码。<br />
+                * 目标时间：<span id="targetTimeDisplay" class="font-mono bg-slate-100 px-1 rounded text-slate-700">计算中...</span> (精确到下一分钟00秒)
+            </p>
+
+            <button
+                onclick="handleEncode()"
+                class="flex items-center justify-center gap-2 w-full px-6 py-3 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-all shadow-sm hover:shadow-md"
+            >
+                <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+                注入最新 CRC 及时间戳，并 Base64 编码
+            </button>
+        </div>
+
+        <!-- 第三步：Base64 结果 -->
+        <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-4">
+            <div class="flex justify-between items-center">
+                <label class="block text-sm font-semibold text-slate-700">3. 最新 Base64 编码结果</label>
+                <button
+                    id="copyBtn"
+                    onclick="copyToClipboard()"
+                    disabled
+                    class="flex items-center gap-1.5 px-3 py-1.5 text-sm rounded-md transition-colors text-slate-400 bg-slate-100 cursor-not-allowed"
+                >
+                    <svg id="copyIcon" class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    <span id="copyText">复制结果</span>
+                </button>
+            </div>
+            <div id="base64Output" class="p-4 bg-slate-50 border border-slate-200 rounded-lg min-h-[4rem] flex items-center break-all font-mono text-sm text-slate-700 whitespace-pre-wrap">
+                <span class="text-slate-400 select-none">等待编码...</span>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- 核心逻辑脚本 -->
+    <script>
+        // 全局变量，存储目标时间戳
+        let currentTargetTimestamp = 0;
+        let base64OutputStr = "";
+
+        function showError(msg) {
+            const errDiv = document.getElementById('errorContainer');
+            document.getElementById('errorText').innerText = msg;
+            errDiv.classList.remove('hidden');
+            errDiv.classList.add('flex');
+        }
+
+        function hideError() {
+            const errDiv = document.getElementById('errorContainer');
+            errDiv.classList.add('hidden');
+            errDiv.classList.remove('flex');
+        }
+
+        function updateTargetTime() {
+            const now = new Date();
+            const target = new Date(now);
+            target.setMinutes(target.getMinutes() + 1);
+            target.setSeconds(0);
+            target.setMilliseconds(0);
+            
+            currentTargetTimestamp = Math.floor(target.getTime() / 1000);
+            
+            const targetHex = currentTargetTimestamp.toString(16).padStart(8, '0');
+            const targetHexFormatted = `${targetHex.substring(0, 2)} ${targetHex.substring(2, 4)} ${targetHex.substring(4, 6)} ${targetHex.substring(6, 8)}`;
+            
+            document.getElementById('targetHexDisplay').innerText = targetHexFormatted;
+            
+            const hh = String(target.getHours()).padStart(2, '0');
+            const mm = String(target.getMinutes()).padStart(2, '0');
+            const ss = String(target.getSeconds()).padStart(2, '0');
+            document.getElementById('targetTimeDisplay').innerText = `${hh}:${mm}:${ss}`;
+        }
+
+        setInterval(updateTargetTime, 1000);
+        updateTargetTime();
+
+        function calculateCRC16(dataBytes) {
+            let crc = 0x1D0F;
+            for (let i = 0; i < dataBytes.length; i++) {
+                crc ^= (dataBytes[i] << 8);
+                for (let j = 0; j < 8; j++) {
+                    if ((crc & 0x8000) !== 0) {
+                        crc = ((crc << 1) ^ 0x1021) & 0xFFFF;
+                    } else {
+                        crc = (crc << 1) & 0xFFFF;
+                    }
+                }
+            }
+            return crc;
+        }
+
+        function handleDecode() {
+            hideError();
+            const input = document.getElementById('base64Input').value.trim();
+            try {
+                const lines = input.split('\n').map(l => l.trim()).filter(l => l);
+                let hexLines = [];
+                
+                for (let line of lines) {
+                    const binaryStr = atob(line);
+                    let hexArr = [];
+                    for (let i = 0; i < binaryStr.length; i++) {
+                        let hex = binaryStr.charCodeAt(i).toString(16).padStart(2, '0');
+                        hexArr.push(hex);
+                    }
+                    hexLines.push(hexArr.join(' '));
+                }
+                
+                document.getElementById('hexInput').value = hexLines.join('\n');
+                
+                base64OutputStr = "";
+                document.getElementById('base64Output').innerHTML = '<span class="text-slate-400 select-none">等待编码...</span>';
+                updateCopyButton(false);
+                
+                // 触发刷新 UI
+                updateRuler();
+                updateCursorPos();
+                updateHighlights();
+            } catch (err) {
+                showError('Base64 解码失败，请确保输入的是合法的 Base64 字符串。');
+            }
+        }
+
+        function formatHexInput() {
+            const inputObj = document.getElementById('hexInput');
+            const lines = inputObj.value.split('\n');
+            const formattedLines = lines.map(line => {
+                const cleanStr = line.replace(/[^0-9a-fA-F]/g, '');
+                const matched = cleanStr.match(/.{1,2}/g);
+                return matched ? matched.join(' ') : cleanStr;
+            });
+            inputObj.value = formattedLines.join('\n');
+            updateRuler();
+            updateCursorPos();
+            updateHighlights();
+        }
+
+        function handleEncode() {
+            hideError();
+            formatHexInput();
+            const inputLines = document.getElementById('hexInput').value.split('\n');
+
+            try {
+                let outLines = [];
+                let updatedHexLines = [];
+
+                for (let lineIdx = 0; lineIdx < inputLines.length; lineIdx++) {
+                    const hexStr = inputLines[lineIdx].replace(/[^0-9a-fA-F]/g, '');
+                    if (!hexStr) continue;
+
+                    if (hexStr.length % 2 !== 0) {
+                        throw new Error(`第 ${lineIdx + 1} 行数据长度必须是偶数。`);
+                    }
+                    if (hexStr.length / 2 < 10) {
+                        throw new Error(`第 ${lineIdx + 1} 行数据总长度不足 10 个字节。`);
+                    }
+
+                    let bytes = [];
+                    for (let i = 0; i < hexStr.length; i += 2) {
+                        bytes.push(parseInt(hexStr.substring(i, i + 2), 16));
+                    }
+
+                    const len = bytes.length;
+
+                    // 1. CRC
+                    const payloadForCrc = bytes.slice(0, len - 10);
+                    const crc = calculateCRC16(payloadForCrc);
+                    bytes[len - 10] = (crc >> 8) & 0xFF; // MSB
+                    bytes[len - 9] = crc & 0xFF;         // LSB
+
+                    // 2. 时间戳
+                    const ts = currentTargetTimestamp;
+                    bytes[len - 8] = Math.floor(ts / 16777216) & 0xFF;
+                    bytes[len - 7] = Math.floor(ts / 65536) & 0xFF;
+                    bytes[len - 6] = Math.floor(ts / 256) & 0xFF;
+                    bytes[len - 5] = ts & 0xFF;
+
+                    const newHexArr = bytes.map(b => b.toString(16).padStart(2, '0'));
+                    updatedHexLines.push(newHexArr.join(' '));
+
+                    let binaryStr = "";
+                    for (let i = 0; i < bytes.length; i++) {
+                        binaryStr += String.fromCharCode(bytes[i]);
+                    }
+                    outLines.push(btoa(binaryStr));
+                }
+
+                if (outLines.length === 0) {
+                    throw new Error('没有可编码的数据。');
+                }
+
+                document.getElementById('hexInput').value = updatedHexLines.join('\n');
+                base64OutputStr = outLines.join('\n');
+                
+                document.getElementById('base64Output').innerText = base64OutputStr;
+                updateCopyButton(true);
+                updateHighlights(); // 重新绘制高亮
+
+            } catch (err) {
+                showError(err.message || '编码失败，请检查16进制数据格式。');
+            }
+        }
+
+        function updateCopyButton(enable) {
+            const btn = document.getElementById('copyBtn');
+            if (enable) {
+                btn.removeAttribute('disabled');
+                btn.className = 'flex items-center gap-1.5 px-3 py-1.5 text-sm rounded-md transition-colors text-indigo-600 bg-indigo-50 hover:bg-indigo-100 border border-indigo-100';
+            } else {
+                btn.setAttribute('disabled', 'true');
+                btn.className = 'flex items-center gap-1.5 px-3 py-1.5 text-sm rounded-md transition-colors text-slate-400 bg-slate-100 cursor-not-allowed';
+            }
+        }
+
+        function copyToClipboard() {
+            if (!base64OutputStr) return;
+            try {
+                if (navigator.clipboard && window.isSecureContext) {
+                    navigator.clipboard.writeText(base64OutputStr);
+                } else {
+                    const textArea = document.createElement("textarea");
+                    textArea.value = base64OutputStr;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textArea);
+                }
+                const btn = document.getElementById('copyBtn');
+                const text = document.getElementById('copyText');
+                const icon = document.getElementById('copyIcon');
+                btn.className = 'flex items-center gap-1.5 px-3 py-1.5 text-sm rounded-md transition-colors text-green-700 bg-green-50 border border-green-200';
+                text.innerText = '已复制';
+                icon.innerHTML = '<polyline points="20 6 9 17 4 12"></polyline>';
+                setTimeout(() => {
+                    btn.className = 'flex items-center gap-1.5 px-3 py-1.5 text-sm rounded-md transition-colors text-indigo-600 bg-indigo-50 hover:bg-indigo-100 border border-indigo-100';
+                    text.innerText = '复制结果';
+                    icon.innerHTML = '<rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>';
+                }, 2000);
+            } catch (err) {
+                showError('复制失败，请手动选择复制文本。');
+            }
+        }
+
+        // --- 动态高亮与标尺核心逻辑 ---
+        
+        function syncScroll() {
+            const input = document.getElementById('hexInput');
+            document.getElementById('hexRuler').scrollLeft = input.scrollLeft;
+            const backdrop = document.getElementById('highlight-backdrop');
+            backdrop.scrollTop = input.scrollTop;
+            backdrop.scrollLeft = input.scrollLeft;
+        }
+
+        function updateRuler() {
+            const lines = document.getElementById('hexInput').value.split('\n');
+            let maxLen = 16;
+            for (let line of lines) {
+                const bytesLen = line.replace(/[^0-9a-fA-F]/g, '').length / 2;
+                if (bytesLen > maxLen) maxLen = Math.ceil(bytesLen);
+            }
+            let rulerStr = [];
+            for (let i = 1; i <= maxLen + 4; i++) { // 多缓冲4个
+                rulerStr.push(i.toString().padStart(2, '0'));
+            }
+            document.getElementById('hexRuler').innerText = rulerStr.join(' ');
+        }
+
+        function updateCursorPos() {
+            const input = document.getElementById('hexInput');
+            const pos = input.selectionStart;
+            const textToCursor = input.value.substring(0, pos);
+            const linesToCursor = textToCursor.split('\n');
+            const currentLineTextToCursor = linesToCursor[linesToCursor.length - 1];
+            const hexCharsCount = currentLineTextToCursor.replace(/[^0-9a-fA-F]/g, '').length;
+            const byteIndex = Math.floor(hexCharsCount / 2) + 1;
+            document.getElementById('cursorPosDisplay').innerText = `当前光标停留在：第 ${byteIndex} 字节`;
+        }
+
+        function updateHighlights() {
+            const text = document.getElementById('hexInput').value;
+            const lines = text.split('\n');
+            let highlightedHtml = '';
+
+            // 如果内容为空，展示带有样式的 Placeholder
+            if (!text) {
+                document.getElementById('highlight-backdrop').innerHTML = '<span class="text-slate-400">0d 07 84 f0 02 01 9a 71 69 51 0b 3e 31 37 34 31...</span>';
+                return;
+            }
+
+            lines.forEach((line, idx) => {
+                const regex = /([0-9a-fA-F]{1,2})|([^0-9a-fA-F]+)/g;
+                let match;
+                let byteIndex = 0;
+
+                const hexPairs = line.match(/[0-9a-fA-F]{1,2}/g) || [];
+                const totalBytes = hexPairs.length;
+
+                let lineHtml = '';
+                while ((match = regex.exec(line)) !== null) {
+                    if (match[1]) { // 这是一个 Hex 字节
+                        const currentIdx = byteIndex;
+                        byteIndex++;
+
+                        let colorClass = 'text-slate-800'; // 默认黑色
+
+                        if (totalBytes >= 10) {
+                            if (currentIdx === totalBytes - 10 || currentIdx === totalBytes - 9) {
+                                colorClass = 'text-emerald-700 bg-emerald-100 rounded-sm'; // CRC: 倒数9-10
+                            } else if (currentIdx >= totalBytes - 8 && currentIdx <= totalBytes - 5) {
+                                colorClass = 'text-amber-700 bg-amber-100 rounded-sm';     // Timestamp: 倒数5-8
+                            } else if (currentIdx >= totalBytes - 4 && currentIdx <= totalBytes - 1) {
+                                colorClass = 'text-violet-700 bg-violet-100 rounded-sm';   // 最后4位
+                            }
+                        }
+                        lineHtml += `<span class="${colorClass}">${match[1]}</span>`;
+                    } else if (match[2]) { // 空格或其他字符
+                        let safeStr = match[2].replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                        lineHtml += `<span>${safeStr}</span>`;
+                    }
+                }
+                highlightedHtml += lineHtml + (idx < lines.length - 1 ? '\n' : ''); 
+            });
+
+            if (text.endsWith('\n')) {
+                highlightedHtml += '\n';
+            }
+            
+            document.getElementById('highlight-backdrop').innerHTML = highlightedHtml;
+        }
+
+        // 初始化
+        updateRuler();
+    </script>
+</body>
+</html>

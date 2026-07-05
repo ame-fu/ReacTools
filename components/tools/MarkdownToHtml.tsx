@@ -2,6 +2,7 @@
 
 import React from "react";
 import MarkdownIt from "markdown-it";
+import { sanitizeHtml } from "@/lib/sanitize";
 import { Card, Divider, Button } from "antd";
 import { InputCopyable, TextareaCopyable } from "@/components/ui";
 import { useI18n } from "@/lib/i18n/context";
@@ -17,7 +18,7 @@ export function MarkdownToHtml() {
   const printHtml = () => {
     const w = window.open();
     if (w == null) return;
-    w.document.body.innerHTML = outputHtml;
+    w.document.body.innerHTML = sanitizeHtml(outputHtml);
     w.print();
   };
 

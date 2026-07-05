@@ -87,6 +87,9 @@ common:
   copyToClipboard: 'Copy to clipboard'
   copied: 'Copied!'
   refresh: 'Refresh'
+  formatCode: Format code
+  confirmOk: OK
+  confirmCancel: Cancel
 favoriteButton:
   remove: 'Remove from favorites'
   add: 'Add to favorites'
@@ -96,6 +99,275 @@ search:
   label: Search
   noResults: 'No tools found'
 tools:
+  daily-grow:
+    title: Daily Grow Tracker
+    description: 'Track children''s daily habits with check-ins, star rewards, weekly/monthly/annual progress boards, class schedules, and multi-child profiles.'
+    appTitle: Daily Grow
+    headerSubtitle: 'aesthetic companion // vol. 02'
+    checkin: Daily Grow
+    honors: Growth Honors
+    schedule: Class Schedule
+    admin: System Preferences
+    mobileSettings: Settings
+    done: DONE
+    todo: TODO
+    optional: OPTIONAL
+    restMode: Rest Mode Active
+    restModeDesc: 'Today is configured as a rest day/exempt day. All challenges are optional! Enjoy the break.'
+    challengesTitle: "Today's Challenges"
+    progressTitle: Daily Progress
+    activeProfile: Active Profile
+    swapProfile: Swap Profile
+    availableStars: Available Stars
+    availableStarsSub: Available balance for target reward redemptions
+    grantStar: Grant Star
+    redeemGift: Redeem Gift
+    weeklyActivity: Weekly Activity
+    weekStats: Week Stats
+    weeklyTip: '💡 Tip: Tap any weekday block to dynamically change it to/from a Rest Day.'
+    monthlyMap: Activity Map
+    annualArchive: Annual Archive
+    monthlyTip: '💡 Tip: Click any monthly calendar cell to toggle dynamic exceptions (sick/holidays).'
+    chartTodo: To Do
+    chartRest: Rest Day
+    chartPartial: Partial
+    chartCompleted: Completed
+    starsHistory: Stars History
+    txLedger: Transaction Ledger
+    noRecords: No records found.
+    classPlanner: Class Planner
+    timetableTitle: Timetable Schedule
+    timetableSub: 'Customize your 7-day weekly schedule. Swipe horizontally on mobile to browse all days seamlessly with the period column fixed.'
+    periodHeader: Period
+    batchEditor: Batch Editor
+    enableBatch: Enable Batch Edit
+    cancelBatch: Cancel Selection
+    slotsSelected: Slot(s) Selected
+    batchConfigText: 'Configure Subject and Color Preset:'
+    apply: Apply
+    clear: Clear
+    batchTip: 'Need to assign the same subject to multiple periods? Click "Enable Batch Edit" above to select multiple blocks on the grid.'
+    periodTip: 'Click on the period names in the first column to adjust school hours.'
+    profiles: Profiles
+    kidsCount: Kids
+    noActiveProfile: No active profile.
+    addNewProfile: Add New Profile
+    enterName: Enter name...
+    add: Add
+    habitSettings: Habit Settings
+    kidLabel: Kid
+    noHabits: No assigned habits.
+    noHabitsHint: 'No habits created yet. Go to System Preferences.'
+    createHabit: Create New Habit
+    enterHabitTitle: Enter habit title...
+    edit: Edit
+    delete: Delete
+    securityLock: Security Lock
+    securitySub: 'Solve this math problem to verify you are a parent:'
+    cancel: Cancel
+    confirm: Confirm
+    ok: Ok
+    dataBackup: Data Portability
+    dataBackupSubShort: Backup / Restore Data
+    exportBtn: Export
+    importBtn: Restore
+    importSuccess: Data imported successfully!
+    importError: Failed to import. Please check file format.
+    editProfileTitle: Edit Profile
+    editProfileSub: 'Modify profile details:'
+    editHabitTitle: Edit Habit
+    editHabitSub: 'Modify habit details:'
+    editPeriodTitle: Edit Period Details
+    editPeriodSub: 'Modify label and range for Period Row #'
+    editClassTitle: Edit Timetable Class
+    editClassSub: 'Modify course details for Day '
+    subjectPlaceholder: 'Subject Name (Leave empty to remove)'
+    grantStarTitle: Grant Star
+    grantStarSub: 'Please enter star grant details:'
+    grantStarTitlePlaceholder: 'Title (e.g. PERFECT WEEK)'
+    grantStarRemarkPlaceholder: 'Remark (e.g. Completed Week 25 habits)'
+    redeemStarTitle: Redeem Star
+    redeemStarSub: 'Enter reward redemption details:'
+    redeemRemarkPlaceholder: 'Remark (e.g. Redeemed Lego Set, Movie Ticket)'
+    milestones: Growth Milestones
+    annualProgressTitle: Annual Progress Board
+    closePanel: Close Panel
+    syncToHabitLabel: Sync to Daily Habits?
+    syncNo: No (Keep in schedule only)
+    syncYes: Yes (One-Click Sync to Habits)
+    themeColorPreset: Theme Color Preset
+    periodWord: Period
+    periodLabelPlaceholder: Period Label
+    periodRangePlaceholder: Time Range
+    codePlaceholder: PL
+    batchSubjectPlaceholder: 'Subject Name (e.g. English, Math)'
+    confirmDeleteProfile: 'Delete profile "{name}"? This cannot be undone.'
+    confirmDeleteHabit: 'Delete habit "{title}"? This cannot be undone.'
+    statusRest: Rest
+    statusDone: Done
+    weekMon: Mon
+    weekTue: Tue
+    weekWed: Wed
+    weekThu: Thu
+    weekFri: Fri
+    weekSat: Sat
+    weekSun: Sun
+    dayMonday: Monday
+    dayTuesday: Tuesday
+    dayWednesday: Wednesday
+    dayThursday: Thursday
+    dayFriday: Friday
+    daySaturday: Saturday
+    daySunday: Sunday
+    monthJan: January
+    monthFeb: February
+    monthMar: March
+    monthApr: April
+    monthMay: May
+    monthJun: June
+    monthJul: July
+    monthAug: August
+    monthSep: September
+    monthOct: October
+    monthNov: November
+    monthDec: December
+    presetTerracotta: Terracotta Red
+    presetSteelBlue: Steel Blue
+    presetOchre: Ochre Yellow
+    presetCharcoal: Mineral Charcoal
+    presetSage: Sage Green
+    presetOatmeal: Oatmeal Gray
+    themeRed: Red
+    themeBlue: Blue
+    themeYellow: Yellow
+    themeBlack: Black
+    themeGrey: Grey
+    themeOffWhite: Off-White
+    toastSetWorkDay: 'Set as Work Check-in Day: {date}'
+    toastSetRestDay: 'Set as Exempt Rest Day: {date}'
+    toastSecurityFailed: Security Check Failed.
+    toastSwitchedProfile: 'Switched Profile To: {name}'
+    toastGrantStarSuccess: Successfully Granted 1 Reward Star.
+    toastInsufficientBalance: Insufficient Balance. Keep logging habits to earn stars!
+    toastRedeemRemarkRequired: Remark is required to redeem.
+    toastRedeemSuccess: Successfully Redeemed 1 Star.
+    toastBatchModeOn: Batch Selection Mode Activated
+    toastBatchModeOff: Batch Selection Mode Deactivated
+    toastSubjectRequired: Subject cannot be left blank.
+    toastSelectSlots: Please select at least one slot.
+    toastBatchApplied: Successfully updated selected classes.
+    toastBatchCleared: Successfully cleared selected class blocks.
+    toastPeriodUpdated: Session details updated successfully.
+    toastInputsRequired: Inputs cannot be left empty.
+    toastClassAssigned: 'Successfully assigned {subject}.'
+    toastHabitSynced: ' and created daily habit!'
+    toastHabitExists: ' (Habit already exists)'
+    toastClassCleared: Class schedule slot cleared.
+    toastProfileUpdated: Profile Details Updated.
+    toastHabitUpdated: Habit Details Updated.
+    toastHabitTitleRequired: Habit Title cannot be empty.
+    toastProfileCreated: New profile created successfully.
+    toastMinOneProfile: System must retain at least one active profile.
+    toastProfileRemoved: Profile successfully removed.
+    toastHabitAdded: New habit successfully added.
+    toastHabitRemoved: Habit successfully deleted.
+    toastFieldsRequired: Required fields cannot be empty.
+    toastExportSuccess: Data exported successfully!
+    toastExportFailed: 'Export failed: {error}'
+  schedule-workbench:
+    title: Schedule workbench
+    description: 'Plan and visualize weekly schedules on a colorful grid; manage multiple boards, search by name, and export to image or print.'
+    appTitle: Schedule Workbench
+    searchPlaceholder: Search schedule name...
+    importButton: Import
+    newSchedule: New schedule
+    expandSchedule: Expand schedule
+    collapseSchedule: Collapse schedule
+    containsTasks: Contains {count} tasks
+    downloadAsImage: Download as image
+    exportSchedule: Export schedule data
+    advancedPrintPreview: Advanced print preview
+    confirmDeleteSchedule: Are you sure you want to delete [{name}]? This cannot be undone.
+    deleteSchedule: Delete schedule
+    themeAndSettings: Theme & settings
+    addMember: Add member
+    newTask: New task
+    toggleVisibility: Click to toggle visibility
+    editMember: Edit member
+    deleteMember: Delete member
+    empty:
+      noResults: No matching schedules found
+      addMemberHint: Add a member to get started
+    days:
+      mon: Mon
+      tue: Tue
+      wed: Wed
+      thu: Thu
+      fri: Fri
+      sat: Sat
+      sun: Sun
+    common:
+      close: Close
+      cancel: Cancel
+    downloadImage:
+      failed: Failed to generate image. Please try again.
+    import:
+      parseFailed: Failed to parse file. Please make sure it's a valid JSON file.
+      invalidData: Invalid data format. Import failed.
+      successSingle: Schedule imported successfully!
+      successMultiple: Imported multiple schedules successfully!
+    print:
+      title: Advanced Print Sandbox
+      hintDragZoom: 'Tip: drag on the grid to move, or use the wheel to zoom.'
+      viewScale: View zoom
+      paperOrientation: Paper orientation
+      orientation:
+        landscape: Landscape
+        portrait: Portrait
+      contentMode: Content mode
+      mode:
+        adaptive: Fit to page (recommended)
+        original: Keep original grid size
+      contentScale: Content scale (%)
+      rotateCorrection: Rotation correction (deg)
+      fillBackground: Fill background to page
+      fillBackgroundHint: Extend the current theme background to the edges
+      confirm: Print
+    settings:
+      title: Schedule settings
+      themeStyle: Theme style 🎨
+      scheduleName: Schedule name ✏️
+      timeFormat: Time format ⏰
+      startTime: Start time
+      endTime: End time
+      save: Save
+    task:
+      daysAtLeastOne: Please select at least one day.
+      modalTitleAdd: '📝 Create a new task'
+      modalTitleEdit: '✏️ Edit task'
+      labelTitle: What to do?
+      placeholderTitle: 'e.g. Go to the park...'
+      labelOwner: Who is this for?
+      noUsersOption: Please add a member first
+      labelDays: Which day(s)? (multi-select)
+      labelStart: Start time
+      labelEnd: End time
+      delete: Delete task
+      save: Save
+    member:
+      placeholderName: 'e.g. Grandpa, Grandma, Alice...'
+      modalTitleAdd: '🐣 Add a new member'
+      modalTitleEdit: '🎨 Edit member'
+      labelName: Member name 🏷️
+      labelColor: Pick a lucky color 🌈
+      confirmAdd: Welcome 🎉
+      confirmEdit: Save changes 🎊
+      deleteConfirm:
+        title: Are you sure?
+        line1: Do you really want to remove this member?
+        line2: All their schedules will be deleted and cannot be undone.
+        cancel: Cancel
+        confirm: Delete
   categories:
     favorite-tools: 'Your favorite tools'
     crypto: Crypto
@@ -109,6 +381,8 @@ tools:
     measurement: Measurement
     text: Text
     data: Data
+    lifestyle: Lifestyle
+    design: Design
 
   password-strength-analyser:
     title: Password strength analyser
@@ -124,6 +398,10 @@ tools:
   chronometer:
     title: Chronometer
     description: Monitor the duration of a thing. Basically a chronometer with simple chronometer features.
+    labelTime: Time
+    buttonStart: Start
+    buttonStop: Stop
+    buttonReset: Reset
 
   token-generator:
     title: Token generator
@@ -142,18 +420,60 @@ tools:
   percentage-calculator:
     title: Percentage calculator
     description: Easily calculate percentages from a value to another value, or from a percentage to a value.
+    whatIs: What is
+    percentOf: "% of"
+    xIsWhatPercentOfY: X is what percent of Y
+    isWhatPercentOf: is what percent of
+    increaseDecrease: What is the percentage increase/decrease
+    from: From
+    to: To
+    labelResult: Result
+    buttonCopy: Copy
 
   svg-placeholder-generator:
     title: SVG placeholder generator
-    description: Generate svg images to use as a placeholder in your applications.
+    description: Generate SVG placeholder images with custom size, colors and text.
+    labelWidth: Width (in px)
+    labelHeight: Height (in px)
+    labelBackground: Background
+    labelTextColor: Text color
+    labelFontSize: Font size
+    labelCustomText: Custom text
+    placeholderCustomText: "Default is {size}"
+    labelUseExactSize: Use exact size
+    labelSvgHtml: SVG HTML element
+    labelSvgBase64: SVG in Base64
+    buttonDownload: Download svg
 
   json-to-csv:
     title: JSON to CSV
     description: Convert JSON to CSV with automatic header detection.
+    labelRaw: Your raw JSON
+    placeholderRaw: Paste your raw JSON (array of objects) here...
+    labelCsv: CSV version of your JSON
 
   camera-recorder:
     title: Camera recorder
-    description: Take a picture or record a video from your webcam or camera.
+    description: Record videos and take screenshots from your camera directly in the browser.
+    labelVideo: Video
+    labelAudio: Audio
+    placeholderSelectCamera: Select camera
+    placeholderSelectMicrophone: Select microphone
+    buttonStartWebcam: Start webcam
+    buttonTakeScreenshot: Take screenshot
+    buttonStartRecording: Start recording
+    buttonPause: Pause
+    buttonResume: Resume
+    buttonStop: Stop
+    buttonDownload: Download
+    buttonDelete: Delete
+    recordingNotSupported: Video recording is not supported in your browser
+    labelScreenshot: Screenshot
+    labelVideoItem: Video
+    browserNotSupport: Your browser does not support recording video from camera
+    grantPermissionMessage: You need to grant permission to use your camera and microphone
+    grantPermissionBlocked: Your browser has blocked permission request or does not support it. You need to grant permission manually in your browser settings (usually the lock icon in the address bar).
+    buttonGrantPermission: Grant permission
 
   keycode-info:
     title: Keycode info
@@ -168,6 +488,12 @@ tools:
   emoji-picker:
     title: Emoji picker
     description: Copy and paste emojis easily and get the unicode and code points value of each emoji.
+    searchPlaceholder: Search emojis (e.g. 'smile')...
+    searchLabel: Search
+    noResults: No results
+    searchResult: Search result
+    copiedToClipboard: Copied to clipboard
+    copyFailed: Copy failed
 
   color-converter:
     title: Color converter
@@ -208,6 +534,15 @@ tools:
   crontab-generator:
     title: Crontab generator
     description: Validate and generate crontab and get the human-readable description of the cron schedule.
+    placeholderCron: "* * * * *"
+    invalidCron: "This cron is invalid"
+    verbose: "Verbose"
+    use24Hour: "Use 24 hour time format"
+    dayStartZero: "Days start at 0"
+    thSymbol: "Symbol"
+    thMeaning: "Meaning"
+    thExample: "Example"
+    thEquivalent: "Equivalent"
 
   http-status-codes:
     title: HTTP status codes
@@ -218,10 +553,34 @@ tools:
   sql-prettify:
     title: SQL prettify and format
     description: Format and prettify your SQL queries online (it supports various SQL dialects).
+    labelQuery: Your SQL query
+    placeholderQuery: Put your SQL query here...
+    labelPrettified: Prettified version of your query
+    labelDialect: "Dialect"
+    labelKeywordCase: "Keyword case"
+    labelIndentStyle: "Indent style"
 
   benchmark-builder:
     title: Benchmark builder
     description: Easily compare execution time of tasks with this very simple online benchmark builder.
+    suiteName: Suite name
+    placeholderSuiteName: Suite name...
+    suiteValues: Suite values
+    placeholderValues: Set your measure...
+    delete: Delete
+    addMeasure: Add a measure
+    deleteSuite: Delete suite
+    addSuite: Add suite
+    unit: Unit
+    unitPlaceholder: "Unit (eg: ms)"
+    buttonReset: Reset suites
+    buttonCopyMd: Copy as markdown table
+    buttonCopyList: Copy as bullet list
+    thPosition: Position
+    thSuite: Suite
+    thSamples: Samples
+    thMean: Mean
+    thVariance: Variance
 
   git-memo:
     title: Git cheatsheet
@@ -254,14 +613,32 @@ tools:
   random-port-generator:
     title: Random port generator
     description: Generate random port numbers outside of the range of "known" ports (0-1023).
+    buttonRefresh: Refresh
 
   yaml-prettify:
     title: YAML prettify and format
     description: Prettify your YAML string into a friendly, human-readable format.
+    labelRaw: Your raw YAML
+    placeholderRaw: Paste your raw YAML here...
+    labelPrettified: Prettified version of your YAML
+    sortKeys: "Sort keys"
+    indentSize: "Indent size"
+    errorInvalid: "Provided YAML is not valid."
 
   eta-calculator:
     title: ETA calculator
     description: An ETA (Estimated Time of Arrival) calculator to determine the approximate end time of a task, for example, the end time and duration of a file download.
+    labelAmount: Amount of element to consume
+    labelStartedAt: The consumption started at
+    labelConsumed: Amount of unit consumed by time span
+    in: in
+    labelTotalDuration: Total duration
+    labelWillEnd: It will end
+    unitMs: milliseconds
+    unitSeconds: seconds
+    unitMinutes: minutes
+    unitHours: hours
+    unitDays: days
 
   roman-numeral-converter:
     title: Roman numeral converter
@@ -339,6 +716,129 @@ tools:
   base64-string-converter:
     title: Base64 string encoder/decoder
     description: Simply encode and decode strings into their base64 representation.
+    stringToBase64: "String to base64"
+    base64ToString: "Base64 to string"
+    encodeUrlSafe: "Encode URL safe"
+    decodeUrlSafe: "Decode URL safe"
+    inputPlaceholder: "Put your string here..."
+    outputPlaceholder: "The base64 encoding of your string will be here"
+    base64InputPlaceholder: "Your base64 string..."
+    decodedPlaceholder: "The decoded string will be here"
+    invalidBase64: "Invalid base64 string"
+
+  hex-preview:
+    title: HEX preview
+    description: 'Visualize hex bytes with offset, hex, and ASCII columns.'
+    inputPlaceholder: "Paste hex string (e.g. 0a1b2c3d or 0A 1B 2C)..."
+
+  string-pipeline:
+    title: String pipeline
+    description: Custom pipeline for string conversion.
+    add: Add
+    import: Import
+    export: Export
+    cancel: Cancel
+    save: Save
+    delete: Delete
+    deleteConfirm: Delete this pipeline? This cannot be undone.
+    convert: Convert
+    input: Input
+    output: Output
+    edit: Edit
+    untitled: Untitled
+    nameLabel: Name
+    dragHandle: Drag to reorder
+    importError: Import failed, please check file format
+    importSuccess: Imported pipelines appended
+    noHexHint: "No hex digits found; only 0-9 and A-F are used."
+    invalidHexHint: "Invalid hex: only 0-9, A-F and spaces are allowed."
+
+  css-style-gallery:
+    title: CSS style gallery
+    description: 'A small gallery of reusable CSS/HTML snippets (loading, buttons, radios, checkboxes, etc.), with live editing.'
+    categoryFilter: Category
+    category:
+      all: All
+      loading: Loading
+      button: Button
+      radio: Radio
+      checkbox: Checkbox
+      badge: Badge
+      other: Other
+    totalCount: '{count} snippets'
+    actions:
+      new: New snippet
+      import: Import
+      export: Export
+      save: Save changes
+      cancel: Cancel
+      reset: Reset
+      multiSelect: Multi-select
+      return: Return
+      batchExport: Batch export
+      batchDelete: Batch delete
+      delete: Delete
+      exportOne: Export
+      edit: Edit
+    gallery:
+      title: Style gallery
+      empty: No snippets in this category yet.
+    editor:
+      title: Editor
+      empty: Select or create a snippet to start editing.
+    fields:
+      name: Name
+      category: Category
+      description: Description
+      htmlLabel: HTML (body only)
+      htmlHint: 'Only edit the content inside <body>; no <html>/<head>/<body> tags needed.'
+      htmlPlaceholder: 'Enter HTML fragment (e.g. a button, loader, etc.)...'
+      cssLabel: CSS rules
+      cssHint: 'Write plain CSS rules; no <style> tag needed.'
+      cssPlaceholder: 'Enter CSS that targets your HTML fragment...'
+    preview:
+      title: Live preview
+      tabHtml: HTML
+      tabCss: CSS
+      tabAll: All
+    noDescription: No description
+    defaultNewName: New snippet
+    deleteConfirm: 'Delete snippet "{name}"? This cannot be undone.'
+    deleteConfirmMultiple: 'Delete {count} selected snippet(s)? This cannot be undone.'
+    import:
+      success: Snippets imported successfully.
+      invalid: Invalid JSON format for CSS style gallery.
+    pagination:
+      prev: Prev
+      next: Next
+
+  base64-hex-message-decoder:
+    title: Base64 / hex message decoder
+    description: Decode Base64 to hex (multi-line), edit, inject CRC-CCITT (0x1D0F) and next-minute timestamp, re-encode to Base64.
+    decodeTitle: "1. Raw Base64 string"
+    base64Placeholder: Paste Base64 string(s), one per line...
+    decode: Parse to Hex
+    hexTitle: "2. Hex data"
+    multiLineHint: "(multi-line supported)"
+    autoCrc: Auto CRC
+    injectTime: "Inject time"
+    legend: "Colors: "
+    legendCrc: "MSB/LSB (CRC)"
+    legendTs: "Timestamp (4 bytes)"
+    legendLast4: "Last 4 bytes"
+    legendOther: "Other (black)"
+    cursorAt: "Cursor at byte {n}"
+    clickToTrack: "Click anywhere in the hex area to track"
+    encodeHint: "Click the button to: 1) Compute CRC-CCITT(0x1D0F) over first (length−10) bytes and write to green; 2) Inject timestamp into amber; 3) Re-encode to Base64. Target time"
+    injectAndEncode: "Inject CRC & timestamp, then Base64 encode"
+    encodedTitle: "3. Base64 result"
+    copyResult: Copy result
+    waitingEncode: Waiting for encode...
+    invalidBase64: Base64 decode failed. Ensure valid Base64.
+    needHexData: No hex data to encode.
+    evenLength: "Line {line}: hex length must be even."
+    min10Bytes: "Line {line}: need at least 10 bytes."
+    encodeFailed: Encode failed.
 
   toml-to-yaml:
     title: TOML to YAML
@@ -351,6 +851,10 @@ tools:
   math-evaluator:
     title: Math evaluator
     description: A calculator for evaluating mathematical expressions. You can use functions like sqrt, cos, sin, abs, etc.
+    labelExpression: Math expression
+    placeholderExpression: "Your math expression (ex: 2*sqrt(6) )..."
+    labelResult: Result
+    buttonCopy: Copy
 
   json-to-yaml-converter:
     title: JSON to YAML converter
@@ -465,14 +969,31 @@ tools:
   json-prettify:
     title: JSON prettify and format
     description: Prettify your JSON string into a friendly, human-readable format.
+    labelRaw: Your raw JSON
+    placeholderRaw: Paste your raw JSON here...
+    labelPrettified: Prettified version of your JSON
+    sortKeys: "Sort keys"
+    indentSize: "Indent size"
+    errorInvalid: "Provided JSON is not valid."
 
   docker-run-to-docker-compose-converter:
     title: Docker run to Docker compose converter
     description: Transforms "docker run" commands into docker-compose files!
+    labelCommand: Your docker run command
+    placeholderCommand: Your docker run command to convert...
+    labelCompose: Docker Compose YAML
+    placeholderConverting: Converting…
+    buttonDownload: Download docker-compose.yml
 
   mac-address-lookup:
     title: MAC address lookup
     description: Find the vendor and manufacturer of a device by its MAC address.
+    labelMac: MAC address
+    placeholderMac: Type a MAC address
+    labelVendor: Vendor info
+    unknownVendor: Unknown vendor for this address
+    buttonCopy: Copy vendor info
+    copied: Copied
 
   mime-types:
     title: MIME types
@@ -511,22 +1032,68 @@ tools:
   qrcode-generator:
     title: QR Code generator
     description: Generate and download a QR code for a URL (or just plain text), and customize the background and foreground colors.
+    labelText: Text
+    placeholderText: Your link or text...
+    labelForegroundColor: Foreground color
+    labelBackgroundColor: Background color
+    labelErrorResistance: Error resistance
+    labelPreview: Preview
+    levelLow: low
+    levelMedium: medium
+    levelQuartile: quartile
+    levelHigh: high
+    noQrCode: No QR code
+    buttonDownload: Download qr-code
 
   wifi-qrcode-generator:
     title: WiFi QR Code generator
     description: Generate and download QR codes for quick connections to WiFi networks.
+    labelEncryption: Encryption method
+    labelSsid: SSID
+    placeholderSsid: Your WiFi SSID...
+    hiddenSsid: Hidden SSID
+    labelPassword: Password
+    placeholderPassword: Your WiFi Password...
+    labelEapMethod: EAP method
+    labelIdentity: Identity
+    placeholderIdentity: Your EAP Identity...
+    anonymous: Anonymous?
+    labelEapPhase2: EAP Phase 2 method
+    labelForegroundColor: Foreground color
+    labelBackgroundColor: Background color
+    labelPreview: Preview
+    buttonDownload: Download qr-code
+    encryptionNoPass: No password
+    encryptionWpaWpa2: WPA/WPA2
 
   xml-formatter:
     title: XML formatter
     description: Prettify your XML string into a friendly, human-readable format.
+    labelXml: Your XML
+    placeholderXml: Paste your XML here...
+    labelFormatted: Formatted XML
 
   temperature-converter:
     title: Temperature converter
     description: Degrees temperature conversions for Kelvin, Celsius, Fahrenheit, Rankine, Delisle, Newton, Réaumur, and Rømer.
+    kelvin: Kelvin
+    celsius: Celsius
+    fahrenheit: Fahrenheit
+    rankine: Rankine
+    delisle: Delisle
+    newton: Newton
+    reaumur: Réaumur
+    romer: Rømer
 
   chmod-calculator:
     title: Chmod calculator
     description: Compute your chmod permissions and commands with this online chmod calculator.
+    read: Read (4)
+    write: Write (2)
+    execute: Execute (1)
+    owner: Owner (u)
+    group: Group (g)
+    public: Public (o)
 
   semver-comparator:
     title: SemVer comparator
@@ -594,6 +1161,17 @@ tools:
   mac-address-generator:
     title: MAC address generator
     description: Enter the quantity and prefix. MAC addresses will be generated in your chosen case (uppercase or lowercase)
+    quantity: Quantity
+    labelPrefix: MAC address prefix
+    placeholderPrefix: Set a prefix, e.g. 64:16:7F
+    case: Case
+    uppercase: Uppercase
+    lowercase: Lowercase
+    separator: Separator
+    separatorNone: None
+    labelGenerated: Generated MAC addresses
+    buttonRefresh: Refresh
+    buttonCopy: Copy
 
   json-diff:
     title: JSON diff
@@ -616,7 +1194,7 @@ tools:
     value: "Value"
 
   epoch-converter:
-    title: Epoch converter
+    title: Timestamp converter
     description: Convert Unix timestamp (ms/s) to human-readable date (local & UTC).
     timestampLabel: "Epoch (timestamp)"
     timestampPlaceholderMs: "e.g. 1700000000000"
@@ -631,6 +1209,7 @@ tools:
   date-converter:
     title: Date-time converter
     description: Convert date and time into the various different formats
+    inputLabel: "Date string"
     placeholder: "Put your date string here..."
     invalidPlaceholder: "Invalid date..."
     invalidDateMessage: "This date is invalid for this format"
@@ -660,6 +1239,27 @@ tools:
   ipv4-subnet-calculator:
     title: IPv4 subnet calculator
     description: Parse your IPv4 CIDR blocks and get all the info you need about your subnet.
+    labelAddress: An IPv4 address with or without mask
+    placeholderAddress: The ipv4 address...
+    buttonPrev: Previous block
+    buttonNext: Next block
+    errorParse: We cannot parse this address, check the format
+    tableField: Field
+    tableValue: Value
+    unknown: Unknown
+    netmask: Netmask
+    networkAddress: Network address
+    networkMask: Network mask
+    networkMaskBinary: Network mask in binary
+    cidr: CIDR notation
+    wildcard: Wildcard mask
+    size: Network size
+    first: First address
+    last: Last address
+    broadcast: Broadcast address
+    broadcastFallback: No broadcast address with this mask
+    class: IP class
+    classFallback: Unknown class type
 
   og-meta-generator:
     title: Open graph meta generator
@@ -694,6 +1294,13 @@ tools:
   ipv6-ula-generator:
     title: IPv6 ULA generator
     description: Generate your own local, non-routable IP addresses for your network according to RFC4193.
+    labelMac: MAC address
+    placeholderMac: Type a MAC address
+    infoMessage: Info
+    infoDescription: This tool uses the first method suggested by IETF using the current timestamp plus the mac address, sha1 hashed, and the lower 40 bits to generate your random ULA.
+    labelUla: IPv6 ULA
+    labelFirstBlock: First routable block
+    labelLastBlock: Last routable block
 
   hash-text:
     title: Hash text
@@ -754,6 +1361,9 @@ tools:
   json-minify:
     title: JSON minify
     description: Minify and compress your JSON by removing unnecessary whitespace.
+    labelRaw: Your raw JSON
+    placeholderRaw: Paste your raw JSON here...
+    labelMinified: Minified version of your JSON
 
   ulid-generator:
     title: ULID generator
@@ -815,6 +1425,14 @@ tools:
   ipv4-address-converter:
     title: IPv4 address converter
     description: Convert an IP address into decimal, binary, hexadecimal, or even an IPv6 representation of it.
+    labelAddress: The ipv4 address
+    placeholderAddress: The ipv4 address...
+    setCorrect: Set a correct ipv4 address
+    decimal: Decimal
+    hexadecimal: Hexadecimal
+    binary: Binary
+    ipv6: Ipv6
+    ipv6Short: Ipv6 (short)
 
   text-statistics:
     title: Text statistics
@@ -851,6 +1469,19 @@ tools:
   ipv4-range-expander:
     title: IPv4 range expander
     description: Given a start and an end IPv4 address, this tool calculates a valid IPv4 subnet along with its CIDR notation.
+    labelStart: Start address
+    placeholderStart: Start IPv4 address...
+    labelEnd: End address
+    placeholderEnd: End IPv4 address...
+    tableOldValue: old value
+    tableNewValue: new value
+    rowStart: Start address
+    rowEnd: End address
+    rowSize: Addresses in range
+    rowCidr: CIDR
+    errorInvalid: Invalid combination of start and end IPv4 address
+    errorDesc: The end IPv4 address is lower than the start IPv4 address. This is not valid and no result could be calculated. In most cases the solution is to change start and end address.
+    buttonSwitch: Switch start and end IPv4 address
 
   text-diff:
     title: Text diff
@@ -897,12 +1528,24 @@ tools:
   regex-tester:
     title: Regex tester
     description: Test and debug regular expressions with live matching and capture groups.
+    labelRegex: Regex to test
+    placeholderRegex: Put the regex to test
+    labelText: Text to match
+    placeholderText: Put the text to match
+
   regex-memo:
     title: Regex memo
     description: Regular expression cheatsheet and quick reference.
   email-normalizer:
     title: Email normalizer
     description: Normalize email addresses (lowercase, trim, handle plus-addressing).
+    labelRaw: Raw emails to normalize
+    placeholderRaw: Put your emails here (one per line)...
+    labelNormalized: Normalized emails
+    placeholderNormalized: Normalized emails will appear here...
+    buttonClear: Clear emails
+    buttonCopy: Copy normalized emails
+    errorParse: "Unable to parse email: {email}"
 
   ascii-text-drawer:
     title: "ASCII Art Text Generator"
@@ -955,3 +1598,12 @@ tools:
     binaryOutputPlaceholder: "The binary representation of your text will be here"
     textOutputPlaceholder: "The text representation of your binary will be here"
     binaryError: "Binary should be a valid ASCII binary string with multiples of 8 bits"
+
+  schedule:
+    day0: Monday
+    day1: Tuesday
+    day2: Wednesday
+    day3: Thursday
+    day4: Friday
+    day5: Saturday
+    day6: Sunday

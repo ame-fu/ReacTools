@@ -4,6 +4,7 @@ import React from "react";
 import { Card, Switch, InputNumber, Form } from "antd";
 import xmlFormat from "xml-formatter";
 import { InputCopyable, TextareaCopyable } from "@/components/ui";
+import { useI18n } from "@/lib/i18n/context";
 
 const defaultXml = "<hello><world>foo</world><world>bar</world></hello>";
 
@@ -19,6 +20,7 @@ function isValidXML(raw: string): boolean {
 }
 
 export function XmlFormatter() {
+  const { t } = useI18n();
   const [input, setInput] = React.useState(defaultXml);
   const [indentSize, setIndentSize] = React.useState(2);
   const [collapseContent, setCollapseContent] = React.useState(true);
@@ -65,8 +67,8 @@ export function XmlFormatter() {
               <InputCopyable
                 value={input}
                 onChange={setInput}
-                label="Your XML"
-                placeholder="Paste your XML here..."
+                label={t("tools.xml-formatter.labelXml")}
+                placeholder={t("tools.xml-formatter.placeholderXml")}
                 multiline
                 rows={18}
                 className="font-mono"
@@ -78,7 +80,7 @@ export function XmlFormatter() {
         <Card>
           <Form layout="vertical">
             <Form.Item>
-              <TextareaCopyable value={output} rows={18} style={{ fontFamily: "monospace" }} label="Formatted XML" />
+              <TextareaCopyable value={output} rows={18} style={{ fontFamily: "monospace" }} label={t("tools.xml-formatter.labelFormatted")} />
             </Form.Item>
           </Form>
         </Card>

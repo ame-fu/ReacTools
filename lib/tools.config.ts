@@ -16,7 +16,7 @@ export const toolsByCategory: { name: string; tools: ToolConfig[] }[] = [
       {
         slug: "epoch-converter",
         path: "/epoch-converter",
-        name: "Epoch converter",
+        name: "Timestamp converter",
         description: "Convert Unix timestamp (ms/s) to human-readable date (local & UTC).",
         keywords: ["epoch", "unix", "timestamp", "date", "utc", "converter"],
         category: "Converter",
@@ -102,6 +102,38 @@ export const toolsByCategory: { name: string; tools: ToolConfig[] }[] = [
         ],
         category: "Converter",
         redirectFrom: ["/file-to-base64", "/base64-converter"],
+      },
+      {
+        slug: "hex-preview",
+        path: "/hex-preview",
+        name: "HEX preview",
+        description: "",
+        keywords: [
+          "hex",
+          "hexadecimal",
+          "preview",
+          "bytes",
+          "dump",
+          "viewer",
+          "16进制",
+        ],
+        category: "Converter",
+      },
+      {
+        slug: "string-pipeline",
+        path: "/string-pipeline",
+        name: "String pipeline",
+        description: "Custom pipeline for string conversion.",
+        keywords: ["string", "pipeline", "converter", "base64", "encode", "decode", "hex", "流程"],
+        category: "Converter",
+      },
+      {
+        slug: "base64-hex-message-decoder",
+        path: "/base64-hex-message-decoder",
+        name: "Base64 / hex message decoder",
+        description: "Decode Base64 to hex bytes (with sequence numbers), edit, set timestamp to next minute, update CRC-CCITT (0x1D0F), re-encode to Base64.",
+        keywords: ["base64", "hex", "decode", "message", "crc", "timestamp", "报文", "解码"],
+        category: "Converter",
       },
       {
         slug: "color-converter",
@@ -1043,6 +1075,77 @@ export const toolsByCategory: { name: string; tools: ToolConfig[] }[] = [
       },
     ],
   },
+  {
+    name: "Lifestyle",
+    tools: [
+      {
+        slug: "schedule-workbench",
+        path: "/schedule-workbench",
+        name: "日程工作台",
+        description:
+          "多日程表工作台：新建/导入多个日程表，按名称搜索，每个日程表可展开收起、下载图片、导出、打印。",
+        keywords: [
+          "schedule",
+          "calendar",
+          "日程工作台",
+          "日程表",
+          "课程表",
+          "家庭",
+          "任务",
+        ],
+        category: "Lifestyle",
+      },
+      {
+        slug: "daily-grow",
+        path: "/daily-grow",
+        name: "Daily Grow Tracker",
+        description:
+          "Track children's daily habits with check-ins, star rewards, weekly/monthly/annual progress boards, class schedules, and multi-child profiles.",
+        keywords: [
+          "daily",
+          "grow",
+          "habit",
+          "check-in",
+          "children",
+          "kids",
+          "stars",
+          "rewards",
+          "schedule",
+          "growth",
+          "打卡",
+          "成长",
+          "习惯",
+          "儿童",
+        ],
+        category: "Lifestyle",
+      },
+    ],
+  },
+  {
+    name: "Design",
+    tools: [
+      {
+        slug: "css-style-gallery",
+        path: "/css-style-gallery",
+        name: "CSS style gallery",
+        description:
+          "Browse and edit small, reusable CSS/HTML UI snippets such as loading animations, buttons, radios and checkboxes.",
+        keywords: [
+          "css",
+          "gallery",
+          "design",
+          "loading",
+          "button",
+          "radio",
+          "checkbox",
+          "snippet",
+          "组件",
+          "样式",
+        ],
+        category: "Design",
+      },
+    ],
+  },
 ];
 
 export const allTools: ToolConfig[] = toolsByCategory.flatMap(
@@ -1052,6 +1155,10 @@ export const allTools: ToolConfig[] = toolsByCategory.flatMap(
 export function getToolBySlug(slug: string): ToolConfig | undefined {
   const path = `/${slug}`;
   return allTools.find((t) => t.path === path || t.slug === slug);
+}
+
+export function getToolByPath(path: string): ToolConfig | undefined {
+  return allTools.find((t) => t.path === path);
 }
 
 

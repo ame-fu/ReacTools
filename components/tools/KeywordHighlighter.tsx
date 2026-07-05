@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo, useEffect, useRef, useCallback } from "react";
+import React, { useState, useMemo, useEffect, useRef } from "react";
 import { Form, ColorPicker, Input, Button, Space, Select } from "antd";
 import type { Color } from "antd/es/color-picker";
 import { PlusOutlined, DeleteOutlined } from "@ant-design/icons";
@@ -24,23 +24,6 @@ function escapeHtml(s: string): string {
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
-}
-
-function stripBorderStyles(html: string): string {
-  return html.replace(
-    /style="([^"]*)"/gi,
-    (_, style) => {
-      const cleaned = style
-        .split(";")
-        .map((decl: string) => decl.trim())
-        .filter((decl: string) => {
-          const prop = decl.split(":")[0].trim().toLowerCase();
-          return prop && !/^border|^outline|^border-|^outline-|^-webkit-border|^-moz-border/.test(prop);
-        })
-        .join("; ");
-      return `style="${cleaned}"`;
-    },
-  );
 }
 
 interface Range {

@@ -42,9 +42,13 @@ function extractFirstImage(content: string): string | undefined {
   return match ? match[1].trim() : undefined;
 }
 
+function isArticleFile(name: string): boolean {
+  return !name.startsWith("._") && /\.(mdx?|md)$/.test(name);
+}
+
 export function getArticlesList(): (ArticleMeta & { slug: string })[] {
   if (!fs.existsSync(ARTICLES_DIR)) return [];
-  const files = fs.readdirSync(ARTICLES_DIR).filter((f) => /\.(mdx?|md)$/.test(f));
+  const files = fs.readdirSync(ARTICLES_DIR).filter(isArticleFile);
   const list: (ArticleMeta & { slug: string })[] = [];
   for (const file of files) {
     const slug = getSlugFromFilename(file);
@@ -77,7 +81,7 @@ export function getArticlesList(): (ArticleMeta & { slug: string })[] {
 
 export function getArticleBySlug(slug: string): Article | null {
   if (!fs.existsSync(ARTICLES_DIR)) return null;
-  const files = fs.readdirSync(ARTICLES_DIR);
+  const files = fs.readdirSync(ARTICLES_DIR).filter(isArticleFile);
   const match = files.find((f) => getSlugFromFilename(f) === slug);
   if (!match) return null;
   const fullPath = path.join(ARTICLES_DIR, match);
@@ -100,6 +104,6 @@ export function getAllArticleSlugs(): string[] {
   if (!fs.existsSync(ARTICLES_DIR)) return [];
   return fs
     .readdirSync(ARTICLES_DIR)
-    .filter((f) => /\.(mdx?|md)$/.test(f))
+    .filter(isArticleFile)
     .map((f) => getSlugFromFilename(f));
 }

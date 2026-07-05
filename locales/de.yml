@@ -83,6 +83,7 @@ tools:
     measurement: Messung
     text: Text
     data: Daten
+    design: Design
   password-strength-analyser:
     title: Passwortstärken-Analysator
     description: >-
@@ -217,6 +218,21 @@ tools:
   base64-string-converter:
     title: Base64-String-Encoder/Decoder
     description: Codiere und decodiere Strings einfach in ihre Base64-Repräsentation.
+    stringToBase64: "String zu Base64"
+    base64ToString: "Base64 zu String"
+    encodeUrlSafe: "URL-sicher encodieren"
+    decodeUrlSafe: "URL-sicher decodieren"
+    inputPlaceholder: "Gib deinen String hier ein..."
+    outputPlaceholder: "Die Base64-Codierung erscheint hier"
+    base64InputPlaceholder: "Dein Base64-String..."
+    decodedPlaceholder: "Der decodierte String erscheint hier"
+    invalidBase64: "Ungültiger Base64-String"
+  hex-preview:
+    title: HEX-Vorschau
+    description: ""
+    inputPlaceholder: "Hex-Zeichenfolge einfügen (z. B. 0a1b2c3d)..."
+    noHexHint: "Keine Hex-Zeichen gefunden; es werden nur 0-9 und A-F verwendet."
+    invalidHexHint: "Ungültige Zeichen; nur 0-9, A-F und Leerzeichen erlaubt."
   toml-to-yaml:
     title: TOML zu YAML
     description: Parse und konvertiere TOML zu YAML.

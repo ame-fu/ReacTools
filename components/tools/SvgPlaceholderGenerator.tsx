@@ -3,6 +3,7 @@
 import React from "react";
 import { Button, Card, Col, Form, Input, InputNumber, Row, Switch } from "antd";
 import { TextareaCopyable } from "@/components/ui";
+import { useI18n } from "@/lib/i18n/context";
 
 function textToBase64(text: string) {
   if (typeof window === "undefined") {
@@ -12,6 +13,7 @@ function textToBase64(text: string) {
 }
 
 export function SvgPlaceholderGenerator() {
+  const { t } = useI18n();
   const [width, setWidth] = React.useState(600);
   const [height, setHeight] = React.useState(350);
   const [fontSize, setFontSize] = React.useState(26);
@@ -51,7 +53,7 @@ export function SvgPlaceholderGenerator() {
         <Card>
           <Row gutter={[12, 12]}>
             <Col xs={24} md={12}>
-              <Form.Item label="Width (in px)">
+              <Form.Item label={t("tools.svg-placeholder-generator.labelWidth")}>
                 <InputNumber
                   min={1}
                   value={width}
@@ -61,7 +63,7 @@ export function SvgPlaceholderGenerator() {
               </Form.Item>
             </Col>
             <Col xs={24} md={12}>
-              <Form.Item label="Background">
+              <Form.Item label={t("tools.svg-placeholder-generator.labelBackground")}>
                 <Input
                   type="color"
                   value={bgColor}
@@ -74,7 +76,7 @@ export function SvgPlaceholderGenerator() {
 
           <Row gutter={[12, 12]}>
             <Col xs={24} md={12}>
-              <Form.Item label="Height (in px)">
+              <Form.Item label={t("tools.svg-placeholder-generator.labelHeight")}>
                 <InputNumber
                   min={1}
                   value={height}
@@ -84,7 +86,7 @@ export function SvgPlaceholderGenerator() {
               </Form.Item>
             </Col>
             <Col xs={24} md={12}>
-              <Form.Item label="Text color">
+              <Form.Item label={t("tools.svg-placeholder-generator.labelTextColor")}>
                 <Input
                   type="color"
                   value={fgColor}
@@ -97,7 +99,7 @@ export function SvgPlaceholderGenerator() {
 
           <Row gutter={[12, 12]}>
             <Col xs={24} md={12}>
-              <Form.Item label="Font size">
+              <Form.Item label={t("tools.svg-placeholder-generator.labelFontSize")}>
                 <InputNumber
                   min={1}
                   value={fontSize}
@@ -107,17 +109,17 @@ export function SvgPlaceholderGenerator() {
               </Form.Item>
             </Col>
             <Col xs={24} md={12}>
-              <Form.Item label="Custom text">
+              <Form.Item label={t("tools.svg-placeholder-generator.labelCustomText")}>
                 <Input
                   value={customText}
                   onChange={(e) => setCustomText(e.target.value)}
-                  placeholder={`Default is ${width}x${height}`}
+                  placeholder={t("tools.svg-placeholder-generator.placeholderCustomText").replace("{size}", `${width}x${height}`)}
                 />
               </Form.Item>
             </Col>
           </Row>
 
-          <Form.Item label="Use exact size">
+          <Form.Item label={t("tools.svg-placeholder-generator.labelUseExactSize")}>
             <Switch
               checked={useExactSize}
               onChange={(checked) => setUseExactSize(checked)}
@@ -125,7 +127,7 @@ export function SvgPlaceholderGenerator() {
           </Form.Item>
         </Card>
 
-        <Form.Item label="SVG HTML element">
+        <Form.Item label={t("tools.svg-placeholder-generator.labelSvgHtml")}>
           <TextareaCopyable
             value={svgString}
             rows={3}
@@ -133,7 +135,7 @@ export function SvgPlaceholderGenerator() {
           />
         </Form.Item>
 
-        <Form.Item label="SVG in Base64">
+        <Form.Item label={t("tools.svg-placeholder-generator.labelSvgBase64")}>
           <TextareaCopyable
             value={base64}
             rows={3}
@@ -149,7 +151,7 @@ export function SvgPlaceholderGenerator() {
               gap: 8,
             }}
           >
-            <Button onClick={download}>Download svg</Button>
+            <Button onClick={download}>{t("tools.svg-placeholder-generator.buttonDownload")}</Button>
           </div>
         </Form.Item>
       </Form>

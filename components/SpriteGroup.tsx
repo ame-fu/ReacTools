@@ -51,7 +51,8 @@ export function SpriteGroup({ config, onPositionChange }: SpriteGroupProps) {
 
   const { top, left } = toCenterPosition(config.spritePosition);
 
-  const [tick, setTick] = useState(0);
+  const [, setTick] = useState(0);
+  const [animNow, setAnimNow] = useState(() => Date.now());
 
   const hitokotoTimeoutRef = useRef<number | null>(null);
   const hitokotoTimersRef = useRef<{ clear: () => void }>({ clear: () => {} });
@@ -141,9 +142,19 @@ export function SpriteGroup({ config, onPositionChange }: SpriteGroupProps) {
     };
   }, [config.visible, config.hitokotoEnabled, config.sprites.length]);
 
+  const hasMovedRef = useRef(false);
+  const [justDragged, setJustDragged] = useState(false);
+  const prevDragRef = useRef(drag);
+  useEffect(() => {
+    if (prevDragRef.current && !drag && hasMovedRef.current) {
+      queueMicrotask(() => setJustDragged(true));
+    }
+    prevDragRef.current = drag;
+  }, [drag]);
+
   const handleClick = useCallback(() => {
-    if (justDraggedRef.current) {
-      justDraggedRef.current = false;
+    if (justDragged) {
+      setJustDragged(false);
       return;
     }
     const now = Date.now();
@@ -154,16 +165,16 @@ export function SpriteGroup({ config, onPositionChange }: SpriteGroupProps) {
     setTimeout(() => {
       setBounceAnims((prev) => prev.filter((a) => a.id !== id));
     }, totalDuration);
-  }, [config.sprites.length]);
+  }, [config.sprites.length, justDragged]);
 
   useEffect(() => {
     if (bounceAnims.length === 0) return;
-    const interval = setInterval(() => setTick((t) => t + 1), 50);
+    const interval = setInterval(() => {
+      setTick((t) => t + 1);
+      setAnimNow(Date.now());
+    }, 50);
     return () => clearInterval(interval);
   }, [bounceAnims.length]);
-
-  const hasMovedRef = useRef(false);
-  const justDraggedRef = useRef(false);
 
   const handlePointerDown = useCallback(
     (e: React.PointerEvent) => {
@@ -195,9 +206,8 @@ export function SpriteGroup({ config, onPositionChange }: SpriteGroupProps) {
   );
 
   const handlePointerUp = useCallback(() => {
-    if (drag && hasMovedRef.current) justDraggedRef.current = true;
     setDrag(false);
-  }, [drag]);
+  }, []);
 
   React.useEffect(() => {
     if (!drag) return;
@@ -232,12 +242,11 @@ export function SpriteGroup({ config, onPositionChange }: SpriteGroupProps) {
         const scale = WRAPPER_SIZE / 320;
         const scaledItem = { ...item, width: item.width * scale, height: item.height * scale };
         const { x, y, offsetY } = getSpriteGridPosition(index, scaledItem.height);
-        const now = Date.now();
         const bounceMatch = bounceAnims
           .filter(
             (a) =>
-              now >= a.start + index * BOUNCE_INTERVAL_MS &&
-              now < a.start + index * BOUNCE_INTERVAL_MS + BOUNCE_DURATION_MS
+              animNow >= a.start + index * BOUNCE_INTERVAL_MS &&
+              animNow < a.start + index * BOUNCE_INTERVAL_MS + BOUNCE_DURATION_MS
           )
           .sort((a, b) => b.start - a.start)[0];
         const bounceKey = bounceMatch ? bounceMatch.id : 0;

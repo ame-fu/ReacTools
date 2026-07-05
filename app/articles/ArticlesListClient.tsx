@@ -43,10 +43,11 @@ export function ArticlesListClient({ initialList, initialTag = null }: ArticlesL
   const [searchDebounced, setSearchDebounced] = useState("");
   const [selectedTag, setSelectedTag] = useState<string | null>(initialTag ?? null);
   const [currentPage, setCurrentPage] = useState(1);
-
-  useEffect(() => {
+  const prevInitialTagRef = React.useRef(initialTag);
+  if (prevInitialTagRef.current !== initialTag) {
+    prevInitialTagRef.current = initialTag;
     setSelectedTag(initialTag ?? null);
-  }, [initialTag]);
+  }
 
   useEffect(() => {
     const id = window.setTimeout(() => {
@@ -77,21 +78,18 @@ export function ArticlesListClient({ initialList, initialTag = null }: ArticlesL
     return list;
   }, [initialList, selectedTag, searchDebounced]);
 
-  const paginated = useMemo(() => {
-    const start = (currentPage - 1) * PAGE_SIZE;
-    return filtered.slice(start, start + PAGE_SIZE);
-  }, [filtered, currentPage]);
-
   const totalPages = Math.ceil(filtered.length / PAGE_SIZE) || 1;
+  const clampedPage = totalPages >= 1 ? Math.min(currentPage, totalPages) : 1;
 
-  useEffect(() => {
-    if (currentPage > totalPages) setCurrentPage(1);
-  }, [currentPage, totalPages]);
+  const paginated = useMemo(() => {
+    const start = (clampedPage - 1) * PAGE_SIZE;
+    return filtered.slice(start, start + PAGE_SIZE);
+  }, [filtered, clampedPage]);
 
   return (
-    <div style={{ maxWidth: 960, margin: "0 auto", display: "flex", gap: 24, flexWrap: "wrap" }}>
+    <div className="articles-list-layout" style={{ maxWidth: 960, margin: "0 auto", display: "flex", gap: 24, flexWrap: "wrap" }}>
       {/* 左侧：搜索 + 文章列表 + 分页 */}
-      <div style={{ flex: 1, minWidth: 280 }}>
+      <div className="articles-list-main" style={{ flex: 1, minWidth: 280 }}>
         <div style={{ marginBottom: 16 }}>
           <Input
             placeholder={t("articles.searchPlaceholder")}
@@ -216,7 +214,7 @@ export function ArticlesListClient({ initialList, initialTag = null }: ArticlesL
             {totalPages > 1 && (
               <div style={{ marginTop: 20, display: "flex", justifyContent: "center" }}>
                 <Pagination
-                  current={currentPage}
+                  current={clampedPage}
                   total={filtered.length}
                   pageSize={PAGE_SIZE}
                   onChange={setCurrentPage}
@@ -229,7 +227,7 @@ export function ArticlesListClient({ initialList, initialTag = null }: ArticlesL
       </div>
 
       {/* 右侧：个人信息卡片 + 标签卡片 */}
-      <div style={{ width: 260, flexShrink: 0 }}>
+      <div className="articles-list-sidebar" style={{ width: 260, flexShrink: 0 }}>
         <Card
           style={{
             overflow: "hidden",
@@ -248,7 +246,7 @@ export function ArticlesListClient({ initialList, initialTag = null }: ArticlesL
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="https://github.com/ame-fu.png"
+                src="/avatar.jpeg"
                 alt="AME"
                 style={{
                   width: "100%",
@@ -293,41 +291,43 @@ export function ArticlesListClient({ initialList, initialTag = null }: ArticlesL
           </div>
         </Card>
 
-        <Card title={t("articles.filterByTag")} size="small">
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
-            {allTags.map((tag) => (
-              <span
-                key={tag}
-                role="button"
-                tabIndex={0}
-                onClick={() => {
-                  const next = selectedTag === tag ? null : tag;
-                  setSelectedTag(next);
-                  setCurrentPage(1);
-                  router.replace(next ? `/articles?tag=${encodeURIComponent(next)}` : "/articles");
-                }}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
+        {initialList.length > 0 && (
+          <Card title={t("articles.filterByTag")} size="small">
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+              {allTags.map((tag) => (
+                <span
+                  key={tag}
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => {
                     const next = selectedTag === tag ? null : tag;
                     setSelectedTag(next);
                     setCurrentPage(1);
                     router.replace(next ? `/articles?tag=${encodeURIComponent(next)}` : "/articles");
-                  }
-                }}
-                style={{
-                  ...TAG_STYLE,
-                  cursor: "pointer",
-                  display: "inline-block",
-                  backgroundColor: selectedTag === tag ? "var(--ant-color-primary-bg)" : TAG_STYLE.backgroundColor,
-                  color: selectedTag === tag ? "var(--ant-color-primary)" : TAG_STYLE.color,
-                }}
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-        </Card>
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      const next = selectedTag === tag ? null : tag;
+                      setSelectedTag(next);
+                      setCurrentPage(1);
+                      router.replace(next ? `/articles?tag=${encodeURIComponent(next)}` : "/articles");
+                    }
+                  }}
+                  style={{
+                    ...TAG_STYLE,
+                    cursor: "pointer",
+                    display: "inline-block",
+                    backgroundColor: selectedTag === tag ? "var(--ant-color-primary-bg)" : TAG_STYLE.backgroundColor,
+                    color: selectedTag === tag ? "var(--ant-color-primary)" : TAG_STYLE.color,
+                  }}
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </Card>
+        )}
       </div>
     </div>
   );

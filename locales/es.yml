@@ -73,3 +73,24 @@ tools:
     measurement: Measurement
     text: Text
     data: Data
+    design: Diseño
+
+  base64-string-converter:
+    title: Codificador/decodificador de cadena Base64
+    description: Codifica y decodifica cadenas a Base64 fácilmente.
+    stringToBase64: "Cadena a Base64"
+    base64ToString: "Base64 a cadena"
+    encodeUrlSafe: "Codificar seguro para URL"
+    decodeUrlSafe: "Decodificar seguro para URL"
+    inputPlaceholder: "Escribe tu cadena aquí..."
+    outputPlaceholder: "La codificación Base64 aparecerá aquí"
+    base64InputPlaceholder: "Tu cadena Base64..."
+    decodedPlaceholder: "La cadena decodificada aparecerá aquí"
+    invalidBase64: "Cadena Base64 no válida"
+
+  hex-preview:
+    title: Vista previa HEX
+    description: ""
+    inputPlaceholder: "Pega la cadena hex (ej. 0a1b2c3d)..."
+    noHexHint: "No se encontraron dígitos hex; solo se usan 0-9 y A-F."
+    invalidHexHint: "Caracteres no válidos; solo se permiten 0-9, A-F y espacios."

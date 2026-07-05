@@ -73,6 +73,7 @@ tools:
     measurement: Đo lường
     text: Văn bản
     data: Dữ liệu
+    design: Thiết kế
 
   password-strength-analyser:
     title: Bộ phân tích độ mạnh mật khẩu
@@ -186,6 +187,21 @@ tools:
   base64-string-converter:
     title: Trình mã hóa/giải mã chuỗi Base64
     description: Đơn giản mã hóa và giải mã chuỗi thành mã Base64.
+    stringToBase64: "Chuỗi sang Base64"
+    base64ToString: "Base64 sang chuỗi"
+    encodeUrlSafe: "Mã hóa an toàn URL"
+    decodeUrlSafe: "Giải mã an toàn URL"
+    inputPlaceholder: "Nhập chuỗi của bạn vào đây..."
+    outputPlaceholder: "Kết quả mã Base64 sẽ hiển thị ở đây"
+    base64InputPlaceholder: "Chuỗi Base64 của bạn..."
+    decodedPlaceholder: "Chuỗi đã giải mã sẽ hiển thị ở đây"
+    invalidBase64: "Chuỗi Base64 không hợp lệ"
+  hex-preview:
+    title: HEX xem trước
+    description: ""
+    inputPlaceholder: "Dán chuỗi hex (vd. 0a1b2c3d)..."
+    noHexHint: "Không tìm thấy ký tự hex; chỉ dùng 0-9 và A-F."
+    invalidHexHint: "Ký tự không hợp lệ; chỉ cho phép 0-9, A-F và khoảng trắng."
   toml-to-yaml:
     title: Chuyển đổi TOML thành YAML
     description: Phân tích và chuyển đổi TOML thành YAML.

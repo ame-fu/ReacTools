@@ -3,6 +3,7 @@
 import React from "react";
 import { Button, Card, Form, Input, InputNumber, Space, Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
+import { useI18n } from "@/lib/i18n/context";
 
 interface Suite {
   title: string;
@@ -65,6 +66,7 @@ function round(value: number) {
 }
 
 export function BenchmarkBuilder() {
+  const { t } = useI18n();
   const [suites, setSuites] = React.useState<Suite[]>(() => {
     if (typeof window === "undefined") {
       return DEFAULT_SUITES;
@@ -298,15 +300,15 @@ export function BenchmarkBuilder() {
           <div key={index} style={{ minWidth: 280 }}>
             <Card style={{ width: 294 }}>
               <Form layout="vertical">
-                <Form.Item label="Suite name">
+                <Form.Item label={t("tools.benchmark-builder.suiteName")}>
                   <Input
                     value={suite.title}
                     onChange={(e) => updateSuiteTitle(index, e.target.value)}
-                    placeholder="Suite name..."
+                    placeholder={t("tools.benchmark-builder.placeholderSuiteName")}
                   />
                 </Form.Item>
 
-                <Form.Item label="Suite values">
+                <Form.Item label={t("tools.benchmark-builder.suiteValues")}>
                   <Space
                     orientation="vertical"
                     style={{ width: "100%" }}
@@ -320,7 +322,7 @@ export function BenchmarkBuilder() {
                       >
                         <InputNumber
                           style={{ flex: 1 }}
-                          placeholder="Set your measure..."
+                          placeholder={t("tools.benchmark-builder.placeholderValues")}
                           value={value ?? undefined}
                           onChange={(v) =>
                             updateSuiteDataValue(index, valueIndex, v)
@@ -331,12 +333,12 @@ export function BenchmarkBuilder() {
                           type="text"
                           onClick={() => removeValue(index, valueIndex)}
                         >
-                          Delete
+                          {t("tools.benchmark-builder.delete")}
                         </Button>
                       </Space>
                     ))}
                     <Button type="dashed" onClick={() => addValue(index)}>
-                      Add a measure
+                      {t("tools.benchmark-builder.addMeasure")}
                     </Button>
                   </Space>
                 </Form.Item>
@@ -353,11 +355,11 @@ export function BenchmarkBuilder() {
             >
               {suites.length > 1 && (
                 <Button type="text" danger onClick={() => removeSuite(index)}>
-                  Delete suite
+                  {t("tools.benchmark-builder.deleteSuite")}
                 </Button>
               )}
               <Button type="text" onClick={() => addSuite(index)}>
-                Add suite
+                {t("tools.benchmark-builder.addSuite")}
               </Button>
             </div>
           </div>
@@ -376,15 +378,15 @@ export function BenchmarkBuilder() {
               alignItems: "flex-end",
             }}
           >
-            <Form.Item label="Unit" style={{ flex: 1, maxWidth: 260, marginBottom: 0 }}>
+            <Form.Item label={t("tools.benchmark-builder.unit")} style={{ flex: 1, maxWidth: 260, marginBottom: 0 }}>
               <Input
                 value={unit}
                 onChange={(e) => setUnit(e.target.value)}
-                placeholder="Unit (eg: ms)"
+                placeholder={t("tools.benchmark-builder.unitPlaceholder")}
               />
             </Form.Item>
 
-            <Button onClick={resetSuites}>Reset suites</Button>
+            <Button onClick={resetSuites}>{t("tools.benchmark-builder.buttonReset")}</Button>
           </div>
         </Form>
 
@@ -404,8 +406,8 @@ export function BenchmarkBuilder() {
             marginTop: 20,
           }}
         >
-          <Button onClick={copyAsMarkdown}>Copy as markdown table</Button>
-          <Button onClick={copyAsBulletList}>Copy as bullet list</Button>
+          <Button onClick={copyAsMarkdown}>{t("tools.benchmark-builder.buttonCopyMd")}</Button>
+          <Button onClick={copyAsBulletList}>{t("tools.benchmark-builder.buttonCopyList")}</Button>
         </div>
       </div>
     </div>

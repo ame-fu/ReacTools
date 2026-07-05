@@ -40,7 +40,7 @@ export function TextareaCopyable({
           {label}
         </label>
       )}
-      <div style={{ position: "relative", width: "100%" }}>
+      <div className="relative w-full">
         <Input.TextArea
           value={value}
           readOnly
@@ -49,7 +49,7 @@ export function TextareaCopyable({
           style={{ width: "100%", paddingRight: copyPlacement === "top-right" ? 40 : undefined, ...style }}
         />
         {copyPlacement === "top-right" && (
-          <div style={{ position: "absolute", top: 8, right: 8 }}>
+          <div className="absolute top-2 right-2 z-10">
             <CopyButton value={value} size="small" variant="text" circle />
           </div>
         )}

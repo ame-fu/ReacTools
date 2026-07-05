@@ -21,6 +21,7 @@ import {
   FileTextOutlined,
 } from "@ant-design/icons";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { allTools, toolsByCategory } from "@/lib/tools.config";
 import { useTheme } from "@/lib/theme-context";
@@ -30,6 +31,12 @@ import { SettingsDropdown } from "./SettingsDropdown";
 import { SpriteGroup } from "./SpriteGroup";
 import { getCategoryLabel } from "@/lib/i18n/messages";
 import { getToolName } from "@/lib/i18n/tool-labels";
+import { getToolIcon } from "@/lib/tool-icons";
+import { useToolTabs } from "@/lib/tool-tabs-context";
+import { getToolByPath } from "@/lib/tools.config";
+import { ToolTabsBar } from "./ToolTabsBar";
+import { ToolTabsContent } from "./ToolTabsContent";
+import { LayoutSkeleton } from "./LayoutSkeleton";
 
 const { Header, Sider, Content } = Layout;
 const MOBILE_BREAKPOINT = 991;
@@ -47,6 +54,12 @@ export default function AppLayout({
   const { theme } = useTheme();
   const { locale, t } = useI18n();
   const { config: spriteConfig, updateSpritePosition } = useSprite();
+  const { openTabs, addTab } = useToolTabs();
+  const isToolPath = !!getToolByPath(pathname);
+
+  useEffect(() => {
+    if (isToolPath) addTab(pathname);
+  }, [isToolPath, pathname, addTab]);
   const [siderCollapsed, setSiderCollapsed] = useState(() =>
     pathname.startsWith("/articles"),
   );
@@ -54,6 +67,7 @@ export default function AppLayout({
   const [searchValue, setSearchValue] = useState("");
   const [openKeys, setOpenKeys] = useState<string[]>([]);
   const [isMobile, setIsMobile] = useState(false);
+  const [isReady, setIsReady] = useState(false);
 
   useLayoutEffect(() => {
     const mq = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`);
@@ -65,6 +79,7 @@ export default function AppLayout({
     };
     onMatch();
     mq.addEventListener("change", onMatch);
+    setIsReady(true);
     return () => mq.removeEventListener("change", onMatch);
   }, []);
 
@@ -92,6 +107,7 @@ export default function AppLayout({
       label: getCategoryLabel(locale, cat.name),
       children: cat.tools.map((tool) => ({
         key: tool.slug,
+        icon: getToolIcon(tool.slug),
         label: (
           <Link href={tool.path}>
             {getToolName(locale, tool.slug, tool.name)}
@@ -299,9 +315,11 @@ export default function AppLayout({
             justifyContent: "center",
           }}
         >
-          <img
+          <Image
             src="/icon.png"
             alt="ReacTools"
+            width={120}
+            height={120}
             style={{
               maxWidth: "80%",
               maxHeight: 120,
@@ -382,6 +400,9 @@ export default function AppLayout({
         },
       }}
     >
+      {!isReady ? (
+        <LayoutSkeleton />
+      ) : (
       <>
         <svg width={0} height={0} aria-hidden style={{ position: "absolute" }}>
           <defs>
@@ -503,6 +524,7 @@ export default function AppLayout({
                   placeholder={t("search.label")}
                   allowClear
                   variant="borderless"
+                  size={isMobile ? "small" : "middle"}
                   style={{ width: "100%" }}
                 />
               </AutoComplete>
@@ -534,6 +556,9 @@ export default function AppLayout({
             </div>
           </Header>
 
+          {/* 工具页多标签：已打开的工具路由，点击恢复离开前状态 */}
+          {(openTabs.length > 0 || isToolPath) && <ToolTabsBar />}
+
           {/* 右侧内容区独立滚动，响应式内边距 */}
           <Content
             className="app-content"
@@ -541,13 +566,12 @@ export default function AppLayout({
               flex: 1,
               minHeight: 0,
               overflow: "auto",
-              padding: 24,
-              display: "flex",
-              justifyContent: "center",
               background: "var(--ant-color-bg-layout)",
             }}
           >
-            <div className="app-content-inner">{children}</div>
+            <div className="app-content-inner" style={{ display: "block" }}>
+              {isToolPath ? <ToolTabsContent /> : children}
+            </div>
           </Content>
 
           {/* 页面精灵：整体可拖拽，9宫格三排叠放（移动端不显示） */}
@@ -558,8 +582,9 @@ export default function AppLayout({
             />
           )}
         </Layout>
-      </Layout>
+        </Layout>
       </>
+      )}
     </ConfigProvider>
   );
 }

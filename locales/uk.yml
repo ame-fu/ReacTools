@@ -80,3 +80,24 @@ tools:
     measurement: Вимірювання
     text: Текст
     data: Дані
+    design: Дизайн
+
+  base64-string-converter:
+    title: Кодувальник/декодувальник рядка Base64
+    description: Просто кодуйте та декодуйте рядки в Base64.
+    stringToBase64: "Рядок у Base64"
+    base64ToString: "Base64 у рядок"
+    encodeUrlSafe: "Кодувати безпечно для URL"
+    decodeUrlSafe: "Декодувати безпечно для URL"
+    inputPlaceholder: "Введіть рядок тут..."
+    outputPlaceholder: "Кодування Base64 з'явиться тут"
+    base64InputPlaceholder: "Ваш рядок Base64..."
+    decodedPlaceholder: "Декодований рядок з'явиться тут"
+    invalidBase64: "Недійсний рядок Base64"
+
+  hex-preview:
+    title: Перегляд HEX
+    description: ""
+    inputPlaceholder: "Вставте hex-рядок (напр. 0a1b2c3d)..."
+    noHexHint: "Hex-символи не знайдено; використовуються лише 0-9 та A-F."
+    invalidHexHint: "Недійсні символи; дозволені лише 0-9, A-F та пробіли."

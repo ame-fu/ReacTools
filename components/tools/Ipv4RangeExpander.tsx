@@ -3,6 +3,7 @@
 import React from "react";
 import { Alert, Button, Card, Form, Input, Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
+import { useI18n } from "@/lib/i18n/context";
 
 function isValidIpv4(ip: string) {
   const cleanIp = ip.trim();
@@ -128,7 +129,10 @@ interface Row {
   newValue?: string;
 }
 
+const slug = "ipv4-range-expander";
+
 export function Ipv4RangeExpander() {
+  const { t } = useI18n();
   const [startIp, setStartIp] = React.useState("192.168.1.1");
   const [endIp, setEndIp] = React.useState("192.168.6.255");
 
@@ -145,43 +149,23 @@ export function Ipv4RangeExpander() {
 
   const rows: Row[] = React.useMemo(
     () => [
-      {
-        key: "start",
-        label: "Start address",
-        oldValue: startIp,
-        newValue: result?.newStart,
-      },
-      {
-        key: "end",
-        label: "End address",
-        oldValue: endIp,
-        newValue: result?.newEnd,
-      },
+      { key: "start", label: t(`tools.${slug}.rowStart`), oldValue: startIp, newValue: result?.newStart },
+      { key: "end", label: t(`tools.${slug}.rowEnd`), oldValue: endIp, newValue: result?.newEnd },
       {
         key: "size",
-        label: "Addresses in range",
+        label: t(`tools.${slug}.rowSize`),
         oldValue: result?.oldSize?.toLocaleString(),
         newValue: result?.newSize?.toLocaleString(),
       },
-      {
-        key: "cidr",
-        label: "CIDR",
-        oldValue: "",
-        newValue: result?.newCidr,
-      },
+      { key: "cidr", label: t(`tools.${slug}.rowCidr`), oldValue: "", newValue: result?.newCidr },
     ],
-    [endIp, result, startIp],
+    [endIp, result, startIp, t],
   );
 
   const columns: ColumnsType<Row> = [
+    { title: "", dataIndex: "label", key: "label", width: 180 },
     {
-      title: "",
-      dataIndex: "label",
-      key: "label",
-      width: 180,
-    },
-    {
-      title: "old value",
+      title: t(`tools.${slug}.tableOldValue`),
       dataIndex: "oldValue",
       key: "oldValue",
       render: (value: string | undefined) => (
@@ -189,7 +173,7 @@ export function Ipv4RangeExpander() {
       ),
     },
     {
-      title: "new value",
+      title: t(`tools.${slug}.tableNewValue`),
       dataIndex: "newValue",
       key: "newValue",
       render: (value: string | undefined) => (
@@ -214,21 +198,21 @@ export function Ipv4RangeExpander() {
         <Card>
           <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
             <div style={{ flex: 1, minWidth: 220 }}>
-              <Form.Item label="Start address">
+              <Form.Item label={t(`tools.${slug}.labelStart`)}>
                 <Input
                   value={startIp}
                   onChange={(e) => setStartIp(e.target.value)}
-                  placeholder="Start IPv4 address..."
+                  placeholder={t(`tools.${slug}.placeholderStart`)}
                   status={startValid ? undefined : "error"}
                 />
               </Form.Item>
             </div>
             <div style={{ flex: 1, minWidth: 220 }}>
-              <Form.Item label="End address">
+              <Form.Item label={t(`tools.${slug}.labelEnd`)}>
                 <Input
                   value={endIp}
                   onChange={(e) => setEndIp(e.target.value)}
-                  placeholder="End IPv4 address..."
+                  placeholder={t(`tools.${slug}.placeholderEnd`)}
                   status={endValid ? undefined : "error"}
                 />
               </Form.Item>
@@ -253,17 +237,13 @@ export function Ipv4RangeExpander() {
         <Alert
           style={{ marginTop: 16 }}
           type="error"
-          message="Invalid combination of start and end IPv4 address"
+          title={t(`tools.${slug}.errorInvalid`)}
           description={
             <div>
               <div style={{ margin: "8px 0", opacity: 0.7 }}>
-                The end IPv4 address is lower than the start IPv4 address. This
-                is not valid and no result could be calculated. In most cases
-                the solution is to change start and end address.
+                {t(`tools.${slug}.errorDesc`)}
               </div>
-              <Button onClick={switchStartEnd}>
-                Switch start and end IPv4 address
-              </Button>
+              <Button onClick={switchStartEnd}>{t(`tools.${slug}.buttonSwitch`)}</Button>
             </div>
           }
         />

@@ -199,6 +199,7 @@ export function DateConverter() {
     <Card>
       <Form layout="vertical">
         <Form.Item
+          label={t("tools.date-converter.inputLabel")}
           style={{ marginBottom: 12 }}
           validateStatus={!isInputValid ? "error" : undefined}
           help={!isInputValid ? t("tools.date-converter.invalidDateMessage") : undefined}
@@ -229,20 +230,13 @@ export function DateConverter() {
         </Form.Item>
 
         {formats.map((f) => (
-          <Form.Item key={f.id} style={{ marginBottom: 8 }}>
-            <div style={{ display: "flex", alignItems: "flex-start", gap: 8 }}>
-              <div style={{ width: 180, textAlign: "right", opacity: 0.85 }}>
-                {t(`tools.date-converter.formats.${f.id}`)}
-              </div>
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <InputCopyable
-                  value={formatDateUsing(f.fromDate)}
-                  readOnly
-                  placeholder={t("tools.date-converter.invalidPlaceholder")}
-                  style={{ fontFamily: "monospace" }}
-                />
-              </div>
-            </div>
+          <Form.Item key={f.id} label={t(`tools.date-converter.formats.${f.id}`)} style={{ marginBottom: 8 }}>
+            <InputCopyable
+              value={formatDateUsing(f.fromDate)}
+              readOnly
+              placeholder={t("tools.date-converter.invalidPlaceholder")}
+              style={{ fontFamily: "monospace" }}
+            />
           </Form.Item>
         ))}
       </Form>

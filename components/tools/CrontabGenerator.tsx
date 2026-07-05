@@ -4,6 +4,7 @@ import React from "react";
 import { Card, Input, Switch, Table } from "antd";
 import cronstrue from "cronstrue";
 import { isValidCron } from "cron-validator";
+import { useI18n } from "@/lib/i18n/context";
 
 function isCronValid(v: string): boolean {
   return isValidCron(v, { allowBlankDay: true, alias: true, seconds: true });
@@ -22,6 +23,7 @@ const helpers = [
 ];
 
 export function CrontabGenerator() {
+  const { t } = useI18n();
   const [cron, setCron] = React.useState("40 * * * *");
   const [verbose, setVerbose] = React.useState(true);
   const [use24Hour, setUse24Hour] = React.useState(true);
@@ -51,27 +53,27 @@ export function CrontabGenerator() {
           <Input
             value={cron}
             onChange={(e) => setCron(e.target.value)}
-            placeholder="* * * * *"
+            placeholder={t("tools.crontab-generator.placeholderCron")}
             size="large"
             className="font-mono text-center text-lg"
             status={!valid && cron.trim() ? "error" : undefined}
           />
-          {!valid && cron.trim() && <div className="text-red-500 text-sm mt-1">This cron is invalid</div>}
+          {!valid && cron.trim() && <div className="text-red-500 text-sm mt-1">{t("tools.crontab-generator.invalidCron")}</div>}
         </div>
         <div className="text-center text-xl opacity-80 my-2 mb-4">{cronString}</div>
         <hr className="my-4 border-border" />
         <div className="flex flex-wrap justify-center gap-6">
           <label className="flex items-center gap-2">
             <Switch checked={verbose} onChange={setVerbose} />
-            Verbose
+            {t("tools.crontab-generator.verbose")}
           </label>
           <label className="flex items-center gap-2">
             <Switch checked={use24Hour} onChange={setUse24Hour} />
-            Use 24 hour time format
+            {t("tools.crontab-generator.use24Hour")}
           </label>
           <label className="flex items-center gap-2">
             <Switch checked={dayStartZero} onChange={setDayStartZero} />
-            Days start at 0
+            {t("tools.crontab-generator.dayStartZero")}
           </label>
         </div>
       </Card>
@@ -92,10 +94,10 @@ export function CrontabGenerator() {
           pagination={false}
           size="small"
           columns={[
-            { title: "Symbol", dataIndex: "symbol", key: "symbol", render: (t: string) => <strong>{t}</strong> },
-            { title: "Meaning", dataIndex: "meaning", key: "meaning" },
-            { title: "Example", dataIndex: "example", key: "example", render: (t: string) => <code>{t}</code> },
-            { title: "Equivalent", dataIndex: "equivalent", key: "equivalent" },
+            { title: t("tools.crontab-generator.thSymbol"), dataIndex: "symbol", key: "symbol", render: (s: string) => <strong>{s}</strong> },
+            { title: t("tools.crontab-generator.thMeaning"), dataIndex: "meaning", key: "meaning" },
+            { title: t("tools.crontab-generator.thExample"), dataIndex: "example", key: "example", render: (s: string) => <code>{s}</code> },
+            { title: t("tools.crontab-generator.thEquivalent"), dataIndex: "equivalent", key: "equivalent" },
           ]}
         />
       </Card>

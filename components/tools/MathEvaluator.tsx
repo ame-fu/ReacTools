@@ -4,8 +4,10 @@ import React from "react";
 import { Button, Card, Form } from "antd";
 import { evaluate } from "mathjs";
 import { InputCopyable } from "@/components/ui";
+import { useI18n } from "@/lib/i18n/context";
 
 export function MathEvaluator() {
+  const { t } = useI18n();
   const [expression, setExpression] = React.useState("");
 
   const result = React.useMemo(() => {
@@ -30,11 +32,11 @@ export function MathEvaluator() {
   return (
     <div>
       <Form layout="vertical">
-        <Form.Item label="Math expression">
+        <Form.Item label={t("tools.math-evaluator.labelExpression")}>
           <InputCopyable
             value={expression}
             onChange={setExpression}
-            placeholder="Your math expression (ex: 2*sqrt(6) )..."
+            placeholder={t("tools.math-evaluator.placeholderExpression")}
             multiline
             rows={3}
             style={{ fontFamily: "monospace" }}
@@ -42,11 +44,11 @@ export function MathEvaluator() {
         </Form.Item>
 
         {result !== "" && (
-          <Form.Item label="Result">
+          <Form.Item label={t("tools.math-evaluator.labelResult")}>
             <Card
               extra={
                 <Button size="small" onClick={handleCopy}>
-                  Copy
+                  {t("tools.math-evaluator.buttonCopy")}
                 </Button>
               }
             >

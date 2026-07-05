@@ -2,6 +2,7 @@
 
 import React from "react";
 import { Button, Card, Form, Input, InputNumber, Select } from "antd";
+import { useI18n } from "@/lib/i18n/context";
 
 function splitPrefix(prefix: string): string[] {
   const base =
@@ -40,7 +41,10 @@ function isPartialMacValid(prefix: string) {
 
 type CaseTransformer = "upper" | "lower";
 
+const slug = "mac-address-generator";
+
 export function MacAddressGenerator() {
+  const { t } = useI18n();
   const [amount, setAmount] = React.useState<number>(1);
   const [prefix, setPrefix] = React.useState("64:16:7F");
   const [caseTransformer, setCaseTransformer] =
@@ -81,7 +85,7 @@ export function MacAddressGenerator() {
   return (
     <div>
       <Form layout="vertical">
-        <Form.Item label="Quantity">
+        <Form.Item label={t(`tools.${slug}.quantity`)}>
           <InputNumber
             min={1}
             max={100}
@@ -91,29 +95,29 @@ export function MacAddressGenerator() {
           />
         </Form.Item>
 
-        <Form.Item label="MAC address prefix">
+        <Form.Item label={t(`tools.${slug}.labelPrefix`)}>
           <Input
             value={prefix}
             onChange={(e) => setPrefix(e.target.value)}
-            placeholder="Set a prefix, e.g. 64:16:7F"
+            placeholder={t(`tools.${slug}.placeholderPrefix`)}
             status={prefixValid ? undefined : "error"}
             spellCheck={false}
           />
         </Form.Item>
 
-        <Form.Item label="Case">
+        <Form.Item label={t(`tools.${slug}.case`)}>
           <Select<CaseTransformer>
             style={{ width: "100%", minWidth: 160 }}
             value={caseTransformer}
             onChange={(v) => setCaseTransformer(v)}
             options={[
-              { label: "Uppercase", value: "upper" },
-              { label: "Lowercase", value: "lower" },
+              { label: t(`tools.${slug}.uppercase`), value: "upper" },
+              { label: t(`tools.${slug}.lowercase`), value: "lower" },
             ]}
           />
         </Form.Item>
 
-        <Form.Item label="Separator">
+        <Form.Item label={t(`tools.${slug}.separator`)}>
           <Select<string>
             style={{ width: "100%", minWidth: 160 }}
             value={separator}
@@ -122,12 +126,12 @@ export function MacAddressGenerator() {
               { label: ":", value: ":" },
               { label: "-", value: "-" },
               { label: ".", value: "." },
-              { label: "None", value: "" },
+              { label: t(`tools.${slug}.separatorNone`), value: "" },
             ]}
           />
         </Form.Item>
 
-        <Form.Item label="Generated MAC addresses">
+        <Form.Item label={t(`tools.${slug}.labelGenerated`)}>
           <Card>
             <pre style={{ margin: 0, fontFamily: "monospace" }}>{output}</pre>
           </Card>
@@ -141,8 +145,8 @@ export function MacAddressGenerator() {
               gap: 8,
             }}
           >
-            <Button onClick={regenerate}>Refresh</Button>
-            <Button onClick={handleCopy}>Copy</Button>
+            <Button onClick={regenerate}>{t(`tools.${slug}.buttonRefresh`)}</Button>
+            <Button onClick={handleCopy}>{t(`tools.${slug}.buttonCopy`)}</Button>
           </div>
         </Form.Item>
       </Form>

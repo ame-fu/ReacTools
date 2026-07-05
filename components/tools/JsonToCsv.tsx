@@ -5,8 +5,10 @@ import { Card, Form } from "antd";
 import JSON5 from "json5";
 import { convertArrayToCsv } from "@/lib/json-to-csv.service";
 import { InputCopyable, TextareaCopyable } from "@/components/ui";
+import { useI18n } from "@/lib/i18n/context";
 
 export function JsonToCsv() {
+  const { t } = useI18n();
   const [input, setInput] = React.useState("");
   const { output, error } = React.useMemo(() => {
     if (!input.trim()) {
@@ -31,8 +33,8 @@ export function JsonToCsv() {
             <InputCopyable
               value={input}
               onChange={setInput}
-              label="Your raw JSON"
-              placeholder="Paste your raw JSON (array of objects) here..."
+              label={t("tools.json-to-csv.labelRaw")}
+              placeholder={t("tools.json-to-csv.placeholderRaw")}
               multiline
               rows={18}
               className="font-mono"
@@ -44,7 +46,7 @@ export function JsonToCsv() {
       <Card>
         <Form layout="vertical">
           <Form.Item>
-            <TextareaCopyable value={output} rows={18} style={{ fontFamily: "monospace" }} label="CSV version of your JSON" />
+            <TextareaCopyable value={output} rows={18} style={{ fontFamily: "monospace" }} label={t("tools.json-to-csv.labelCsv")} />
           </Form.Item>
         </Form>
       </Card>

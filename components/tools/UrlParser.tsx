@@ -46,26 +46,18 @@ export function UrlParser() {
           <div style={{ borderTop: "1px solid #f0f0f0" }} />
         </Form.Item>
         {PROPERTY_KEYS.map(({ key, i18nKey }) => (
-          <Form.Item key={key} style={{ marginBottom: 8 }}>
-            <div style={{ display: "flex", alignItems: "flex-start", gap: 8 }}>
-              <div style={{ width: 110, flexShrink: 0, textAlign: "right", fontSize: 14, opacity: 0.8 }}>
-                {t(`tools.url-parser.${i18nKey}`)}
-              </div>
-              <div style={{ flex: 1 }}>
-                <InputCopyable
-                  value={(urlParsed?.[key] as string) ?? ""}
-                  readOnly
-                  style={{ fontFamily: "monospace" }}
-                />
-              </div>
-            </div>
+          <Form.Item key={key} label={t(`tools.url-parser.${i18nKey}`)} style={{ marginBottom: 8 }}>
+            <InputCopyable
+              value={(urlParsed?.[key] as string) ?? ""}
+              readOnly
+              style={{ fontFamily: "monospace" }}
+            />
           </Form.Item>
         ))}
         {urlParsed &&
           Array.from(urlParsed.searchParams.entries()).map(([k, v]) => (
-            <Form.Item key={k} style={{ marginBottom: 8 }}>
-              <div style={{ display: "flex", alignItems: "flex-start", gap: 8, flexWrap: "wrap" }}>
-                <div style={{ width: 110, flexShrink: 0, textAlign: "right", fontSize: 14, opacity: 0.8 }}>→</div>
+            <Form.Item key={k} label="→" style={{ marginBottom: 8 }}>
+              <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
                 <div style={{ flex: 1, minWidth: 120 }}>
                   <InputCopyable value={k} readOnly style={{ fontFamily: "monospace" }} />
                 </div>

@@ -6,8 +6,10 @@ import RandExp from "randexp";
 import Link from "next/link";
 import { matchRegex } from "@/lib/regex-tester.service";
 import { InputCopyable } from "@/components/ui";
+import { useI18n } from "@/lib/i18n/context";
 
 export function RegexTester() {
+  const { t } = useI18n();
   const [regex, setRegex] = React.useState("");
   const [text, setText] = React.useState("");
   const [global, setGlobal] = React.useState(true);
@@ -59,8 +61,8 @@ export function RegexTester() {
             <InputCopyable
               value={regex}
               onChange={setRegex}
-              label="Regex to test"
-              placeholder="Put the regex to test"
+              label={t("tools.regex-tester.labelRegex")}
+              placeholder={t("tools.regex-tester.placeholderRegex")}
               multiline
               rows={3}
               className="font-mono"
@@ -98,8 +100,8 @@ export function RegexTester() {
             <InputCopyable
               value={text}
               onChange={setText}
-              label="Text to match"
-              placeholder="Put the text to match"
+              label={t("tools.regex-tester.labelText")}
+              placeholder={t("tools.regex-tester.placeholderText")}
               multiline
               rows={5}
               className="font-mono"

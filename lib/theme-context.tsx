@@ -32,7 +32,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setThemeState] = useState<ThemeMode>("light");
 
   useEffect(() => {
-    setThemeState(getStoredTheme());
+    queueMicrotask(() => setThemeState(getStoredTheme()));
   }, []);
 
   useEffect(() => {

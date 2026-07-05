@@ -3,15 +3,10 @@
 import React from "react";
 import { Button, Card, Checkbox, Col, Form, Input, Row, Select } from "antd";
 import QRCode, { type QRCodeToDataURLOptions } from "qrcode";
+import { useI18n } from "@/lib/i18n/context";
 
 const wifiEncryptions = ["nopass", "WPA", "WEP", "WPA2-EAP"] as const;
 type WifiEncryption = (typeof wifiEncryptions)[number];
-
-const ENCRYPTION_OPTIONS: { label: string; value: WifiEncryption }[] =
-  wifiEncryptions.map((v) => ({
-    label: v === "nopass" ? "No password" : v === "WPA" ? "WPA/WPA2" : v,
-    value: v,
-  }));
 
 const EAPMethods = [
   "MD5",
@@ -120,6 +115,7 @@ async function generateWifiQr(
 }
 
 export function WifiQrCodeGenerator() {
+  const { t } = useI18n();
   const [foreground, setForeground] = React.useState("#000000ff");
   const [background, setBackground] = React.useState("#ffffffff");
 
@@ -135,6 +131,13 @@ export function WifiQrCodeGenerator() {
 
   const [qr, setQr] = React.useState("");
   const [loading, setLoading] = React.useState(false);
+
+  const encryptionOptions: { label: string; value: WifiEncryption }[] = [
+    { label: t("tools.wifi-qrcode-generator.encryptionNoPass"), value: "nopass" },
+    { label: t("tools.wifi-qrcode-generator.encryptionWpaWpa2"), value: "WPA" },
+    { label: "WEP", value: "WEP" },
+    { label: "WPA2-EAP", value: "WPA2-EAP" },
+  ];
 
   const regenerate = React.useCallback(async () => {
     setLoading(true);
@@ -191,45 +194,45 @@ export function WifiQrCodeGenerator() {
       <Form layout="vertical">
         <Row gutter={[16, 16]}>
           <Col xs={24} md={16}>
-            <Form.Item label="Encryption method">
+            <Form.Item label={t("tools.wifi-qrcode-generator.labelEncryption")}>
               <Select<WifiEncryption>
                 value={encryption}
                 onChange={(v) => setEncryption(v)}
                 style={{ width: 220 }}
-                options={ENCRYPTION_OPTIONS}
+                options={encryptionOptions}
               />
             </Form.Item>
 
-            <Form.Item label="SSID">
+            <Form.Item label={t("tools.wifi-qrcode-generator.labelSsid")}>
               <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
                 <Input
                   value={ssid}
                   onChange={(e) => setSsid(e.target.value)}
-                  placeholder="Your WiFi SSID..."
+                  placeholder={t("tools.wifi-qrcode-generator.placeholderSsid")}
                   style={{ flex: 1, minWidth: 160 }}
                 />
                 <Checkbox
                   checked={isHiddenSSID}
                   onChange={(e) => setIsHiddenSSID(e.target.checked)}
                 >
-                  Hidden SSID
+                  {t("tools.wifi-qrcode-generator.hiddenSsid")}
                 </Checkbox>
               </div>
             </Form.Item>
 
             {showPassword && (
-              <Form.Item label="Password">
+              <Form.Item label={t("tools.wifi-qrcode-generator.labelPassword")}>
                 <Input.Password
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Your WiFi Password..."
+                  placeholder={t("tools.wifi-qrcode-generator.placeholderPassword")}
                 />
               </Form.Item>
             )}
 
             {showEap && (
               <>
-                <Form.Item label="EAP method">
+                <Form.Item label={t("tools.wifi-qrcode-generator.labelEapMethod")}>
                   <Select<EAPMethod>
                     value={eapMethod}
                     onChange={(v) => setEapMethod(v)}
@@ -243,24 +246,24 @@ export function WifiQrCodeGenerator() {
                   />
                 </Form.Item>
 
-                <Form.Item label="Identity">
+                <Form.Item label={t("tools.wifi-qrcode-generator.labelIdentity")}>
                   <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
                     <Input
                       value={eapIdentity}
                       onChange={(e) => setEapIdentity(e.target.value)}
-                      placeholder="Your EAP Identity..."
+                      placeholder={t("tools.wifi-qrcode-generator.placeholderIdentity")}
                       style={{ flex: 1, minWidth: 160 }}
                     />
                     <Checkbox
                       checked={eapAnonymous}
                       onChange={(e) => setEapAnonymous(e.target.checked)}
                     >
-                      Anonymous?
+                      {t("tools.wifi-qrcode-generator.anonymous")}
                     </Checkbox>
                   </div>
                 </Form.Item>
 
-                <Form.Item label="EAP Phase 2 method">
+                <Form.Item label={t("tools.wifi-qrcode-generator.labelEapPhase2")}>
                   <Select<EAPPhase2Method>
                     value={eapPhase2Method}
                     onChange={(v) => setEapPhase2Method(v)}
@@ -276,7 +279,7 @@ export function WifiQrCodeGenerator() {
               </>
             )}
 
-            <Form.Item label="Foreground color">
+            <Form.Item label={t("tools.wifi-qrcode-generator.labelForegroundColor")}>
               <Input
                 type="color"
                 value={foreground.slice(0, 7)}
@@ -287,7 +290,7 @@ export function WifiQrCodeGenerator() {
               />
             </Form.Item>
 
-            <Form.Item label="Background color">
+            <Form.Item label={t("tools.wifi-qrcode-generator.labelBackgroundColor")}>
               <Input
                 type="color"
                 value={background.slice(0, 7)}
@@ -301,7 +304,7 @@ export function WifiQrCodeGenerator() {
 
           <Col xs={24} md={8}>
             {qr && (
-              <Form.Item label="Preview">
+              <Form.Item label={t("tools.wifi-qrcode-generator.labelPreview")}>
                 <div
                   style={{
                     display: "flex",
@@ -318,7 +321,7 @@ export function WifiQrCodeGenerator() {
                     disabled={!qr}
                     loading={loading}
                   >
-                    Download qr-code
+                    {t("tools.wifi-qrcode-generator.buttonDownload")}
                   </Button>
                 </div>
               </Form.Item>

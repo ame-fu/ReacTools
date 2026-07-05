@@ -22,6 +22,7 @@
 
 # misc
 .DS_Store
+._*
 .pnpm-store
 *.pem
 
@@ -36,6 +37,10 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+# deploy (local/aliyun, do not commit)
+scripts/deploy-to-server.sh
+docs/DEPLOY-ALIYUN.md
 
 # typescript
 *.tsbuildinfo

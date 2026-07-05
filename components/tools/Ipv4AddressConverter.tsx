@@ -2,6 +2,7 @@
 
 import React from "react";
 import { Divider, Form, Input } from "antd";
+import { useI18n } from "@/lib/i18n/context";
 
 function isValidIpv4(ip: string) {
   const cleanIp = ip.trim();
@@ -68,7 +69,10 @@ function ipv4ToIpv6(ip: string, prefix = "0000:0000:0000:0000:0000:ffff:") {
   return `${prefix}${blocks}`;
 }
 
+const slug = "ipv4-address-converter";
+
 export function Ipv4AddressConverter() {
+  const { t } = useI18n();
   const [rawIp, setRawIp] = React.useState("192.168.1.1");
 
   const isValid = React.useMemo(() => isValidIpv4(rawIp), [rawIp]);
@@ -86,28 +90,13 @@ export function Ipv4AddressConverter() {
     };
 
     return [
-      {
-        label: "Decimal:",
-        value: String(ipInDecimal),
-      },
-      {
-        label: "Hexadecimal:",
-        value: safeConvert(16).toUpperCase(),
-      },
-      {
-        label: "Binary:",
-        value: safeConvert(2),
-      },
-      {
-        label: "Ipv6:",
-        value: ipv4ToIpv6(rawIp),
-      },
-      {
-        label: "Ipv6 (short):",
-        value: ipv4ToIpv6(rawIp, "::ffff:"),
-      },
+      { label: t(`tools.${slug}.decimal`) + ":", value: String(ipInDecimal) },
+      { label: t(`tools.${slug}.hexadecimal`) + ":", value: safeConvert(16).toUpperCase() },
+      { label: t(`tools.${slug}.binary`) + ":", value: safeConvert(2) },
+      { label: t(`tools.${slug}.ipv6`) + ":", value: ipv4ToIpv6(rawIp) },
+      { label: t(`tools.${slug}.ipv6Short`) + ":", value: ipv4ToIpv6(rawIp, "::ffff:") },
     ];
-  }, [rawIp]);
+  }, [rawIp, t]);
 
   const effectiveSections = isValid
     ? sections
@@ -116,11 +105,11 @@ export function Ipv4AddressConverter() {
   return (
     <div>
       <Form layout="vertical">
-        <Form.Item label="The ipv4 address">
+        <Form.Item label={t(`tools.${slug}.labelAddress`)}>
           <Input
             value={rawIp}
             onChange={(e) => setRawIp(e.target.value)}
-            placeholder="The ipv4 address..."
+            placeholder={t(`tools.${slug}.placeholderAddress`)}
             status={isValid ? undefined : "error"}
           />
         </Form.Item>
@@ -132,7 +121,7 @@ export function Ipv4AddressConverter() {
             <Input
               value={value}
               readOnly
-              placeholder="Set a correct ipv4 address"
+              placeholder={t(`tools.${slug}.setCorrect`)}
               style={{ fontFamily: "monospace" }}
             />
           </Form.Item>

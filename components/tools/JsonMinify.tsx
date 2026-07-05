@@ -4,10 +4,12 @@ import React from "react";
 import { Card, Form } from "antd";
 import JSON5 from "json5";
 import { InputCopyable, TextareaCopyable } from "@/components/ui";
+import { useI18n } from "@/lib/i18n/context";
 
 const defaultJson = '{\n  "hello": [\n    "world"\n  ]\n}';
 
 export function JsonMinify() {
+  const { t } = useI18n();
   const [input, setInput] = React.useState(defaultJson);
   const { output, error } = React.useMemo(() => {
     if (!input.trim()) {
@@ -29,8 +31,8 @@ export function JsonMinify() {
             <InputCopyable
               value={input}
               onChange={setInput}
-              label="Your raw JSON"
-              placeholder="Paste your raw JSON here..."
+              label={t("tools.json-minify.labelRaw")}
+              placeholder={t("tools.json-minify.placeholderRaw")}
               multiline
               rows={18}
               className="font-mono"
@@ -42,7 +44,7 @@ export function JsonMinify() {
       <Card>
         <Form layout="vertical">
           <Form.Item>
-            <TextareaCopyable value={output} rows={18} style={{ fontFamily: "monospace" }} label="Minified version of your JSON" />
+            <TextareaCopyable value={output} rows={18} style={{ fontFamily: "monospace" }} label={t("tools.json-minify.labelMinified")} />
           </Form.Item>
         </Form>
       </Card>

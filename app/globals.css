@@ -1,5 +1,11 @@
 @import "tailwindcss";
 
+/*
+ * antd reset 已通过 app/antd-reset-layer.css 放入 @layer antd-reset，
+ * 因此 Tailwind 的 @layer utilities 会覆盖其 button/input 等的 color:inherit，
+ * 使 .text-white 等 class 在表单元素上生效，按钮内文字/图标颜色正确。
+ */
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -189,27 +195,207 @@ body {
   border-color: var(--ant-color-primary) !important;
 }
 
-/* 右侧内容区响应式 */
+/* 右侧内容区（首页工具列表 + 工具详情）：上下左右内边距，桌面端统一 24px */
+.ant-layout-content.app-content,
 .app-content {
-  padding: 16px !important;
+  padding: 16px 12px !important;
+  overflow: auto;
+  min-width: 0;
+  box-sizing: border-box;
 }
 @media (min-width: 576px) {
+  .ant-layout-content.app-content,
   .app-content {
-    padding: 20px !important;
+    padding: 20px 16px !important;
   }
 }
 @media (min-width: 768px) {
+  .ant-layout-content.app-content,
   .app-content {
-    padding: 24px !important;
+    padding: 24px 24px !important;  /* 上下 24px，左右 24px */
   }
 }
+@media (min-width: 1200px) {
+  .ant-layout-content.app-content,
+  .app-content {
+    padding: 24px 24px !important;  /* 上下 24px，左右各 24px */
+  }
+}
+/* 首页/工具页内容：铺满宽度，无最大宽度限制 */
 .app-content-inner {
   width: 100%;
-  max-width: 960px;
+  min-width: 0;
+}
+
+/* 打印时只保留工具内容：隐藏侧栏、顶栏、标签栏、工具页标题与描述；A4 比例防溢出 */
+@page {
+  size: A4;
+  margin: 10mm;
+}
+
+/* 日程表打印前：自动隐藏侧栏，内容区占满，便于按横向 A4 重排 */
+body.schedule-printing .app-sider {
+  display: none !important;
+}
+body.schedule-printing .ant-layout.ant-layout-has-sider > .ant-layout-content {
+  flex: 1 1 auto !important;
+  max-width: none !important;
+}
+
+@media print {
+  .app-sider,
+  .app-top-header,
+  .tool-tabs-bar,
+  .tool-page-root > header {
+    display: none !important;
+  }
+  .app-content {
+    padding: 0 !important;
+    max-width: 190mm !important;
+    box-sizing: border-box !important;
+  }
+  /* 日程表页横向打印时放宽宽度限制，以容纳 277mm 打印区域 */
+  .app-content:has(.schedule-print-area) {
+    max-width: none !important;
+  }
+  .app-content-inner {
+    max-width: 100% !important;
+  }
+  /* 日程表打印区域：横向 A4，仅表格；按可用高度缩放以完整显示时间轴+周一至周日，等效减小单元格高度 */
+  .schedule-print-area {
+    width: 277mm !important;   /* A4 横向 297mm - 10mm*2 */
+    max-width: 277mm !important;
+    height: 190mm !important;  /* A4 横向 210mm - 10mm*2 */
+    max-height: 190mm !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+    padding: 0 !important;
+  }
+  .schedule-print-area main,
+  .schedule-print-area .no-print-padding {
+    padding: 0 !important;
+  }
+  /* 表格整体缩放：使用 JS 计算的 --schedule-print-scale（按横向 A4 比例），使横纵向内容完整显示 */
+  .schedule-print-area .schedule-grid-wrap {
+    width: 1000px !important;
+    min-width: 1000px !important;
+    transform: scale(var(--schedule-print-scale, 0.664)) !important;
+    transform-origin: 0 0 !important;
+    overflow: hidden !important;
+  }
+  .ant-layout.ant-layout-has-sider > .ant-layout-content {
+    flex: none !important;
+    max-width: none !important;
+  }
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* 打印预览弹窗：仅打印画布区域，其余页面全部隐藏 */
+  body.schedule-print-canvas-only * {
+    visibility: hidden !important;
+  }
+  body.schedule-print-canvas-only .schedule-print-preview-modal,
+  body.schedule-print-canvas-only .schedule-print-preview-modal .schedule-print-preview-canvas,
+  body.schedule-print-canvas-only .schedule-print-preview-modal .schedule-print-preview-canvas * {
+    visibility: visible !important;
+  }
+  body.schedule-print-canvas-only .schedule-print-preview-modal {
+    position: fixed !important;
+    inset: 0 !important;
+    background: white !important;
+    z-index: 99999 !important;
+  }
+  body.schedule-print-canvas-only .schedule-print-preview-modal > *:first-child,
+  body.schedule-print-canvas-only .schedule-print-preview-modal > *:last-child {
+    display: none !important;
+  }
+  body.schedule-print-canvas-only .schedule-print-preview-modal > *:nth-child(2) {
+    position: absolute !important;
+    inset: 0 !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+  body.schedule-print-canvas-only .schedule-print-preview-canvas {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: none !important;
+    max-height: none !important;
+    box-shadow: none !important;
+  }
+}
+
+/* 工具页：与 11.html 一致 (max-w-3xl / rounded-xl / shadow-sm / border / space-y-6) */
+.tool-page-root .ant-card {
+  border-radius: 12px;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  border: 1px solid var(--ant-color-border-secondary);
+}
+.tool-page-root .ant-card .ant-card-body {
+  padding: 24px;
+}
+.tool-page-root .ant-card .ant-card-head {
+  border-bottom: 1px solid var(--ant-color-border-secondary);
+  font-weight: 600;
+  color: var(--ant-color-text-heading);
+}
+.tool-page-root textarea.ant-input {
+  border-radius: 8px;
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+.tool-page-root textarea.ant-input:focus {
+  box-shadow: 0 0 0 2px var(--ant-color-primary-border);
+}
+
+/* 工具页表单：label 均在组件上方 */
+.tool-page-root .ant-form-item-label {
+  display: block;
+  text-align: left;
+}
+.tool-page-root .ant-form-item .ant-form-item-label {
+  padding-bottom: 4px;
+}
+
+/* 工具页内 16 进制输入区：仅此区域内部滚动，滚动条样式与 11.html 一致 (#cbd5e1) */
+.hex-decoder-scroll {
+  scrollbar-width: thin;
+}
+.hex-decoder-scroll::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.hex-decoder-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.hex-decoder-scroll::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 20px;
+}
+.dark .hex-decoder-scroll::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* 报文区整体容器：与 11.html 一致 focus-within 环 */
+.hex-decoder-box:focus-within {
+  box-shadow: 0 0 0 2px var(--ant-color-primary);
+  border-color: var(--ant-color-primary);
+}
+
+/* 首页工具卡片网格：空间足够时一排多放，自适应 */
+.home-tools-grid {
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)) !important;
 }
 @media (min-width: 1200px) {
-  .app-content-inner {
-    max-width: 1000px;
+  .home-tools-grid {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)) !important;
+  }
+}
+@media (min-width: 1600px) {
+  .home-tools-grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)) !important;
   }
 }
 
@@ -325,4 +511,45 @@ body {
 .article-content pre {
   margin: 1rem 0;
   padding: 1rem;
+}
+
+/* 文章列表页：移动端把个人信息和标签筛选放到搜索和列表上面 */
+@media (max-width: 768px) {
+  .articles-list-layout {
+    flex-direction: column;
+  }
+  .articles-list-sidebar {
+    order: -1;
+    width: 100% !important;
+  }
+  .articles-list-main {
+    order: 0;
+  }
+}
+
+/* 布局骨架屏：移动端隐藏左侧菜单 */
+@media (max-width: 991px) {
+  .layout-skeleton-sider {
+    display: none !important;
+  }
+}
+
+/* 布局骨架屏动画 */
+.layout-skeleton-block {
+  background: linear-gradient(
+    90deg,
+    var(--ant-color-fill-quaternary, #f0f0f0) 25%,
+    var(--ant-color-fill-tertiary, #e8e8e8) 50%,
+    var(--ant-color-fill-quaternary, #f0f0f0) 75%
+  );
+  background-size: 200% 100%;
+  animation: layout-skeleton-shimmer 1.5s ease-in-out infinite;
+}
+@keyframes layout-skeleton-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
 }

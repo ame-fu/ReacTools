@@ -111,7 +111,7 @@ export function PdfSignatureChecker() {
         {status === "error" && (
           <Alert
             style={{ marginTop: 16 }}
-            message={t("tools.pdf-signature-checker.noSignatures")}
+            title={t("tools.pdf-signature-checker.noSignatures")}
             type="warning"
           />
         )}

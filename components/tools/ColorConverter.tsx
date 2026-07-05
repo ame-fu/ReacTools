@@ -9,6 +9,7 @@ import hwbPlugin from "colord/plugins/hwb";
 import namesPlugin from "colord/plugins/names";
 import lchPlugin from "colord/plugins/lch";
 import { useI18n } from "@/lib/i18n/context";
+import { InputCopyable } from "@/components/ui";
 
 extend([cmykPlugin, hwbPlugin, namesPlugin, lchPlugin]);
 
@@ -33,6 +34,7 @@ function formatters(value: Colord) {
   };
 }
 
+/** 标签在上方，与工具页表单规范一致 */
 function ColorConverterRow({
   labelKey,
   children,
@@ -43,11 +45,11 @@ function ColorConverterRow({
   t: (key: string) => string;
 }) {
   return (
-    <div style={{ display: "flex", alignItems: "flex-start", gap: 8, marginTop: 8 }}>
-      <div style={{ width: 120, textAlign: "right", opacity: 0.85 }}>
-        {t(labelKey)}:
+    <div style={{ marginTop: 16 }}>
+      <div style={{ marginBottom: 6, fontWeight: 500, opacity: 0.9 }}>
+        {t(labelKey)}
       </div>
-      <div style={{ flex: 1 }}>{children}</div>
+      {children}
     </div>
   );
 }
@@ -92,10 +94,9 @@ export function ColorConverter() {
       </ColorConverterRow>
 
       <ColorConverterRow labelKey="tools.color-converter.labels.hex" t={t}>
-        <Input
+        <InputCopyable
           value={fields.hex}
-          onChange={(e) => {
-            const v = e.target.value;
+          onChange={(v) => {
             setFields((prev) => ({ ...prev, hex: v }));
             updateFromText("hex", v);
           }}
@@ -105,10 +106,9 @@ export function ColorConverter() {
       </ColorConverterRow>
 
       <ColorConverterRow labelKey="tools.color-converter.labels.rgb" t={t}>
-        <Input
+        <InputCopyable
           value={fields.rgb}
-          onChange={(e) => {
-            const v = e.target.value;
+          onChange={(v) => {
             setFields((prev) => ({ ...prev, rgb: v }));
             updateFromText("rgb", v);
           }}
@@ -118,10 +118,9 @@ export function ColorConverter() {
       </ColorConverterRow>
 
       <ColorConverterRow labelKey="tools.color-converter.labels.hsl" t={t}>
-        <Input
+        <InputCopyable
           value={fields.hsl}
-          onChange={(e) => {
-            const v = e.target.value;
+          onChange={(v) => {
             setFields((prev) => ({ ...prev, hsl: v }));
             updateFromText("hsl", v);
           }}
@@ -131,10 +130,9 @@ export function ColorConverter() {
       </ColorConverterRow>
 
       <ColorConverterRow labelKey="tools.color-converter.labels.hwb" t={t}>
-        <Input
+        <InputCopyable
           value={fields.hwb}
-          onChange={(e) => {
-            const v = e.target.value;
+          onChange={(v) => {
             setFields((prev) => ({ ...prev, hwb: v }));
             updateFromText("hwb", v);
           }}
@@ -144,10 +142,9 @@ export function ColorConverter() {
       </ColorConverterRow>
 
       <ColorConverterRow labelKey="tools.color-converter.labels.lch" t={t}>
-        <Input
+        <InputCopyable
           value={fields.lch}
-          onChange={(e) => {
-            const v = e.target.value;
+          onChange={(v) => {
             setFields((prev) => ({ ...prev, lch: v }));
             updateFromText("lch", v);
           }}
@@ -157,10 +154,9 @@ export function ColorConverter() {
       </ColorConverterRow>
 
       <ColorConverterRow labelKey="tools.color-converter.labels.cmyk" t={t}>
-        <Input
+        <InputCopyable
           value={fields.cmyk}
-          onChange={(e) => {
-            const v = e.target.value;
+          onChange={(v) => {
             setFields((prev) => ({ ...prev, cmyk: v }));
             updateFromText("cmyk", v);
           }}
@@ -170,7 +166,7 @@ export function ColorConverter() {
       </ColorConverterRow>
 
       <ColorConverterRow labelKey="tools.color-converter.labels.name" t={t}>
-        <Input
+        <InputCopyable
           value={fields.name}
           readOnly
           placeholder={t("tools.color-converter.placeholders.name")}

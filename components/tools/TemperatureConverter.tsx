@@ -2,6 +2,7 @@
 
 import React from "react";
 import { Card, Form, InputNumber } from "antd";
+import { useI18n } from "@/lib/i18n/context";
 
 type TemperatureScale =
   | "kelvin"
@@ -145,6 +146,7 @@ const UNIT_CONFIGS_MAP: Record<TemperatureScale, UnitConfig> = UNIT_CONFIGS.redu
 );
 
 export function TemperatureConverter() {
+  const { t } = useI18n();
   const [values, setValues] = React.useState<Record<TemperatureScale, number>>(
     () => {
       const initialKelvin = 0;
@@ -175,7 +177,7 @@ export function TemperatureConverter() {
       <Form layout="vertical">
         <Card>
           {UNIT_CONFIGS.map(({ key, title, unit }) => (
-            <Form.Item key={key} label={`${title} (${unit})`}>
+            <Form.Item key={key} label={`${t(`tools.temperature-converter.${key}`)} (${unit})`}>
               <InputNumber
                 style={{ width: "100%" }}
                 value={values[key]}

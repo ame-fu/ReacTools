@@ -3,6 +3,7 @@
 import React from "react";
 import { Card, Button, Alert, Form } from "antd";
 import { InputCopyable, TextareaCopyable } from "@/components/ui";
+import { useI18n } from "@/lib/i18n/context";
 
 const MsgType = {
   notImplemented: "notImplemented",
@@ -21,6 +22,7 @@ function textToBase64(text: string): string {
 type Message = { type: string; value: string };
 
 export function DockerRunToCompose() {
+  const { t } = useI18n();
   const [dockerRun, setDockerRun] = React.useState(defaultDockerRun);
   const [result, setResult] = React.useState<{ yaml: string; messages: Message[] }>({ yaml: "", messages: [] });
   const [loading, setLoading] = React.useState(false);
@@ -79,8 +81,8 @@ export function DockerRunToCompose() {
             <InputCopyable
               value={dockerRun}
               onChange={setDockerRun}
-              label="Your docker run command"
-              placeholder="Your docker run command to convert..."
+              label={t("tools.docker-run-to-docker-compose-converter.labelCommand")}
+              placeholder={t("tools.docker-run-to-docker-compose-converter.placeholderCommand")}
               multiline
               rows={4}
               className="font-mono"
@@ -94,15 +96,15 @@ export function DockerRunToCompose() {
             <TextareaCopyable
               value={result.yaml}
               rows={16}
-              label="Docker Compose YAML"
-              placeholder={loading ? "Converting…" : undefined}
+              label={t("tools.docker-run-to-docker-compose-converter.labelCompose")}
+              placeholder={loading ? t("tools.docker-run-to-docker-compose-converter.placeholderConverting") : undefined}
               style={{ fontFamily: "monospace" }}
             />
           </Form.Item>
           <Form.Item>
             <div className="flex justify-center">
               <Button disabled={!result.yaml || loading} onClick={download} loading={loading}>
-                Download docker-compose.yml
+                {t("tools.docker-run-to-docker-compose-converter.buttonDownload")}
               </Button>
             </div>
           </Form.Item>
@@ -111,7 +113,7 @@ export function DockerRunToCompose() {
       {notComposable.length > 0 && (
         <Alert
           type="info"
-          message="These options are not translatable to docker-compose"
+          title="These options are not translatable to docker-compose"
           description={<ul className="list-disc pl-5 mt-1">{notComposable.map((m, i) => <li key={i}>{m}</li>)}</ul>}
           showIcon
         />
@@ -127,7 +129,7 @@ export function DockerRunToCompose() {
       {errors.length > 0 && (
         <Alert
           type="error"
-          message="The following errors occurred"
+          title="The following errors occurred"
           description={<ul className="list-disc pl-5 mt-1">{errors.map((m, i) => <li key={i}>{m}</li>)}</ul>}
           showIcon
         />

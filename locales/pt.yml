@@ -73,3 +73,24 @@ tools:
     measurement: 'Medidas'
     text: 'Texto'
     data: 'Dados'
+    design: Design
+
+  base64-string-converter:
+    title: Codificador/decodificador de string Base64
+    description: Codifique e decodifique strings em Base64 facilmente.
+    stringToBase64: "String para Base64"
+    base64ToString: "Base64 para string"
+    encodeUrlSafe: "Codificar seguro para URL"
+    decodeUrlSafe: "Decodificar seguro para URL"
+    inputPlaceholder: "Digite sua string aqui..."
+    outputPlaceholder: "A codificação Base64 aparecerá aqui"
+    base64InputPlaceholder: "Sua string Base64..."
+    decodedPlaceholder: "A string decodificada aparecerá aqui"
+    invalidBase64: "String Base64 inválida"
+
+  hex-preview:
+    title: Visualização HEX
+    description: ""
+    inputPlaceholder: "Cole a string hex (ex. 0a1b2c3d)..."
+    noHexHint: "Nenhum dígito hex encontrado; apenas 0-9 e A-F são usados."
+    invalidHexHint: "Caracteres inválidos; apenas 0-9, A-F e espaços permitidos."

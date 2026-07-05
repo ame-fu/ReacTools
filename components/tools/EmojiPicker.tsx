@@ -2,6 +2,7 @@
 
 import React, { useMemo, useState, useDeferredValue } from "react";
 import { Card, Col, Form, Input, Row, message } from "antd";
+import { useI18n } from "@/lib/i18n/context";
 import Fuse, { type IFuseOptions } from "fuse.js";
 import emojiUnicodeData from "unicode-emoji-json";
 import emojiKeywords from "emojilib";
@@ -120,6 +121,7 @@ function EmojiCard({
 }
 
 export function EmojiPicker() {
+  const { t } = useI18n();
   const [search, setSearch] = useState("");
   const deferredSearch = useDeferredValue(search);
 
@@ -142,17 +144,17 @@ export function EmojiPicker() {
 
   const copy = (text: string, msg: string) => {
     navigator.clipboard.writeText(text).then(
-      () => message.success(msg || "Copied to clipboard"),
-      () => message.error("Copy failed"),
+      () => message.success(msg || t("tools.emoji-picker.copiedToClipboard")),
+      () => message.error(t("tools.emoji-picker.copyFailed")),
     );
   };
 
   return (
     <div style={{ maxWidth: 1200, margin: "0 auto" }}>
       <Form layout="vertical">
-        <Form.Item label="Search emojis">
+        <Form.Item label={t("tools.emoji-picker.searchLabel")}>
           <Input.Search
-            placeholder="Search emojis (e.g. 'smile')..."
+            placeholder={t("tools.emoji-picker.searchPlaceholder")}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             allowClear
@@ -164,10 +166,10 @@ export function EmojiPicker() {
       {deferredSearch.trim().length > 0 ? (
         <>
           {searchResult.length === 0 ? (
-            <div style={{ fontSize: 18, fontWeight: 600, marginTop: 16 }}>No results</div>
+            <div style={{ fontSize: 18, fontWeight: 600, marginTop: 16 }}>{t("tools.emoji-picker.noResults")}</div>
           ) : (
             <>
-              <div style={{ fontSize: 18, fontWeight: 600, marginBottom: 8 }}>Search result</div>
+              <div style={{ fontSize: 18, fontWeight: 600, marginBottom: 8 }}>{t("tools.emoji-picker.searchResult")}</div>
               <Row gutter={[8, 8]}>
                 {searchResult.map((item) => (
                   <Col xs={24} sm={12} md={8} lg={6} xl={4} key={`${item.emoji}-${item.name}`}>

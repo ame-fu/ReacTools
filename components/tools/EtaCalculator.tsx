@@ -4,6 +4,7 @@ import React from "react";
 import { Card, InputNumber, Select, Form, Row, Col, Input } from "antd";
 import { addMilliseconds, formatRelative, formatDuration } from "date-fns";
 import { enGB } from "date-fns/locale";
+import { useI18n } from "@/lib/i18n/context";
 
 function formatMsDuration(duration: number): string {
   const ms = Math.floor(duration % 1000);
@@ -26,15 +27,20 @@ function toDatetimeLocalString(ts: number): string {
   return `${y}-${m}-${day}T${h}:${min}`;
 }
 
-const TIME_SPAN_OPTIONS = [
-  { label: "milliseconds", value: 1 },
-  { label: "seconds", value: 1000 },
-  { label: "minutes", value: 1000 * 60 },
-  { label: "hours", value: 1000 * 60 * 60 },
-  { label: "days", value: 1000 * 60 * 60 * 24 },
-];
+const TIME_SPAN_OPTIONS_KEYS = [
+  { key: "unitMs", value: 1 },
+  { key: "unitSeconds", value: 1000 },
+  { key: "unitMinutes", value: 1000 * 60 },
+  { key: "unitHours", value: 1000 * 60 * 60 },
+  { key: "unitDays", value: 1000 * 60 * 60 * 24 },
+] as const;
 
 export function EtaCalculator() {
+  const { t } = useI18n();
+  const timeSpanOptions = React.useMemo(
+    () => TIME_SPAN_OPTIONS_KEYS.map(({ key, value }) => ({ label: t(`tools.eta-calculator.${key}`), value })),
+    [t],
+  );
   const [unitCount, setUnitCount] = React.useState(186);
   const [unitPerTimeSpan, setUnitPerTimeSpan] = React.useState(3);
   const [timeSpan, setTimeSpan] = React.useState(5);
@@ -54,15 +60,10 @@ export function EtaCalculator() {
 
   return (
     <div>
-      <p style={{ textAlign: "justify", opacity: 0.7, marginBottom: 16 }}>
-        With a concrete example, if you wash 5 plates in 3 minutes and you have
-        500 plates to wash, it will take you 5 hours to wash them all.
-      </p>
-
       <Form layout="vertical">
         <Row gutter={16}>
           <Col xs={24} md={12}>
-            <Form.Item label="Amount of element to consume">
+            <Form.Item label={t("tools.eta-calculator.labelAmount")}>
               <InputNumber
                 min={1}
                 value={unitCount}
@@ -72,7 +73,7 @@ export function EtaCalculator() {
             </Form.Item>
           </Col>
           <Col xs={24} md={12}>
-            <Form.Item label="The consumption started at">
+            <Form.Item label={t("tools.eta-calculator.labelStartedAt")}>
               <Input
                 type="datetime-local"
                 value={toDatetimeLocalString(startedAt)}
@@ -86,7 +87,7 @@ export function EtaCalculator() {
           </Col>
         </Row>
 
-        <Form.Item label="Amount of unit consumed by time span">
+        <Form.Item label={t("tools.eta-calculator.labelConsumed")}>
           <Row gutter={8} align="middle">
             <Col>
               <InputNumber
@@ -95,7 +96,7 @@ export function EtaCalculator() {
                 onChange={(v) => setUnitPerTimeSpan(v ?? 1)}
               />
             </Col>
-            <Col style={{ padding: "0 8px" }}>in</Col>
+            <Col style={{ padding: "0 8px" }}>{t("tools.eta-calculator.in")}</Col>
             <Col>
               <InputNumber
                 min={1}
@@ -108,20 +109,20 @@ export function EtaCalculator() {
               <Select
                 value={timeSpanUnitMultiplier}
                 onChange={setTimeSpanUnitMultiplier}
-                options={TIME_SPAN_OPTIONS}
+                options={timeSpanOptions}
                 style={{ minWidth: 140 }}
               />
             </Col>
           </Row>
         </Form.Item>
 
-        <Form.Item label="Total duration">
+        <Form.Item label={t("tools.eta-calculator.labelTotalDuration")}>
           <Card>
             <div style={{ fontSize: 18 }}>{formatMsDuration(durationMs)}</div>
           </Card>
         </Form.Item>
 
-        <Form.Item label="It will end">
+        <Form.Item label={t("tools.eta-calculator.labelWillEnd")}>
           <Card>
             <div style={{ fontSize: 18 }}>{endAt}</div>
           </Card>

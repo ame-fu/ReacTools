@@ -137,7 +137,7 @@ export function Encryption() {
             <Form.Item style={{ marginTop: 16 }}>
               <Alert
                 type="error"
-                message={t("tools.encryption.decryptErrorTitle")}
+                title={t("tools.encryption.decryptErrorTitle")}
                 description={t("tools.encryption.decryptError")}
               />
             </Form.Item>

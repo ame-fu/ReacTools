@@ -437,7 +437,7 @@ export function AsciiTextDrawer() {
             <Alert
               style={{ textAlign: "center" }}
               type="error"
-              message={t("tools.ascii-text-drawer.errorMessage")}
+              title={t("tools.ascii-text-drawer.errorMessage")}
             />
           </Form.Item>
         )}

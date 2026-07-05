@@ -2,6 +2,7 @@
 
 import React from "react";
 import { Button, Card, Form } from "antd";
+import { useI18n } from "@/lib/i18n/context";
 
 function formatMs(msTotal: number) {
   const ms = msTotal % 1000;
@@ -16,6 +17,7 @@ function formatMs(msTotal: number) {
 }
 
 export function Chronometer() {
+  const { t } = useI18n();
   const [elapsedMs, setElapsedMs] = React.useState(0);
   const [isRunning, setIsRunning] = React.useState(false);
   const rafId = React.useRef<number | null>(null);
@@ -66,7 +68,7 @@ export function Chronometer() {
   return (
     <div>
       <Form layout="vertical">
-        <Form.Item label="Time">
+        <Form.Item label={t("tools.chronometer.labelTime")}>
           <Card>
             <div
               style={{
@@ -91,14 +93,14 @@ export function Chronometer() {
           >
             {!isRunning ? (
               <Button type="primary" onClick={start}>
-                Start
+                {t("tools.chronometer.buttonStart")}
               </Button>
             ) : (
               <Button danger onClick={stop}>
-                Stop
+                {t("tools.chronometer.buttonStop")}
               </Button>
             )}
-            <Button onClick={reset}>Reset</Button>
+            <Button onClick={reset}>{t("tools.chronometer.buttonReset")}</Button>
           </div>
         </Form.Item>
       </Form>

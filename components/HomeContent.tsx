@@ -11,23 +11,17 @@ export default function HomeContent() {
   const { locale, t } = useI18n();
   const { favoriteSlugs } = useFavorites();
 
-  const { favoriteTools, restByCategory } = useMemo(() => {
+  const { favoriteTools, categoriesWithAllTools } = useMemo(() => {
     const favSet = new Set(favoriteSlugs);
     const fav: { category: string; tool: (typeof toolsByCategory)[0]["tools"][0] }[] = [];
-    const rest: typeof toolsByCategory = [];
 
     for (const cat of toolsByCategory) {
-      const favInCat = cat.tools.filter((tool) => favSet.has(tool.slug));
-      const restInCat = cat.tools.filter((tool) => !favSet.has(tool.slug));
-      favInCat.forEach((tool) => fav.push({ category: cat.name, tool }));
-      if (restInCat.length > 0) {
-        rest.push({ name: cat.name, tools: restInCat });
-      }
+      cat.tools.filter((tool) => favSet.has(tool.slug)).forEach((tool) => fav.push({ category: cat.name, tool }));
     }
 
     return {
       favoriteTools: fav,
-      restByCategory: rest,
+      categoriesWithAllTools: toolsByCategory,
     };
   }, [favoriteSlugs]);
 
@@ -46,9 +40,10 @@ export default function HomeContent() {
             {t("home.categories.favoriteTools")}
           </h2>
           <div
+            className="home-tools-grid"
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
+              gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
               gap: 12,
               marginBottom: 28,
             }}
@@ -71,7 +66,7 @@ export default function HomeContent() {
         {t("home.categories.allTools")}
       </h2>
       <div style={{ display: "flex", flexDirection: "column", gap: 28, paddingBottom: 32 }}>
-        {restByCategory.map((cat) => (
+        {categoriesWithAllTools.map((cat) => (
           <section key={cat.name}>
             <h3
               style={{
@@ -84,9 +79,10 @@ export default function HomeContent() {
               {getCategoryLabel(locale, cat.name)}
             </h3>
             <div
+              className="home-tools-grid"
               style={{
                 display: "grid",
-                gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
+                gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
                 gap: 12,
               }}
             >

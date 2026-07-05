@@ -2,6 +2,7 @@
 
 import React from "react";
 import { Alert, Button, Card, Col, Form, Row, Select } from "antd";
+import { useI18n } from "@/lib/i18n/context";
 
 interface MediaItem {
   type: "image" | "video";
@@ -12,6 +13,7 @@ interface MediaItem {
 type RecordingState = "stopped" | "recording" | "paused";
 
 export function CameraRecorder() {
+  const { t } = useI18n();
   const videoRef = React.useRef<HTMLVideoElement | null>(null);
   const [permissionGranted, setPermissionGranted] = React.useState(false);
   const [permissionCannotBePrompted, setPermissionCannotBePrompted] =
@@ -204,7 +206,7 @@ export function CameraRecorder() {
   if (!isSupported) {
     return (
       <Card>
-        Your browser does not support recording video from camera
+        {t("tools.camera-recorder.browserNotSupport")}
       </Card>
     );
   }
@@ -212,17 +214,17 @@ export function CameraRecorder() {
   if (!permissionGranted) {
     return (
       <Card style={{ textAlign: "center" }}>
-        <div>You need to grant permission to use your camera and microphone</div>
+        <div>{t("tools.camera-recorder.grantPermissionMessage")}</div>
         {permissionCannotBePrompted ? (
           <Alert
             style={{ marginTop: 16, textAlign: "left" }}
-            message="Your browser has blocked permission request or does not support it. You need to grant permission manually in your browser settings (usually the lock icon in the address bar)."
+            title={t("tools.camera-recorder.grantPermissionBlocked")}
             type="warning"
           />
         ) : (
           <div style={{ marginTop: 16 }}>
             <Button type="primary" onClick={requestPermissions}>
-              Grant permission
+              {t("tools.camera-recorder.buttonGrantPermission")}
             </Button>
           </div>
         )}
@@ -234,7 +236,7 @@ export function CameraRecorder() {
     <div>
       <Card>
         <Form layout="vertical">
-          <Form.Item label="Video">
+          <Form.Item label={t("tools.camera-recorder.labelVideo")}>
             <Select
               value={currentCamera}
               onChange={(v) => setCurrentCamera(v)}
@@ -243,11 +245,11 @@ export function CameraRecorder() {
                 label: label || deviceId,
               }))}
               style={{ width: "100%" }}
-              placeholder="Select camera"
+              placeholder={t("tools.camera-recorder.placeholderSelectCamera")}
             />
           </Form.Item>
           {microphones.length > 0 && (
-            <Form.Item label="Audio">
+            <Form.Item label={t("tools.camera-recorder.labelAudio")}>
               <Select
                 value={currentMicrophone}
                 onChange={(v) => setCurrentMicrophone(v)}
@@ -256,7 +258,7 @@ export function CameraRecorder() {
                   label: label || deviceId,
                 }))}
                 style={{ width: "100%" }}
-                placeholder="Select microphone"
+                placeholder={t("tools.camera-recorder.placeholderSelectMicrophone")}
               />
             </Form.Item>
           )}
@@ -265,7 +267,7 @@ export function CameraRecorder() {
         {!isMediaStreamAvailable ? (
           <div style={{ marginTop: 16, textAlign: "center" }}>
             <Button type="primary" onClick={startWebcam}>
-              Start webcam
+              {t("tools.camera-recorder.buttonStartWebcam")}
             </Button>
           </div>
         ) : (
@@ -286,30 +288,30 @@ export function CameraRecorder() {
                   disabled={!isMediaStreamAvailable}
                   onClick={takeScreenshot}
                 >
-                  Take screenshot
+                  {t("tools.camera-recorder.buttonTakeScreenshot")}
                 </Button>
               </Col>
               <Col>
                 {isRecordingSupported ? (
                   <div style={{ display: "flex", gap: 8 }}>
                     {recordingState === "stopped" && (
-                      <Button onClick={startRecording}>Start recording</Button>
+                      <Button onClick={startRecording}>{t("tools.camera-recorder.buttonStartRecording")}</Button>
                     )}
                     {recordingState === "recording" && (
-                      <Button onClick={pauseRecording}>Pause</Button>
+                      <Button onClick={pauseRecording}>{t("tools.camera-recorder.buttonPause")}</Button>
                     )}
                     {recordingState === "paused" && (
-                      <Button onClick={resumeRecording}>Resume</Button>
+                      <Button onClick={resumeRecording}>{t("tools.camera-recorder.buttonResume")}</Button>
                     )}
                     {recordingState !== "stopped" && (
                       <Button danger onClick={stopRecording}>
-                        Stop
+                        {t("tools.camera-recorder.buttonStop")}
                       </Button>
                     )}
                   </div>
                 ) : (
                   <div style={{ fontStyle: "italic", opacity: 0.6 }}>
-                    Video recording is not supported in your browser
+                    {t("tools.camera-recorder.recordingNotSupported")}
                   </div>
                 )}
               </Col>
@@ -345,17 +347,17 @@ export function CameraRecorder() {
                 }}
               >
                 <div style={{ fontWeight: 600 }}>
-                  {m.type === "image" ? "Screenshot" : "Video"}
+                  {m.type === "image" ? t("tools.camera-recorder.labelScreenshot") : t("tools.camera-recorder.labelVideoItem")}
                 </div>
                 <div style={{ display: "flex", gap: 8 }}>
-                  <Button onClick={() => downloadMedia(m)}>Download</Button>
+                  <Button onClick={() => downloadMedia(m)}>{t("tools.camera-recorder.buttonDownload")}</Button>
                   <Button
                     danger
                     onClick={() =>
                       setMedias((prev) => prev.filter((_, i) => i !== index))
                     }
                   >
-                    Delete
+                    {t("tools.camera-recorder.buttonDelete")}
                   </Button>
                 </div>
               </div>

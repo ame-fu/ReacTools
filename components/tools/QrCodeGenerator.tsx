@@ -7,6 +7,7 @@ import QRCode, {
   type QRCodeToDataURLOptions,
 } from "qrcode";
 import { InputCopyable } from "@/components/ui";
+import { useI18n } from "@/lib/i18n/context";
 
 type Level = "low" | "medium" | "quartile" | "high";
 
@@ -37,12 +38,20 @@ async function generateQrCode(
 }
 
 export function QrCodeGenerator() {
+  const { t } = useI18n();
   const [foreground, setForeground] = React.useState("#000000ff");
   const [background, setBackground] = React.useState("#ffffffff");
   const [level, setLevel] = React.useState<Level>("medium");
-  const [text, setText] = React.useState("https://it-tools.tech");
+  const [text, setText] = React.useState("https://github.com/ame-fu/ReacTools");
   const [qr, setQr] = React.useState("");
   const [loading, setLoading] = React.useState(false);
+
+  const levelOptions = [
+    { label: t("tools.qrcode-generator.levelLow"), value: "low" as Level },
+    { label: t("tools.qrcode-generator.levelMedium"), value: "medium" as Level },
+    { label: t("tools.qrcode-generator.levelQuartile"), value: "quartile" as Level },
+    { label: t("tools.qrcode-generator.levelHigh"), value: "high" as Level },
+  ];
 
   const regenerate = React.useCallback(async () => {
     setLoading(true);
@@ -79,17 +88,17 @@ export function QrCodeGenerator() {
       <Form layout="vertical">
         <Row gutter={[16, 16]}>
           <Col xs={24} md={16}>
-            <Form.Item label="Text">
+            <Form.Item label={t("tools.qrcode-generator.labelText")}>
               <InputCopyable
                 value={text}
                 onChange={setText}
-                placeholder="Your link or text..."
+                placeholder={t("tools.qrcode-generator.placeholderText")}
                 multiline
                 rows={2}
               />
             </Form.Item>
 
-            <Form.Item label="Foreground color">
+            <Form.Item label={t("tools.qrcode-generator.labelForegroundColor")}>
               <Input
                 type="color"
                 value={foreground.slice(0, 7)}
@@ -100,7 +109,7 @@ export function QrCodeGenerator() {
               />
             </Form.Item>
 
-            <Form.Item label="Background color">
+            <Form.Item label={t("tools.qrcode-generator.labelBackgroundColor")}>
               <Input
                 type="color"
                 value={background.slice(0, 7)}
@@ -111,22 +120,17 @@ export function QrCodeGenerator() {
               />
             </Form.Item>
 
-            <Form.Item label="Error resistance">
+            <Form.Item label={t("tools.qrcode-generator.labelErrorResistance")}>
               <Select<Level>
                 value={level}
                 onChange={(v) => setLevel(v)}
-                options={[
-                  { label: "low", value: "low" },
-                  { label: "medium", value: "medium" },
-                  { label: "quartile", value: "quartile" },
-                  { label: "high", value: "high" },
-                ]}
+                options={levelOptions}
                 style={{ width: 200 }}
               />
             </Form.Item>
           </Col>
           <Col xs={24} md={8}>
-            <Form.Item label="Preview">
+            <Form.Item label={t("tools.qrcode-generator.labelPreview")}>
               <div
                 style={{
                   display: "flex",
@@ -139,7 +143,7 @@ export function QrCodeGenerator() {
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={qr} alt="qr-code" width={200} />
                 ) : (
-                  <div style={{ opacity: 0.6 }}>No QR code</div>
+                  <div style={{ opacity: 0.6 }}>{t("tools.qrcode-generator.noQrCode")}</div>
                 )}
                 <Button
                   type="primary"
@@ -147,7 +151,7 @@ export function QrCodeGenerator() {
                   disabled={!qr}
                   loading={loading}
                 >
-                  Download qr-code
+                  {t("tools.qrcode-generator.buttonDownload")}
                 </Button>
               </div>
             </Form.Item>

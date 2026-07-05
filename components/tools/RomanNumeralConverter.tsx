@@ -102,7 +102,7 @@ export function RomanNumeralConverter() {
             style={{ fontFamily: "monospace" }}
           />
           {arabicError && (
-            <Alert type="error" message={arabicError} showIcon style={{ marginTop: 8 }} />
+            <Alert type="error" title={arabicError} showIcon style={{ marginTop: 8 }} />
           )}
         </Form.Item>
         <Form.Item label={t("tools.roman-numeral-converter.romanToArabic")}>
@@ -113,7 +113,7 @@ export function RomanNumeralConverter() {
             style={{ fontFamily: "monospace" }}
           />
           {!romanValid && roman !== "" && (
-            <Alert type="error" message={t("tools.roman-numeral-converter.invalidRoman")} showIcon style={{ marginTop: 8 }} />
+            <Alert type="error" title={t("tools.roman-numeral-converter.invalidRoman")} showIcon style={{ marginTop: 8 }} />
           )}
         </Form.Item>
       </Form>

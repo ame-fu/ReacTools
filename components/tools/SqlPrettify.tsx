@@ -5,6 +5,7 @@ import { Card, Select, Form } from "antd";
 import { format } from "sql-formatter";
 import type { FormatOptionsWithLanguage } from "sql-formatter";
 import { InputCopyable, TextareaCopyable } from "@/components/ui";
+import { useI18n } from "@/lib/i18n/context";
 
 const dialectOptions = [
   { label: "GCP BigQuery", value: "bigquery" },
@@ -35,6 +36,7 @@ const indentStyleOptions = [
 ];
 
 export function SqlPrettify() {
+  const { t } = useI18n();
   const [rawSQL, setRawSQL] = React.useState(
     "select field1,field2,field3 from my_table where my_condition;",
   );
@@ -57,7 +59,7 @@ export function SqlPrettify() {
     <div className="space-y-4">
       <div className="max-w-[600px] mx-auto flex flex-wrap gap-4 justify-center mb-4">
         <div className="min-w-[140px]">
-          <label className="block text-sm opacity-80 mb-1">Dialect</label>
+          <label className="block text-sm opacity-80 mb-1">{t("tools.sql-prettify.labelDialect")}</label>
           <Select
             value={config.language}
             onChange={(v) => setConfig((c) => ({ ...c, language: v }))}
@@ -66,7 +68,7 @@ export function SqlPrettify() {
           />
         </div>
         <div className="min-w-[140px]">
-          <label className="block text-sm opacity-80 mb-1">Keyword case</label>
+          <label className="block text-sm opacity-80 mb-1">{t("tools.sql-prettify.labelKeywordCase")}</label>
           <Select
             value={config.keywordCase}
             onChange={(v) => setConfig((c) => ({ ...c, keywordCase: v }))}
@@ -75,7 +77,7 @@ export function SqlPrettify() {
           />
         </div>
         <div className="min-w-[140px]">
-          <label className="block text-sm opacity-80 mb-1">Indent style</label>
+          <label className="block text-sm opacity-80 mb-1">{t("tools.sql-prettify.labelIndentStyle")}</label>
           <Select
             value={config.indentStyle}
             onChange={(v) => setConfig((c) => ({ ...c, indentStyle: v }))}
@@ -90,8 +92,8 @@ export function SqlPrettify() {
             <InputCopyable
               value={rawSQL}
               onChange={setRawSQL}
-              label="Your SQL query"
-              placeholder="Put your SQL query here..."
+              label={t("tools.sql-prettify.labelQuery")}
+              placeholder={t("tools.sql-prettify.placeholderQuery")}
               multiline
               rows={20}
               className="font-mono"
@@ -102,7 +104,7 @@ export function SqlPrettify() {
       <Card>
         <Form layout="vertical">
           <Form.Item>
-            <TextareaCopyable value={prettySQL} rows={20} style={{ fontFamily: "monospace" }} label="Prettified version of your query" />
+            <TextareaCopyable value={prettySQL} rows={20} style={{ fontFamily: "monospace" }} label={t("tools.sql-prettify.labelPrettified")} />
           </Form.Item>
         </Form>
       </Card>

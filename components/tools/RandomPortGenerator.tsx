@@ -3,6 +3,7 @@
 import React from "react";
 import { Card, Button, Form } from "antd";
 import { InputCopyable } from "@/components/ui";
+import { useI18n } from "@/lib/i18n/context";
 
 function randInt(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -13,6 +14,7 @@ function generatePort(): number {
 }
 
 export function RandomPortGenerator() {
+  const { t } = useI18n();
   const [port, setPort] = React.useState(() => String(generatePort()));
 
   const refresh = () => setPort(String(generatePort()));
@@ -31,7 +33,7 @@ export function RandomPortGenerator() {
         </Form.Item>
         <Form.Item>
           <div className="flex justify-center">
-            <Button onClick={refresh}>Refresh</Button>
+            <Button onClick={refresh}>{t("tools.random-port-generator.buttonRefresh")}</Button>
           </div>
         </Form.Item>
       </Form>

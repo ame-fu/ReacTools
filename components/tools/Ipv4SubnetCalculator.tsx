@@ -4,6 +4,7 @@ import React from "react";
 import { Alert, Button, Card, Form, Input, Space, Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { Netmask } from "netmask";
+import { useI18n } from "@/lib/i18n/context";
 
 function getIPClass(ip: string | undefined) {
   if (!ip) return undefined;
@@ -38,7 +39,10 @@ interface NetmaskBlock {
   next?: (count: number) => Netmask | undefined;
 }
 
+const slug = "ipv4-subnet-calculator";
+
 export function Ipv4SubnetCalculator() {
+  const { t } = useI18n();
   const [ip, setIp] = React.useState("192.168.0.1/24");
   const [error, setError] = React.useState<string | null>(null);
 
@@ -61,9 +65,9 @@ export function Ipv4SubnetCalculator() {
       new Netmask(ip.trim());
       setError(null);
     } catch {
-      setError("We cannot parse this address, check the format");
+      setError(t(`tools.${slug}.errorParse`));
     }
-  }, [ip]);
+  }, [ip, t]);
 
   const sections: SectionRow[] = React.useMemo(() => {
     if (!networkInfo) return [];
@@ -87,86 +91,33 @@ export function Ipv4SubnetCalculator() {
     const ipClass = getIPClass(base);
 
     return [
-      {
-        key: "netmask",
-        label: "Netmask",
-        value: `${base}/${bitmask}`,
-      },
-      {
-        key: "network-address",
-        label: "Network address",
-        value: base,
-      },
-      {
-        key: "network-mask",
-        label: "Network mask",
-        value: mask,
-      },
-      {
-        key: "network-mask-binary",
-        label: "Network mask in binary",
-        value: maskBinary,
-      },
-      {
-        key: "cidr",
-        label: "CIDR notation",
-        value: bitmask != null ? `/${bitmask}` : undefined,
-      },
-      {
-        key: "wildcard",
-        label: "Wildcard mask",
-        value: hostmask,
-      },
-      {
-        key: "size",
-        label: "Network size",
-        value: size != null ? String(size) : undefined,
-      },
-      {
-        key: "first",
-        label: "First address",
-        value: first,
-      },
-      {
-        key: "last",
-        label: "Last address",
-        value: last,
-      },
-      {
-        key: "broadcast",
-        label: "Broadcast address",
-        value: broadcast,
-        fallback: "No broadcast address with this mask",
-      },
-      {
-        key: "class",
-        label: "IP class",
-        value: ipClass,
-        fallback: "Unknown class type",
-      },
+      { key: "netmask", label: t(`tools.${slug}.netmask`), value: `${base}/${bitmask}` },
+      { key: "network-address", label: t(`tools.${slug}.networkAddress`), value: base },
+      { key: "network-mask", label: t(`tools.${slug}.networkMask`), value: mask },
+      { key: "network-mask-binary", label: t(`tools.${slug}.networkMaskBinary`), value: maskBinary },
+      { key: "cidr", label: t(`tools.${slug}.cidr`), value: bitmask != null ? `/${bitmask}` : undefined },
+      { key: "wildcard", label: t(`tools.${slug}.wildcard`), value: hostmask },
+      { key: "size", label: t(`tools.${slug}.size`), value: size != null ? String(size) : undefined },
+      { key: "first", label: t(`tools.${slug}.first`), value: first },
+      { key: "last", label: t(`tools.${slug}.last`), value: last },
+      { key: "broadcast", label: t(`tools.${slug}.broadcast`), value: broadcast, fallback: t(`tools.${slug}.broadcastFallback`) },
+      { key: "class", label: t(`tools.${slug}.class`), value: ipClass, fallback: t(`tools.${slug}.classFallback`) },
     ];
-  }, [networkInfo]);
+  }, [networkInfo, t]);
 
   const rows: SectionRow[] = sections;
 
   const columns: ColumnsType<SectionRow> = [
+    { title: t(`tools.${slug}.tableField`), dataIndex: "label", key: "label", width: 200 },
     {
-      title: "Field",
-      dataIndex: "label",
-      key: "label",
-      width: 200,
-    },
-    {
-      title: "Value",
+      title: t(`tools.${slug}.tableValue`),
       dataIndex: "value",
       key: "value",
       render: (_value, row) =>
         row.value ? (
           <span style={{ fontFamily: "monospace" }}>{row.value}</span>
         ) : (
-          <span style={{ opacity: 0.7 }}>
-            {row.fallback ?? "Unknown"}
-          </span>
+          <span style={{ opacity: 0.7 }}>{row.fallback ?? t(`tools.${slug}.unknown`)}</span>
         ),
     },
   ];
@@ -183,14 +134,14 @@ export function Ipv4SubnetCalculator() {
     <div>
       <Form layout="vertical">
         <Form.Item
-          label="An IPv4 address with or without mask"
+          label={t(`tools.${slug}.labelAddress`)}
           validateStatus={error ? "error" : undefined}
-          help={error ? <Alert type="error" message={error} showIcon /> : undefined}
+          help={error ? <Alert type="error" title={error} showIcon /> : undefined}
         >
           <Input
             value={ip}
             onChange={(e) => setIp(e.target.value)}
-            placeholder="The ipv4 address..."
+            placeholder={t(`tools.${slug}.placeholderAddress`)}
             status={error ? "error" : undefined}
           />
         </Form.Item>
@@ -216,8 +167,8 @@ export function Ipv4SubnetCalculator() {
               width: "100%",
             }}
           >
-            <Button onClick={() => onSwitchBlock(-1)}>Previous block</Button>
-            <Button onClick={() => onSwitchBlock(1)}>Next block</Button>
+            <Button onClick={() => onSwitchBlock(-1)}>{t(`tools.${slug}.buttonPrev`)}</Button>
+            <Button onClick={() => onSwitchBlock(1)}>{t(`tools.${slug}.buttonNext`)}</Button>
           </Space>
         </>
       )}

@@ -3,13 +3,17 @@
 import React from "react";
 import { Alert, Form, Input } from "antd";
 import { SHA1 } from "crypto-js";
+import { useI18n } from "@/lib/i18n/context";
 
 function isValidMac(mac: string) {
   const cleaned = mac.trim();
   return /^[0-9a-fA-F:. -]{2,}$/.test(cleaned);
 }
 
+const slug = "ipv6-ula-generator";
+
 export function Ipv6UlaGenerator() {
+  const { t } = useI18n();
   const [macAddress, setMacAddress] = React.useState("20:37:06:12:34:56");
   const [timestamp, setTimestamp] = React.useState(() => Date.now());
   React.useEffect(() => {
@@ -29,20 +33,11 @@ export function Ipv6UlaGenerator() {
     )}:${hex40bit.substring(6)}`;
 
     return [
-      {
-        label: "IPv6 ULA:",
-        value: `${ula}::/48`,
-      },
-      {
-        label: "First routable block:",
-        value: `${ula}:0::/64`,
-      },
-      {
-        label: "Last routable block:",
-        value: `${ula}:ffff::/64`,
-      },
+      { label: t(`tools.${slug}.labelUla`) + ":", value: `${ula}::/48` },
+      { label: t(`tools.${slug}.labelFirstBlock`) + ":", value: `${ula}:0::/64` },
+      { label: t(`tools.${slug}.labelLastBlock`) + ":", value: `${ula}:ffff::/64` },
     ];
-  }, [macAddress, timestamp]);
+  }, [macAddress, timestamp, t]);
 
   const effectiveSections = macValid
     ? sections
@@ -52,17 +47,17 @@ export function Ipv6UlaGenerator() {
     <div>
       <Alert
         type="info"
-        message="Info"
-        description="This tool uses the first method suggested by IETF using the current timestamp plus the mac address, sha1 hashed, and the lower 40 bits to generate your random ULA."
+        title={t(`tools.${slug}.infoMessage`)}
+        description={t(`tools.${slug}.infoDescription`)}
         showIcon
       />
 
       <Form layout="vertical">
-        <Form.Item label="MAC address">
+        <Form.Item label={t(`tools.${slug}.labelMac`)}>
           <Input
             value={macAddress}
             onChange={(e) => setMacAddress(e.target.value)}
-            placeholder="Type a MAC address"
+            placeholder={t(`tools.${slug}.placeholderMac`)}
             status={macValid ? undefined : "error"}
           />
         </Form.Item>

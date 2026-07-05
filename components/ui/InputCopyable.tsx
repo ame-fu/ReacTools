@@ -44,24 +44,26 @@ export function InputCopyable({
 
   if (multiline) {
     return (
-      <div className={className} style={{ position: "relative" }}>
+      <div className={`${className ?? ""} relative`}>
         {label && (
           <label htmlFor={id} style={{ display: "block", fontWeight: 500 }}>
             {label}
           </label>
         )}
-        <Input.TextArea
-          id={id}
-          value={value}
-          onChange={(e) => onChange?.(e.target.value)}
-          placeholder={placeholder}
-          readOnly={readOnly}
-          rows={rows}
-          status={status}
-          style={{ width: "100%", paddingRight: 40, ...style }}
-        />
-        <div style={{ position: "absolute", top: 8, right: 8 }}>
-          {copySuffix}
+        <div className="relative w-full">
+          <Input.TextArea
+            id={id}
+            value={value}
+            onChange={(e) => onChange?.(e.target.value)}
+            placeholder={placeholder}
+            readOnly={readOnly}
+            rows={rows}
+            status={status}
+            style={{ width: "100%", paddingRight: 40, ...style }}
+          />
+          <div className="absolute top-2 right-2 z-10">
+            {copySuffix}
+          </div>
         </div>
       </div>
     );

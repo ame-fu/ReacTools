@@ -1,0 +1,5 @@
+/* 将 antd reset 放入独立 layer，使 Tailwind 的 @layer utilities 能覆盖其 color/font 等 inherit，
+   避免 button/input 等上的 .text-* 等 class 不生效、内部文字/图标颜色错误。 */
+@layer antd-reset {
+  @import "antd/dist/reset.css";
+}
